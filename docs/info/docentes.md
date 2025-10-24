@@ -34,3 +34,4 @@ Lidera el grupo de Genómica y Bioinformática de Patógenos. Investigadora Prin
 * Lic. Guadalupe Romer 
 * Lic. Mercedes Didier Garnham
 * Lic. Agustín Baricalla
+* Dra. Virginia Balouz
