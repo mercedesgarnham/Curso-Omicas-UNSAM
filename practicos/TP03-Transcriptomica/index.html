@@ -833,6 +833,114 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#parte-4-alineamiento-y-cuantificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧩 Parte 4: Alineamiento y cuantificación
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧩 Parte 4: Alineamiento y cuantificación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#herramientas-recomendadas-dependiendo-el-enfoque" class="md-nav__link">
+    <span class="md-ellipsis">
+      Herramientas recomendadas dependiendo el enfoque
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#41-preparacion-de-archivos-de-referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 Preparación de archivos de referencia
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Preparación de archivos de referencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#descarga-del-genoma-y-anotaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Descarga del genoma y anotaciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exploracion-del-genoma-de-referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exploración del genoma de referencia
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#por-que-indexar" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Por qué indexar?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-alineamiento-con-star" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 Alineamiento con STAR
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 Alineamiento con STAR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#construccion-del-indice-del-genoma" class="md-nav__link">
+    <span class="md-ellipsis">
+      Construcción del índice del genoma
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alineamiento-de-lecturas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alineamiento de lecturas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#archivos-de-salida" class="md-nav__link">
+    <span class="md-ellipsis">
+      Archivos de salida
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -899,9 +1007,9 @@ En el presente práctico utilizaremos las bases de datos generadas en este estud
 <h3 id="1-exploracion-de-los-archivos-crudos">🕵️‍♀️ 1️⃣ Exploración de los archivos crudos</h3>
 <p>Cada muestra está disponible como un archivo comprimido <code>.fastq.gz</code> dentro del directorio del proyecto.</p>
 <p>Comencemos inspeccionando la <strong>estructura y el encabezado</strong> de uno de ellos:</p>
-<p>```bash
-ls Drosophila_RNAseq_PRJNA875952/
-zcat Drosophila_RNAseq_PRJNA875952/SRR34068709_1.fastq.gz | head -4</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>Drosophila_RNAseq_PRJNA875952/
+zcat<span class="w"> </span>Drosophila_RNAseq_PRJNA875952/SRR34068709_1.fastq.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-4
+</code></pre></div>
 <div class="admonition question">
 <p class="admonition-title">Preguntas</p>
 <ul>
@@ -973,7 +1081,7 @@ zcat Drosophila_RNAseq_PRJNA875952/SRR34068709_1.fastq.gz | head -4</p>
 </div>
 <hr>
 <h2 id="parte-1-analisis-de-calidad-inicial">🧩 Parte 1: Análisis de calidad inicial</h2>
-<p>=== "1️⃣ Ejecutar FastQC"</p>
+<p>=== 1️⃣ Ejecutar FastQC</p>
 <pre><code>#FastQC permite evaluar la calidad de las lecturas crudas (`.fastq.gz`).
 
 ```bash
@@ -986,7 +1094,7 @@ fastqc Drosophila_RNAseq_PRJNA875952/*.fastq.gz -o fastqc_results
 <pre><code>Cada muestra generará un archivo `.html` con los gráficos de calidad y un archivo `.zip` con los datos resumidos.
 </code></pre>
 </div>
-<p>=== "2️⃣ Explorar resultados"</p>
+<p>=== 2️⃣ Explorar resultados</p>
 <pre><code>#Abrir uno de los reportes HTML (por ejemplo, en un navegador web local):
 
 ```bash
@@ -1000,7 +1108,7 @@ Revisar los siguientes módulos principales:
 - **Sequence length distribution**
 </code></pre>
 <div class="admonition question">
-<p class="admonition-title">Preguntas para reflexionar</p>
+<p class="admonition-title">Preguntas para discutir</p>
 <pre><code>- ¿Qué patrones de calidad observas hacia el final de las lecturas?  
 - ¿Existen adaptadores detectados?  
 - ¿Hay diferencias notorias entre muestras?
@@ -1008,7 +1116,7 @@ Revisar los siguientes módulos principales:
 </div>
 <hr>
 <h2 id="parte-2-trimeado-de-lecturas">✂️ Parte 2: Trimeado de lecturas</h2>
-<p>=== "1️⃣ Ejecutar Trim Galore"</p>
+<p>=== 1️⃣ Ejecutar Trim Galore</p>
 <pre><code>#Trim Galore combina **Cutadapt** y **FastQC** para recortar adaptadores y bases de baja calidad.
 
 ```bash
@@ -1029,7 +1137,7 @@ done
 <pre><code>Trim Galore automáticamente genera nuevos archivos `*_val_1.fq.gz` y `*_val_2.fq.gz` con las lecturas filtradas.
 </code></pre>
 </div>
-<p>=== "2️⃣ Evaluar calidad post-trimming"</p>
+<p>=== 2️⃣ Evaluar calidad post-trimming</p>
 <pre><code>```bash
 mkdir -p fastqc_trimmed
 fastqc trimmed_reads/*.fq.gz -o fastqc_trimmed
@@ -1041,14 +1149,14 @@ fastqc trimmed_reads/*.fq.gz -o fastqc_trimmed
 </code></pre>
 <hr>
 <h2 id="parte-3-resumen-con-multiqc">📊 Parte 3: Resumen con <strong>MultiQC</strong></h2>
-<p>=== "1️⃣ Generar el reporte"</p>
+<p>=== 1️⃣ Generar el reporte</p>
 <pre><code>#MultiQC consolida todos los reportes de FastQC y Trim Galore en un solo archivo HTML.
 
 ```bash
 multiqc . -o multiqc_report
 ```
 </code></pre>
-<p>=== "2️⃣ Visualizar resultados"</p>
+<p>=== 2️⃣ Visualizar resultados</p>
 <pre><code>#Abrir el reporte:
 
 ```bash
@@ -1073,7 +1181,399 @@ xdg-open multiqc_report/multiqc_report.html
 <li>🔗 <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC Manual</a></li>
 <li>🔗 <a href="https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/">Trim Galore Documentation</a></li>
 <li>🔗 <a href="https://multiqc.info/">MultiQC Guide</a></li>
-</ul></div>
+</ul>
+<hr>
+<h2 id="parte-4-alineamiento-y-cuantificacion">🧩 Parte 4: Alineamiento y cuantificación</h2>
+<p>En esta sección abordaremos los dos enfoques más utilizados para analizar datos de RNA-seq:</p>
+<ul>
+<li><strong>STAR</strong>: excelente si necesitás mapear el genoma, analizar <em>splicing</em>, variantes, intrones o generar archivos BAM.  </li>
+<li><strong>Salmon</strong>: ideal si solo te interesa cuantificar abundancia de transcritos/genes, de forma rápida y eficiente.</li>
+</ul>
+<hr>
+<h3 id="herramientas-recomendadas-dependiendo-el-enfoque">Herramientas recomendadas dependiendo el enfoque</h3>
+<table>
+<thead>
+<tr>
+<th>Objetivo del análisis</th>
+<th>Recomendado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cuantificación de expresión (TPM, counts)</td>
+<td><strong>Salmon</strong></td>
+</tr>
+<tr>
+<td>Detección de isoformas alternativas</td>
+<td><strong>Salmon</strong></td>
+</tr>
+<tr>
+<td>Análisis de <em>splicing</em> o variantes</td>
+<td><strong>STAR</strong></td>
+</tr>
+<tr>
+<td>Mapeo detallado (intrones o regiones no codificantes)</td>
+<td><strong>STAR</strong></td>
+</tr>
+<tr>
+<td>Alineamiento previo para visualización en genome browser</td>
+<td><strong>STAR</strong></td>
+</tr>
+<tr>
+<td>Pipeline simple y rápido</td>
+<td><strong>Salmon</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="41-preparacion-de-archivos-de-referencia">4.1 Preparación de archivos de referencia</h3>
+<h4 id="descarga-del-genoma-y-anotaciones">Descarga del genoma y anotaciones</h4>
+<p>Usaremos las secuencias y anotaciones del genoma de <em>Drosophila melanogaster</em> (versión BDGP6.54, Ensembl 115).</p>
+<div class="admonition info">
+<p class="admonition-title">Archivos necesarios</p>
+<ul>
+<li>Secuencia del genoma (FASTA)</li>
+<li>Anotación génica (GTF)
+Disponibles en: 🔗 <a href="https://ftp.ensembl.org/pub/release-115/fasta/drosophila_melanogaster/dna/README">FTP Ensembl Drosophila melanogaster</a></li>
+</ul>
+</div>
+<p>=== 1️⃣ Descargar archivos
+    </p><div class="highlight"><pre><span></span><code><span class="c1"># Genoma de referencia</span>
+wget<span class="w"> </span>https://ftp.ensembl.org/pub/release-115/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa.gz
+
+<span class="c1"># Archivo de anotación</span>
+wget<span class="w"> </span>https://ftp.ensembl.org/pub/release-115/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.54.115.gtf.gz
+</code></pre></div>
+<p>=== 2️⃣ Descomprimir archivos
+    </p><div class="highlight"><pre><span></span><code><span class="c1"># Descompresión</span>
+gunzip<span class="w"> </span>Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa.gz
+gunzip<span class="w"> </span>Drosophila_melanogaster.BDGP6.54.115.gtf.gz
+
+<span class="c1"># Renombrar para facilitar su uso (opcional)</span>
+mv<span class="w"> </span>Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa<span class="w"> </span>Drosophila_genome.fa
+mv<span class="w"> </span>Drosophila_melanogaster.BDGP6.54.115.gtf<span class="w"> </span>Drosophila_annotation.gtf
+</code></pre></div>
+<h4 id="exploracion-del-genoma-de-referencia">Exploración del genoma de referencia</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ver los cromosomas y scaffolds incluidos</span>
+grep<span class="w"> </span><span class="s2">"&gt;"</span><span class="w"> </span>Drosophila_genome.fa
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Componentes del genoma de referencia</p>
+<table>
+<thead>
+<tr>
+<th>Tipo de secuencia</th>
+<th>Ejemplo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cromosomas principales</td>
+<td>2L, 2R, 3L, 3R, 4, X, Y</td>
+<td>Cromosomas reales de D. melanogaster</td>
+</tr>
+<tr>
+<td>Mitocondria</td>
+<td>mitochondrion_genome</td>
+<td>Genoma mitocondrial completo</td>
+</tr>
+<tr>
+<td>Scaffolds mapeados</td>
+<td>Y_mapped_Scaffold_5_D1748_D1610</td>
+<td>Fragmentos asociados a cromosomas</td>
+</tr>
+<tr>
+<td>Scaffolds no mapeados</td>
+<td>Unmapped_Scaffold_8_D1580_D1567</td>
+<td>Secuencias sin ubicación definida</td>
+</tr>
+<tr>
+<td>rDNA</td>
+<td>rDNA</td>
+<td>Región de ADN ribosomal repetitivo</td>
+</tr>
+<tr>
+<td>Fragmentos pequeños</td>
+<td>211000022278049</td>
+<td>Contigs cortos o repetitivos</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="por-que-indexar">¿Por qué indexar?</h4>
+<div class="admonition info">
+<p class="admonition-title">Propósito del indexado</p>
+<pre><code>- STAR crea estructuras de datos (suffix array, índices auxiliares y una base de
+    datos de junctions a partir del GTF) para buscar rápidamente fragmentos de
+    lecturas en el genoma. El indexado es lo que permite que el mapeo sea mucho
+    más rápido que buscar en el FASTA plano cada vez.
+- Durante la indexación, STAR integra información de splicing desde el GTF
+    (opción `--sjdbGTFfile`) y prepara una "splice junction database" que mejora
+    la detección de uniones exón–exón.
+- Nota práctica: STAR requiere archivos FASTA y GTF sin comprimir para crear el índice.
+    Se recomienda descomprimir solo durante la indexación y borrar los archivos
+    descomprimidos después (o mantener una copia comprimida) para ahorrar espacio.
+</code></pre>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Index y longitud de lectura</p>
+<pre><code>- El parámetro `--sjdbOverhang` debe fijarse a (longitud_de_lectura - 1).
+- Si tus lecturas cambian de longitud (por ejemplo 75bp vs 150bp), **debes
+    regenerar el índice** con el `sjdbOverhang` apropiado para esa longitud,
+    de lo contrario la sensibilidad del mapeo en uniones de splicing puede disminuir.
+</code></pre>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Ajuste de <code>--genomeSAindexNbases</code> (pequeños vs grandes genomas)</p>
+<pre><code>- El valor por defecto es `14`. Para genomas pequeños conviene reducirlo usando la
+    fórmula recomendada por la guía: `min(14, log2(GenomeLength)/2 - 1)`.
+- Ejemplo (de la guía PHINDaccess): para un cromosoma de 170,805,979 bases,
+    `genomeSAindexNbases` ≈ `min(14, log2(170805979/2)-1)` ≈ `12.6`.
+</code></pre>
+</div>
+<h3 id="42-alineamiento-con-star">4.2 Alineamiento con STAR</h3>
+<h4 id="construccion-del-indice-del-genoma">Construcción del índice del genoma</h4>
+<p>=== 1️⃣ Crear directorio para el índice
+    </p><div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>STAR_index
+</code></pre></div>
+<p>=== 2️⃣ Generar el índice
+    </p><div class="highlight"><pre><span></span><code>STAR<span class="w"> </span>--runThreadN<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--runMode<span class="w"> </span>genomeGenerate<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--genomeDir<span class="w"> </span>STAR_index<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--genomeFastaFiles<span class="w"> </span>Drosophila_genome.fa<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--sjdbGTFfile<span class="w"> </span>Drosophila_annotation.gtf<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--sjdbOverhang<span class="w"> </span><span class="m">74</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Parámetros principales de indexación</p>
+<table>
+<thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--runThreadN</code></td>
+<td>Número de hilos para procesamiento paralelo</td>
+<td><code>8</code> para 8 CPUs</td>
+</tr>
+<tr>
+<td><code>--runMode</code></td>
+<td>Modo de ejecución de STAR</td>
+<td><code>genomeGenerate</code> para indexación</td>
+</tr>
+<tr>
+<td><code>--genomeDir</code></td>
+<td>Directorio donde se guardará el índice</td>
+<td><code>STAR_index/</code></td>
+</tr>
+<tr>
+<td><code>--genomeFastaFiles</code></td>
+<td>Archivo(s) FASTA del genoma</td>
+<td><code>Drosophila_genome.fa</code></td>
+</tr>
+<tr>
+<td><code>--sjdbGTFfile</code></td>
+<td>Archivo GTF con anotaciones</td>
+<td><code>Drosophila_annotation.gtf</code></td>
+</tr>
+<tr>
+<td><code>--sjdbOverhang</code></td>
+<td>Longitud de lectura - 1</td>
+<td><code>74</code> para lecturas de 75bp</td>
+</tr>
+<tr>
+<td><code>--genomeSAindexNbases</code></td>
+<td>Tamaño del índice SA (opcional)</td>
+<td>Calculado automáticamente</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>=== 1️⃣ Crear directorio para el índice
+    </p><div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>STAR_index
+</code></pre></div>
+<p>=== 2️⃣ Generar el índice
+    </p><div class="highlight"><pre><span></span><code>STAR<span class="w"> </span>--runThreadN<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--runMode<span class="w"> </span>genomeGenerate<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--genomeDir<span class="w"> </span>STAR_index<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--genomeFastaFiles<span class="w"> </span>Drosophila_genome.fa<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--sjdbGTFfile<span class="w"> </span>Drosophila_annotation.gtf<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--sjdbOverhang<span class="w"> </span><span class="m">74</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Archivos generados en el índice</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Genome</code></td>
+<td>Secuencia del genoma en formato binario</td>
+</tr>
+<tr>
+<td><code>SA</code></td>
+<td>Índice de alineamiento sufijo (Suffix Array)</td>
+</tr>
+<tr>
+<td><code>SAindex</code></td>
+<td>Índice auxiliar para búsqueda rápida</td>
+</tr>
+<tr>
+<td><code>chrLength.txt</code></td>
+<td>Longitud de cada cromosoma</td>
+</tr>
+<tr>
+<td><code>chrName.txt</code></td>
+<td>Nombres de los cromosomas</td>
+</tr>
+<tr>
+<td><code>genomeParameters.txt</code></td>
+<td>Parámetros usados en la indexación</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="alineamiento-de-lecturas">Alineamiento de lecturas</h4>
+<div class="admonition info">
+<p class="admonition-title">Parámetros principales de alineamiento</p>
+<table>
+<thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+<th>Valor recomendado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--genomeDir</code></td>
+<td>Directorio del índice</td>
+<td><code>STAR_index</code></td>
+</tr>
+<tr>
+<td><code>--readFilesIn</code></td>
+<td>Archivos de entrada (R1, R2)</td>
+<td>Archivos FASTQ</td>
+</tr>
+<tr>
+<td><code>--readFilesCommand</code></td>
+<td>Comando para leer archivos comprimidos</td>
+<td><code>zcat</code> para .gz</td>
+</tr>
+<tr>
+<td><code>--outFileNamePrefix</code></td>
+<td>Prefijo para archivos de salida</td>
+<td>Nombre de muestra</td>
+</tr>
+<tr>
+<td><code>--outSAMtype</code></td>
+<td>Formato de salida</td>
+<td><code>BAM SortedByCoordinate</code></td>
+</tr>
+<tr>
+<td><code>--quantMode</code></td>
+<td>Modos de cuantificación</td>
+<td><code>GeneCounts</code></td>
+</tr>
+<tr>
+<td><code>--outFilterMismatchNmax</code></td>
+<td>Máx. mismatches permitidos</td>
+<td><code>2</code> (default)</td>
+</tr>
+<tr>
+<td><code>--outFilterMultimapNmax</code></td>
+<td>Máx. sitios de mapeo por lectura</td>
+<td><code>20</code> (default)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight"><pre><span></span><code>STAR<span class="w"> </span>--runThreadN<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--genomeDir<span class="w"> </span>STAR_index<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--readFilesIn<span class="w"> </span>trimmedgalore_reads/SRR32429928_R1_val_1.fq.gz<span class="w"> </span>trimmedgalore_reads/SRR32429928_R2_val_2.fq.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--readFilesCommand<span class="w"> </span>zcat<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--quantMode<span class="w"> </span>GeneCounts<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--outFileNamePrefix<span class="w"> </span>SRR32429928_<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--outSAMtype<span class="w"> </span>BAM<span class="w"> </span>SortedByCoordinate
+</code></pre></div>
+<h4 id="archivos-de-salida">Archivos de salida</h4>
+<div class="admonition example">
+<p class="admonition-title">Archivos generados por STAR</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Descripción</th>
+<th>Ejemplo de contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*_Aligned.sortedByCoord.out.bam</code></td>
+<td>Alineamientos ordenados</td>
+<td><code>chr2L 1234 AGCT...</code></td>
+</tr>
+<tr>
+<td><code>*_Log.final.out</code></td>
+<td>Estadísticas finales</td>
+<td><code>Uniquely mapped: 85.2%</code></td>
+</tr>
+<tr>
+<td><code>*_Log.out</code></td>
+<td>Log detallado</td>
+<td>Parámetros y progreso</td>
+</tr>
+<tr>
+<td><code>*_Log.progress.out</code></td>
+<td>Progreso en tiempo real</td>
+<td>Lecturas procesadas</td>
+</tr>
+<tr>
+<td><code>*_ReadsPerGene.out.tab</code></td>
+<td>Conteos por gen</td>
+<td><code>GENE1 1234 567 890</code></td>
+</tr>
+<tr>
+<td><code>*_SJ.out.tab</code></td>
+<td>Uniones de splicing</td>
+<td><code>chr2L 1234 5678 GT-AG</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>=== "Ejemplo de Log.final.out"
+    </p><div class="highlight"><pre><span></span><code>Started job on |    Oct 28 12:34:56
+Mapping speed, Million of reads per hour |  45.20
+                Number of input reads | 25000000
+                Uniquely mapped reads number |  21300000
+                Uniquely mapped reads % |   85.20%
+                Average mapped length | 74.50
+                Mismatch rate per base, % | 0.52%
+</code></pre></div>
+<p>=== "Ejemplo de ReadsPerGene.out.tab"
+    </p><div class="highlight"><pre><span></span><code>N_unmapped  2145897 2145897 2145897
+N_multimapping  1553908 1553908 1553908
+N_noFeature 3238790 3198790 3218790
+N_ambiguous 89076   99076   94076
+FBGN0000003 1234    567 890
+FBGN0000008 4567    2345    3456
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">📚 Referencias</p>
+<ul>
+<li><a href="https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf">Manual de STAR</a></li>
+<li><a href="https://hbctraining.github.io/Intro-to-rnaseq-hpc-gt/lessons/03_alignment.html">Tutorial de RNA-seq con STAR</a></li>
+</ul>
+</div></div>
 
 
 
