@@ -55,6 +55,8 @@ Comencemos inspeccionando la **estructura y el encabezado** de uno de ellos:
 ls Drosophila_RNAseq_PRJNA875952/
 zcat Drosophila_RNAseq_PRJNA875952/SRR34068709_1.fastq.gz | head -4
 
+```
+ 
 !!! question "Preguntas"
     - ¿Qué información podés obtener del encabezado (@SRR...)?
     - ¿Podés identificar si la lectura es paired-end o single-end?
@@ -98,7 +100,7 @@ Buscá el BioProject o BioSample correspondiente al estudio:
 
 ## 🧩 Parte 1: Análisis de calidad inicial
 
-=== "1️⃣ Ejecutar FastQC"
+=== 1️⃣ Ejecutar FastQC
 
     #FastQC permite evaluar la calidad de las lecturas crudas (`.fastq.gz`).
 
@@ -110,7 +112,7 @@ Buscá el BioProject o BioSample correspondiente al estudio:
 !!! tip
         Cada muestra generará un archivo `.html` con los gráficos de calidad y un archivo `.zip` con los datos resumidos.
 
-=== "2️⃣ Explorar resultados"
+=== 2️⃣ Explorar resultados
 
     #Abrir uno de los reportes HTML (por ejemplo, en un navegador web local):
 
@@ -124,7 +126,7 @@ Buscá el BioProject o BioSample correspondiente al estudio:
     - **Adapter content**
     - **Sequence length distribution**
 
-!!! question "Preguntas para reflexionar"
+!!! question "Preguntas para discutir"
         - ¿Qué patrones de calidad observas hacia el final de las lecturas?  
         - ¿Existen adaptadores detectados?  
         - ¿Hay diferencias notorias entre muestras?
@@ -133,7 +135,7 @@ Buscá el BioProject o BioSample correspondiente al estudio:
 
 ## ✂️ Parte 2: Trimeado de lecturas
 
-=== "1️⃣ Ejecutar Trim Galore"
+=== 1️⃣ Ejecutar Trim Galore
 
     #Trim Galore combina **Cutadapt** y **FastQC** para recortar adaptadores y bases de baja calidad.
 
@@ -153,7 +155,7 @@ Buscá el BioProject o BioSample correspondiente al estudio:
 !!! info
         Trim Galore automáticamente genera nuevos archivos `*_val_1.fq.gz` y `*_val_2.fq.gz` con las lecturas filtradas.
 
-=== "2️⃣ Evaluar calidad post-trimming"
+=== 2️⃣ Evaluar calidad post-trimming
 
     ```bash
     mkdir -p fastqc_trimmed
@@ -169,7 +171,7 @@ Buscá el BioProject o BioSample correspondiente al estudio:
 
 ## 📊 Parte 3: Resumen con **MultiQC**
 
-=== "1️⃣ Generar el reporte"
+=== 1️⃣ Generar el reporte
 
     #MultiQC consolida todos los reportes de FastQC y Trim Galore en un solo archivo HTML.
 
@@ -177,7 +179,7 @@ Buscá el BioProject o BioSample correspondiente al estudio:
     multiqc . -o multiqc_report
     ```
 
-=== "2️⃣ Visualizar resultados"
+=== 2️⃣ Visualizar resultados
 
     #Abrir el reporte:
 
@@ -203,3 +205,216 @@ Buscá el BioProject o BioSample correspondiente al estudio:
 - 🔗 [FastQC Manual](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 - 🔗 [Trim Galore Documentation](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)
 - 🔗 [MultiQC Guide](https://multiqc.info/)
+
+---
+
+## 🧩 Parte 4: Alineamiento y cuantificación 
+
+En esta sección abordaremos los dos enfoques más utilizados para analizar datos de RNA-seq:
+
+- **STAR**: excelente si necesitás mapear el genoma, analizar *splicing*, variantes, intrones o generar archivos BAM.  
+- **Salmon**: ideal si solo te interesa cuantificar abundancia de transcritos/genes, de forma rápida y eficiente.
+
+---
+
+### Herramientas recomendadas dependiendo el enfoque
+
+| Objetivo del análisis | Recomendado |
+|------------------------|-------------|
+| Cuantificación de expresión (TPM, counts) |  **Salmon** |
+| Detección de isoformas alternativas |  **Salmon** |
+| Análisis de *splicing* o variantes |  **STAR** |
+| Mapeo detallado (intrones o regiones no codificantes) |  **STAR** |
+| Alineamiento previo para visualización en genome browser |  **STAR** |
+| Pipeline simple y rápido |  **Salmon** |
+
+---
+
+### 4.1 Preparación de archivos de referencia
+
+#### Descarga del genoma y anotaciones
+
+Usaremos las secuencias y anotaciones del genoma de *Drosophila melanogaster* (versión BDGP6.54, Ensembl 115).
+
+!!! info "Archivos necesarios"
+    - Secuencia del genoma (FASTA)
+    - Anotación génica (GTF)
+    Disponibles en: 🔗 [FTP Ensembl Drosophila melanogaster](https://ftp.ensembl.org/pub/release-115/fasta/drosophila_melanogaster/dna/README)
+
+=== 1️⃣ Descargar archivos
+    ```bash
+    # Genoma de referencia
+    wget https://ftp.ensembl.org/pub/release-115/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa.gz
+    
+    # Archivo de anotación
+    wget https://ftp.ensembl.org/pub/release-115/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.54.115.gtf.gz
+    ```
+
+=== 2️⃣ Descomprimir archivos
+    ```bash
+    # Descompresión
+    gunzip Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa.gz
+    gunzip Drosophila_melanogaster.BDGP6.54.115.gtf.gz
+    
+    # Renombrar para facilitar su uso (opcional)
+    mv Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa Drosophila_genome.fa
+    mv Drosophila_melanogaster.BDGP6.54.115.gtf Drosophila_annotation.gtf
+    ```
+
+#### Exploración del genoma de referencia
+
+```bash
+# Ver los cromosomas y scaffolds incluidos
+grep ">" Drosophila_genome.fa
+```
+
+!!! info "Componentes del genoma de referencia"
+    | Tipo de secuencia | Ejemplo | Descripción |
+    |-------------------|----------|-------------|
+    | Cromosomas principales | 2L, 2R, 3L, 3R, 4, X, Y | Cromosomas reales de D. melanogaster |
+    | Mitocondria | mitochondrion_genome | Genoma mitocondrial completo |
+    | Scaffolds mapeados | Y_mapped_Scaffold_5_D1748_D1610 | Fragmentos asociados a cromosomas |
+    | Scaffolds no mapeados | Unmapped_Scaffold_8_D1580_D1567 | Secuencias sin ubicación definida |
+    | rDNA | rDNA | Región de ADN ribosomal repetitivo |
+    | Fragmentos pequeños | 211000022278049 | Contigs cortos o repetitivos |
+
+#### ¿Por qué indexar?
+
+!!! info "Propósito del indexado"
+        - STAR crea estructuras de datos (suffix array, índices auxiliares y una base de
+            datos de junctions a partir del GTF) para buscar rápidamente fragmentos de
+            lecturas en el genoma. El indexado es lo que permite que el mapeo sea mucho
+            más rápido que buscar en el FASTA plano cada vez.
+        - Durante la indexación, STAR integra información de splicing desde el GTF
+            (opción `--sjdbGTFfile`) y prepara una "splice junction database" que mejora
+            la detección de uniones exón–exón.
+        - Nota práctica: STAR requiere archivos FASTA y GTF sin comprimir para crear el índice.
+            Se recomienda descomprimir solo durante la indexación y borrar los archivos
+            descomprimidos después (o mantener una copia comprimida) para ahorrar espacio.
+
+!!! tip "Index y longitud de lectura"
+        - El parámetro `--sjdbOverhang` debe fijarse a (longitud_de_lectura - 1).
+        - Si tus lecturas cambian de longitud (por ejemplo 75bp vs 150bp), **debes
+            regenerar el índice** con el `sjdbOverhang` apropiado para esa longitud,
+            de lo contrario la sensibilidad del mapeo en uniones de splicing puede disminuir.
+
+!!! tip "Ajuste de `--genomeSAindexNbases` (pequeños vs grandes genomas)"
+        - El valor por defecto es `14`. Para genomas pequeños conviene reducirlo usando la
+            fórmula recomendada por la guía: `min(14, log2(GenomeLength)/2 - 1)`.
+        - Ejemplo (de la guía PHINDaccess): para un cromosoma de 170,805,979 bases,
+            `genomeSAindexNbases` ≈ `min(14, log2(170805979/2)-1)` ≈ `12.6`.
+
+### 4.2 Alineamiento con STAR
+
+#### Construcción del índice del genoma
+=== 1️⃣ Crear directorio para el índice
+    ```bash
+    mkdir -p STAR_index
+    ```
+
+=== 2️⃣ Generar el índice
+    ```bash
+    STAR --runThreadN 8 \
+         --runMode genomeGenerate \
+         --genomeDir STAR_index \
+         --genomeFastaFiles Drosophila_genome.fa \
+         --sjdbGTFfile Drosophila_annotation.gtf \
+         --sjdbOverhang 74
+    ```
+
+!!! info "Parámetros principales de indexación"
+    | Parámetro | Descripción | Ejemplo |
+    |-----------|-------------|----------|
+    | `--runThreadN` | Número de hilos para procesamiento paralelo | `8` para 8 CPUs |
+    | `--runMode` | Modo de ejecución de STAR | `genomeGenerate` para indexación |
+    | `--genomeDir` | Directorio donde se guardará el índice | `STAR_index/` |
+    | `--genomeFastaFiles` | Archivo(s) FASTA del genoma | `Drosophila_genome.fa` |
+    | `--sjdbGTFfile` | Archivo GTF con anotaciones | `Drosophila_annotation.gtf` |
+    | `--sjdbOverhang` | Longitud de lectura - 1 | `74` para lecturas de 75bp |
+    | `--genomeSAindexNbases` | Tamaño del índice SA (opcional) | Calculado automáticamente |
+
+=== 1️⃣ Crear directorio para el índice
+    ```bash
+    mkdir -p STAR_index
+    ```
+
+=== 2️⃣ Generar el índice
+    ```bash
+    STAR --runThreadN 8 \
+         --runMode genomeGenerate \
+         --genomeDir STAR_index \
+         --genomeFastaFiles Drosophila_genome.fa \
+         --sjdbGTFfile Drosophila_annotation.gtf \
+         --sjdbOverhang 74
+    ```
+
+!!! tip "Archivos generados en el índice"
+    | Archivo | Descripción |
+    |---------|-------------|
+    | `Genome` | Secuencia del genoma en formato binario |
+    | `SA` | Índice de alineamiento sufijo (Suffix Array) |
+    | `SAindex` | Índice auxiliar para búsqueda rápida |
+    | `chrLength.txt` | Longitud de cada cromosoma |
+    | `chrName.txt` | Nombres de los cromosomas |
+    | `genomeParameters.txt` | Parámetros usados en la indexación |
+
+#### Alineamiento de lecturas
+
+!!! info "Parámetros principales de alineamiento"
+    | Parámetro | Descripción | Valor recomendado |
+    |-----------|-------------|-------------------|
+    | `--genomeDir` | Directorio del índice | `STAR_index` |
+    | `--readFilesIn` | Archivos de entrada (R1, R2) | Archivos FASTQ |
+    | `--readFilesCommand` | Comando para leer archivos comprimidos | `zcat` para .gz |
+    | `--outFileNamePrefix` | Prefijo para archivos de salida | Nombre de muestra |
+    | `--outSAMtype` | Formato de salida | `BAM SortedByCoordinate` |
+    | `--quantMode` | Modos de cuantificación | `GeneCounts` |
+    | `--outFilterMismatchNmax` | Máx. mismatches permitidos | `2` (default) |
+    | `--outFilterMultimapNmax` | Máx. sitios de mapeo por lectura | `20` (default) |
+
+```bash
+STAR --runThreadN 8 \
+     --genomeDir STAR_index \
+     --readFilesIn trimmedgalore_reads/SRR32429928_R1_val_1.fq.gz trimmedgalore_reads/SRR32429928_R2_val_2.fq.gz \
+     --readFilesCommand zcat \
+     --quantMode GeneCounts \
+     --outFileNamePrefix SRR32429928_ \
+     --outSAMtype BAM SortedByCoordinate
+```
+
+#### Archivos de salida
+
+!!! example "Archivos generados por STAR"
+    | Archivo | Descripción | Ejemplo de contenido |
+    |---------|-------------|---------------------|
+    | `*_Aligned.sortedByCoord.out.bam` | Alineamientos ordenados | `chr2L 1234 AGCT...` |
+    | `*_Log.final.out` | Estadísticas finales | `Uniquely mapped: 85.2%` |
+    | `*_Log.out` | Log detallado | Parámetros y progreso |
+    | `*_Log.progress.out` | Progreso en tiempo real | Lecturas procesadas |
+    | `*_ReadsPerGene.out.tab` | Conteos por gen | `GENE1 1234 567 890` |
+    | `*_SJ.out.tab` | Uniones de splicing | `chr2L 1234 5678 GT-AG` |
+
+=== "Ejemplo de Log.final.out"
+    ```
+    Started job on |	Oct 28 12:34:56
+    Mapping speed, Million of reads per hour |	45.20
+                    Number of input reads |	25000000
+                    Uniquely mapped reads number |	21300000
+                    Uniquely mapped reads % |	85.20%
+                    Average mapped length |	74.50
+                    Mismatch rate per base, % |	0.52%
+    ```
+
+=== "Ejemplo de ReadsPerGene.out.tab"
+    ```
+    N_unmapped	2145897	2145897	2145897
+    N_multimapping	1553908	1553908	1553908
+    N_noFeature	3238790	3198790	3218790
+    N_ambiguous	89076	99076	94076
+    FBGN0000003	1234	567	890
+    FBGN0000008	4567	2345	3456
+    ```
+
+!!! tip "📚 Referencias"
+    - [Manual de STAR](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf)
+    - [Tutorial de RNA-seq con STAR](https://hbctraining.github.io/Intro-to-rnaseq-hpc-gt/lessons/03_alignment.html)
