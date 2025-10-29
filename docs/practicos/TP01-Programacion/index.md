@@ -487,6 +487,23 @@ df[ , c("nombre", "edad")]
 2. Usar nombres claros para las columnas y filas.  
 3. Evitar modificar directamente columnas importantes sin crear copias de seguridad.
 
+### Comandos más usados en R
+
+| Comando / Función       | Qué hace                                           | Ejemplo                                         |
+|-------------------------|--------------------------------------------------|------------------------------------------------|
+| `read.csv()`            | Leer un archivo CSV y crear un data frame       | `df <- read.csv("datos.csv")`                 |
+| `head()`                | Mostrar las primeras filas de un data frame     | `head(df)`                                    |
+| `tail()`                | Mostrar las últimas filas de un data frame      | `tail(df)`                                    |
+| `str()`                 | Mostrar la estructura de un objeto              | `str(df)`                                     |
+| `class()`               | Ver el tipo de un objeto o variable             | `class(df$edad)`                              |
+| `summary()`             | Resumen estadístico de columnas numéricas       | `summary(df$edad)`                             |
+| `$`                     | Acceder a una columna de un data frame          | `df$nombre`                                   |
+| `[ , ]`                 | Seleccionar filas y columnas                     | `df[ , "edad"]` o `df[1:5, c("edad","peso")]` |
+| `as.numeric()`          | Convertir a tipo numérico                        | `as.numeric(df$edad)`                         |
+| `as.character()`        | Convertir a tipo texto                            | `as.character(df$nombre)`                     |
+| `as.factor()`           | Convertir a factor / categoría                  | `as.factor(df$grupo)`                         |
+| `na.omit()`             | Eliminar filas con NA                            | `df_clean <- na.omit(df)`                     |
+
 ### Normalización y parseo de datos en R
 
 En análisis de datos, especialmente en genómica y transcriptómica, es común trabajar con **datos de diferentes escalas** o con **archivos crudos** que necesitan ser adaptados para análisis posteriores.
