@@ -47,31 +47,84 @@ En esta parte del práctico, el objetivo es que **ustedes mismos obtengan esta i
 
 ### 🕵️‍♀️ 1️⃣ Exploración de los archivos crudos
 
-Cada muestra está disponible como un archivo comprimido `.fastq.gz` dentro del directorio del proyecto.
+Cada muestra está disponible como un archivo comprimido `.fastq.gz` dentro del directorio del proyecto. Vamos a explorar estos archivos usando diversas herramientas.
 
-Comencemos inspeccionando la **estructura y el encabezado** de uno de ellos:
+#### 1.1 Exploración básica con comandos Unix y samtools
 
 ```bash
-ls Drosophila_RNAseq_PRJNA875952/
-zcat Drosophila_RNAseq_PRJNA875952/SRR34068709_1.fastq.gz | head -4
+# Listar archivos y ver tamaños
+ls -lh Drosophila_RNAseq_PRJNA1226617/
+
+# Ver las primeras 4 entradas del FASTQ
+zcat Drosophila_RNAseq_PRJNA1226617/SRR32429928_1.fastq.gz | head -4
+
+## OPCIONAL ##
+# Contar número total de lecturas (dividir por 4 ya que cada lectura usa 4 líneas)
+zcat Drosophila_RNAseq_PRJNA1226617/SRR32429928_1.fastq.gz | wc -l | awk '{print $1/4}'
 
 ```
- 
+
+!!! info "Estructura del FASTQ"
+    Cada entrada en el archivo FASTQ contiene 4 líneas:
+    1. Encabezado con @ (información de la secuenciación)
+    2. Secuencia de nucleótidos
+    3. Línea separadora con +
+    4. Calidades en formato Phred+33
+
+
 !!! question "Preguntas"
     - ¿Qué información podés obtener del encabezado (@SRR...)?
     - ¿Podés identificar si la lectura es paired-end o single-end?
     - ¿Qué longitud tienen las secuencias?
+    - ¿Qué nos dice la distribución de calidades?
+
+
+??? success "🔹 ¿Qué información podés obtener del encabezado (@SRR...)?"
+
+    - **Identificador del experimento:** SRR32429928 (acceso SRA, indica el conjunto de lecturas del estudio).  
+    - **Número de lectura:** .1, .2, .3, etc., identifican cada lectura individual.  
+    - **Información del instrumento:** AV234602:FC336:2416495127 hace referencia al identificador del flujo y la celda del secuenciador.  
+    - **Coordenadas de la lectura en el flowcell:** 1:10102:0091:0008 indican el número de la celda, la hilera y la columna donde se leyó la secuencia.  
+    - **Longitud declarada de la lectura:** length=75.
+
+??? success "🔹 ¿Podés identificar si la lectura es *paired-end* o *single-end*?"
+
+    Es pair-end porque los archivos terminan en _1 y _2 respectivamente.
+
+??? success "🔹 ¿Qué longitud tienen las secuencias?"
+
+    La longitud indicada en el encabezado y confirmada al inspeccionar las secuencias es de **75 nucleótidos** (length=75).  
+
+??? success "🔹 ¿Qué nos dice la distribución de calidades?"
+
+    En la línea de calidad (la que comienza con +), cada carácter representa la **calidad Phred** de un nucleótido.  
+    Por ejemplo:
+    ```
+    GLLLLLLLMMMMNMMNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+    ```
+
+    - Los caracteres como L, M, N, G corresponden a **valores ASCII** que indican distintas calidades de lectura.  
+    - Las letras **más altas en el alfabeto ASCII** representan **mayor calidad**.  
+    - Se observa una **disminución progresiva en la calidad** hacia el final de la secuencia (más N), algo común en lecturas Illumina.  
+    - Esto sugiere que el **extremo 3’** de las lecturas tiende a tener **menor confianza en la llamada de bases** y puede requerir **trimming** antes del alineamiento.
+
+??? tip "Interpretación general y próximos pasos"
+
+    - Las lecturas son **pair-end** de **75 nucleótidos**.  
+    - La calidad es aceptable, pero **disminuye hacia el extremo 3’**.  
+    - Se recomienda realizar un control de calidad con **FastQC** y aplicar **trimming**.  
+    - Estos pasos aseguran una **mejor alineación** y **menor sesgo** en el análisis transcriptómico.
 
 🧾 2️⃣ Consultar los metadatos del estudio
 
-Los metadatos asociados al experimento pueden obtenerse desde el NCBI SRA o desde el paper original.
+Otro camino suele ser que los metadatos asociados al experimento pueden obtenerse desde el NCBI SRA o desde el paper original.
 
-Buscá el BioProject o BioSample correspondiente al estudio:
+Buscá el BioProject en NCBI correspondiente al estudio:
 
-🔗 PRJNA875952 – Drosophila RNA-seq study
+🔗 [PRJNA1226617](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1226617)
 
 !!! tip
-    En la pestaña Runs podés ver detalles como:
+    Podés ver detalles como:
     - Plataforma de secuenciación (Instrument Model)
     - Layout (Paired / Single)
     - Read length (por ejemplo, 75 bp)
@@ -90,8 +143,9 @@ Buscá el BioProject o BioSample correspondiente al estudio:
     | **Número de muestras** | 10 (5 ojo blanco y 5 ojo rojo) |
 
 **Distribución de muestras:**
-    - 🧪 *White-eye*: muestras 28 a 32  
-    - 🧬 *Red-eye*: muestras 38 a 42  
+
+🪰⚪ *White-eye*: muestras 28 a 32  
+🪰🔴 *Red-eye*: muestras 38 a 42  
 
 !!! note "Archivos de entrada"
         Los archivos `.fastq.gz` ya están disponibles en la carpeta compartida del curso.
@@ -101,30 +155,28 @@ Buscá el BioProject o BioSample correspondiente al estudio:
 ## 🧩 Parte 1: Análisis de calidad inicial
 
 === 1️⃣ Ejecutar FastQC
-
-    #FastQC permite evaluar la calidad de las lecturas crudas (`.fastq.gz`).
-
     ```bash
-    mkdir -p fastqc_results
-    fastqc Drosophila_RNAseq_PRJNA875952/*.fastq.gz -o fastqc_results
+     #FastQC permite evaluar la calidad de las lecturas crudas (`.fastq.gz`).
+     mkdir -p fastqc_results
+     fastqc Drosophila_RNAseq_ PRJNA1226617/SRR32429928_1.fastq.gz -o fastqc_results
+
     ```
 
 !!! tip
         Cada muestra generará un archivo `.html` con los gráficos de calidad y un archivo `.zip` con los datos resumidos.
+        Acá también podrías encontrar información sobre tu secuenciación como tamaño de reads, calidad, etc.
 
 === 2️⃣ Explorar resultados
-
-    #Abrir uno de los reportes HTML (por ejemplo, en un navegador web local):
-
     ```bash
-    xdg-open fastqc_results/SRR34068709_fastqc.html
+    #Abrir uno de los reportes HTML (por ejemplo, en un navegador web local):
+    xdg-open fastqc_results/SRR32429928_1_fastqc.html
     ```
 
-    Revisar los siguientes módulos principales:
-    - **Per base sequence quality**
-    - **Per sequence GC content**
-    - **Adapter content**
-    - **Sequence length distribution**
+Revisar los siguientes módulos principales:
+    - *Per base sequence quality* 
+    - *Per sequence GC content* 
+    - *Adapter content* 
+    - *Sequence length distribution* 
 
 !!! question "Preguntas para discutir"
         - ¿Qué patrones de calidad observas hacia el final de las lecturas?  
@@ -137,29 +189,32 @@ Buscá el BioProject o BioSample correspondiente al estudio:
 
 === 1️⃣ Ejecutar Trim Galore
 
-    #Trim Galore combina **Cutadapt** y **FastQC** para recortar adaptadores y bases de baja calidad.
-
+Trim Galore combina **Cutadapt** y **FastQC** para recortar adaptadores y bases de baja calidad.
     ```bash
+
     mkdir -p trimmed_reads
 
-    for sample in Drosophila_RNAseq_PRJNA875952/*_1.fastq.gz
-    do
-        base=$(basename $sample "_1.fastq.gz")
-        trim_galore --paired \
-            Drosophila_RNAseq_PRJNA875952/${base}_1.fastq.gz \
-            Drosophila_RNAseq_PRJNA875952/${base}_2.fastq.gz \
-            -o trimmed_reads
-    done
+    # Ejecutar Trim Galore solo para la muestra SRR32429928
+
+    trim_galore \
+    --paired \                # modo paired-end
+    --illumina \              # remueve adaptadores Illumina
+    --quality 20 \            # Q20: descarta bases de baja calidad en los extremos
+    --fastqc \                # genera reportes FastQC automáticamente
+    --length 50 \             # descarta reads más cortos que 50 bp
+    --cores 4 \               # usa 4 núcleos (ajustar según la PC)
+    --output_dir trimmedgalore_reads \  # guarda resultados en esta carpeta
+    Drosophila_RNAseq_PRJNA1226617/SRR32429928_1.fastq.gz \
+    Drosophila_RNAseq_PRJNA1226617/SRR32429928_2.fastq.gz
+
     ```
 
 !!! info
         Trim Galore automáticamente genera nuevos archivos `*_val_1.fq.gz` y `*_val_2.fq.gz` con las lecturas filtradas.
 
 === 2️⃣ Evaluar calidad post-trimming
-
     ```bash
-    mkdir -p fastqc_trimmed
-    fastqc trimmed_reads/*.fq.gz -o fastqc_trimmed
+    xdg-open trimmed_reads/SRR32429928_1_val_1_fastqc.html
     ```
 
  Comparar con los resultados previos:
@@ -173,22 +228,20 @@ Buscá el BioProject o BioSample correspondiente al estudio:
 
 === 1️⃣ Generar el reporte
 
-    #MultiQC consolida todos los reportes de FastQC y Trim Galore en un solo archivo HTML.
-
-    ```bash
-    multiqc . -o multiqc_report
+MultiQC consolida todos los reportes de FastQC y Trim Galore en un solo archivo HTML.
+    ```bash    
+    multiqc *_fastqc.html -o multiqc_posttrimmed
     ```
 
 === 2️⃣ Visualizar resultados
-
+    ```bash   
     #Abrir el reporte:
 
-    ```bash
-    xdg-open multiqc_report/multiqc_report.html
+    xdg-open multiqc_posttrimmed/multiqc_report.html
     ```
 
 !!! success
-        Este reporte permite **comparar todas las muestras** simultáneamente, facilitando la identificación de anomalías o diferencias entre grupos experimentales.
+        Este reporte permite comparar todas las muestras simultáneamente, facilitando la identificación de anomalías o diferencias entre grupos experimentales.
 
 ---
 
@@ -261,7 +314,36 @@ Usaremos las secuencias y anotaciones del genoma de *Drosophila melanogaster* (v
     mv Drosophila_melanogaster.BDGP6.54.115.gtf Drosophila_annotation.gtf
     ```
 
-#### Exploración del genoma de referencia
+## Exploración de los archivos 
+
+### GTF file 
+
+La anotación se almacena en formato General Transfer Format ( GTF ) , una extensión del formato GFF anterior: un formato tabular con una línea por cada característica del genoma, cada una con 9 columnas de datos. Generalmente, incluye un encabezado indicado por el primer carácter «#» y una fila por cada característica, compuesta por 9 columnas.
+
+!!! info  Estructura del archivo GTF
+    | Nº de columna | Nombre de columna | Descripción |
+    |----------------|-------------------|--------------|
+    | **1** | `seqname` | Nombre del cromosoma o *scaffold*; pueden incluir o no el prefijo `chr`. |
+    | **2** | `source` | Nombre del programa que generó esta característica, o la fuente de datos (base de datos o proyecto). |
+    | **3** | `feature` | Tipo de característica, por ejemplo: *gene*, *variation*, *similarity*. |
+    | **4** | `start` | Posición inicial de la característica (la numeración comienza en 1). |
+    | **5** | `end` | Posición final de la característica (la numeración comienza en 1). |
+    | **6** | `score` | Valor numérico en punto flotante. |
+    | **7** | `strand` | Hebra del genoma: `+` (directa) o `-` (inversa). |
+    | **8** | `frame` | Fase de lectura: `0`, `1` o `2`. `0` indica que la primera base es el inicio del codón, `1` que la segunda base lo es, etc. |
+    | **9** | `attribute` | Lista separada por punto y coma (`;`) de pares *etiqueta=valor*, con información adicional sobre cada característica. |
+
+Para explorar el GTF, corran en la terminal donde se encuentran los archivos:
+
+```bash
+head Drosophila_annotation.gtf
+grep "gene" Drosophila_annotation.gtf | head
+```
+
+
+### FASTA file 
+Los genomas suelen encontrarse en formato FASTA (.fa), donde cada header (puede ser de cromosomas, transcriptos, proteinas) empieza con ">": 
+
 
 ```bash
 # Ver los cromosomas y scaffolds incluidos
@@ -288,14 +370,12 @@ grep ">" Drosophila_genome.fa
         - Durante la indexación, STAR integra información de splicing desde el GTF
             (opción `--sjdbGTFfile`) y prepara una "splice junction database" que mejora
             la detección de uniones exón–exón.
-        - Nota práctica: STAR requiere archivos FASTA y GTF sin comprimir para crear el índice.
-            Se recomienda descomprimir solo durante la indexación y borrar los archivos
-            descomprimidos después (o mantener una copia comprimida) para ahorrar espacio.
+
 
 !!! tip "Index y longitud de lectura"
         - El parámetro `--sjdbOverhang` debe fijarse a (longitud_de_lectura - 1).
-        - Si tus lecturas cambian de longitud (por ejemplo 75bp vs 150bp), **debes
-            regenerar el índice** con el `sjdbOverhang` apropiado para esa longitud,
+        - Si tus lecturas cambian de longitud (por ejemplo 75bp vs 150bp), debes
+            regenerar el índice con el `sjdbOverhang` apropiado para esa longitud,
             de lo contrario la sensibilidad del mapeo en uniones de splicing puede disminuir.
 
 !!! tip "Ajuste de `--genomeSAindexNbases` (pequeños vs grandes genomas)"
@@ -333,20 +413,6 @@ grep ">" Drosophila_genome.fa
     | `--sjdbOverhang` | Longitud de lectura - 1 | `74` para lecturas de 75bp |
     | `--genomeSAindexNbases` | Tamaño del índice SA (opcional) | Calculado automáticamente |
 
-=== 1️⃣ Crear directorio para el índice
-    ```bash
-    mkdir -p STAR_index
-    ```
-
-=== 2️⃣ Generar el índice
-    ```bash
-    STAR --runThreadN 8 \
-         --runMode genomeGenerate \
-         --genomeDir STAR_index \
-         --genomeFastaFiles Drosophila_genome.fa \
-         --sjdbGTFfile Drosophila_annotation.gtf \
-         --sjdbOverhang 74
-    ```
 
 !!! tip "Archivos generados en el índice"
     | Archivo | Descripción |
@@ -375,7 +441,7 @@ grep ">" Drosophila_genome.fa
 ```bash
 STAR --runThreadN 8 \
      --genomeDir STAR_index \
-     --readFilesIn trimmedgalore_reads/SRR32429928_R1_val_1.fq.gz trimmedgalore_reads/SRR32429928_R2_val_2.fq.gz \
+     --readFilesIn trimmedgalore_reads/SRR32429928_1_val_1.fq.gz trimmedgalore_reads/SRR32429928_2_val_2.fq.gz \
      --readFilesCommand zcat \
      --quantMode GeneCounts \
      --outFileNamePrefix SRR32429928_ \
@@ -393,6 +459,9 @@ STAR --runThreadN 8 \
     | `*_Log.progress.out` | Progreso en tiempo real | Lecturas procesadas |
     | `*_ReadsPerGene.out.tab` | Conteos por gen | `GENE1 1234 567 890` |
     | `*_SJ.out.tab` | Uniones de splicing | `chr2L 1234 5678 GT-AG` |
+
+
+Te invitamos a que revises los archivos para poder comprender su estructura y datos.
 
 === "Ejemplo de Log.final.out"
     ```
@@ -418,3 +487,7 @@ STAR --runThreadN 8 \
 !!! tip "📚 Referencias"
     - [Manual de STAR](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf)
     - [Tutorial de RNA-seq con STAR](https://hbctraining.github.io/Intro-to-rnaseq-hpc-gt/lessons/03_alignment.html)
+
+
+## Parte 5: Análisis de Expresión Diferencial 
+
