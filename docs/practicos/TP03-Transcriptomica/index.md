@@ -488,6 +488,6 @@ Te invitamos a que revises los archivos para poder comprender su estructura y da
     - [Manual de STAR](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf)
     - [Tutorial de RNA-seq con STAR](https://hbctraining.github.io/Intro-to-rnaseq-hpc-gt/lessons/03_alignment.html)
 
-
 ## Parte 5: Análisis de Expresión Diferencial 
 
+Acá va toda la parte de Deseq2.
