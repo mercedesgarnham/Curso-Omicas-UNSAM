@@ -1159,6 +1159,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#comandos-mas-usados-en-r" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comandos más usados en R
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#normalizacion-y-parseo-de-datos-en-r" class="md-nav__link">
     <span class="md-ellipsis">
       Normalización y parseo de datos en R
@@ -1819,6 +1828,78 @@ Saber abrir y manipular un data frame es fundamental para analizar datos de mane
 <li>Usar nombres claros para las columnas y filas.  </li>
 <li>Evitar modificar directamente columnas importantes sin crear copias de seguridad.</li>
 </ol>
+<h3 id="comandos-mas-usados-en-r">Comandos más usados en R</h3>
+<table>
+<thead>
+<tr>
+<th>Comando / Función</th>
+<th>Qué hace</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>read.csv()</code></td>
+<td>Leer un archivo CSV y crear un data frame</td>
+<td><code>df &lt;- read.csv("datos.csv")</code></td>
+</tr>
+<tr>
+<td><code>head()</code></td>
+<td>Mostrar las primeras filas de un data frame</td>
+<td><code>head(df)</code></td>
+</tr>
+<tr>
+<td><code>tail()</code></td>
+<td>Mostrar las últimas filas de un data frame</td>
+<td><code>tail(df)</code></td>
+</tr>
+<tr>
+<td><code>str()</code></td>
+<td>Mostrar la estructura de un objeto</td>
+<td><code>str(df)</code></td>
+</tr>
+<tr>
+<td><code>class()</code></td>
+<td>Ver el tipo de un objeto o variable</td>
+<td><code>class(df$edad)</code></td>
+</tr>
+<tr>
+<td><code>summary()</code></td>
+<td>Resumen estadístico de columnas numéricas</td>
+<td><code>summary(df$edad)</code></td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>Acceder a una columna de un data frame</td>
+<td><code>df$nombre</code></td>
+</tr>
+<tr>
+<td><code>[ , ]</code></td>
+<td>Seleccionar filas y columnas</td>
+<td><code>df[ , "edad"]</code> o <code>df[1:5, c("edad","peso")]</code></td>
+</tr>
+<tr>
+<td><code>as.numeric()</code></td>
+<td>Convertir a tipo numérico</td>
+<td><code>as.numeric(df$edad)</code></td>
+</tr>
+<tr>
+<td><code>as.character()</code></td>
+<td>Convertir a tipo texto</td>
+<td><code>as.character(df$nombre)</code></td>
+</tr>
+<tr>
+<td><code>as.factor()</code></td>
+<td>Convertir a factor / categoría</td>
+<td><code>as.factor(df$grupo)</code></td>
+</tr>
+<tr>
+<td><code>na.omit()</code></td>
+<td>Eliminar filas con NA</td>
+<td><code>df_clean &lt;- na.omit(df)</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="normalizacion-y-parseo-de-datos-en-r">Normalización y parseo de datos en R</h3>
 <p>En análisis de datos, especialmente en genómica y transcriptómica, es común trabajar con <strong>datos de diferentes escalas</strong> o con <strong>archivos crudos</strong> que necesitan ser adaptados para análisis posteriores.</p>
 <h4 id="normalizacion-de-datos">Normalización de datos</h4>
