@@ -15,19 +15,19 @@
       
       
       
-      <link rel="icon" href="/assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
     
     
       
-        <title>Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas</title>
+        <title>Preguntas de discusión — DESeq2 (Parte 5) - Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.84d31ad4.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.84d31ad4.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -71,6 +71,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#preguntas-de-discusion-deseq2-parte-5" class="md-skip">
+          Saltar a contenido
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -81,7 +86,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Cabecera">
-    <a href="/." title="Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas" class="md-header__button md-logo" aria-label="Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas" data-md-component="logo">
+    <a href="../../../.." title="Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas" class="md-header__button md-logo" aria-label="Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -101,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Preguntas de discusión — DESeq2 (Parte 5)
             
           </span>
         </div>
@@ -219,7 +224,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         
   
   
@@ -240,7 +245,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/info/inicio/" class="md-tabs__link">
+        <a href="../../../../info/inicio/" class="md-tabs__link">
           
   
   
@@ -262,7 +267,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/teoricas/inicio/" class="md-tabs__link">
+        <a href="../../../../teoricas/inicio/" class="md-tabs__link">
           
   
   
@@ -284,7 +289,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/practicos/inicio/" class="md-tabs__link">
+        <a href="../../../inicio/" class="md-tabs__link">
           
   
   
@@ -320,7 +325,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/." title="Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas" class="md-nav__button md-logo" aria-label="Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas" data-md-component="logo">
+    <a href="../../../.." title="Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas" class="md-nav__button md-logo" aria-label="Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -350,7 +355,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -427,7 +432,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/info/inicio/" class="md-nav__link">
+      <a href="../../../../info/inicio/" class="md-nav__link">
         
   
   
@@ -450,7 +455,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/info/acerca/" class="md-nav__link">
+      <a href="../../../../info/acerca/" class="md-nav__link">
         
   
   
@@ -473,7 +478,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/info/comollegar/" class="md-nav__link">
+      <a href="../../../../info/comollegar/" class="md-nav__link">
         
   
   
@@ -496,7 +501,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/info/contenidos/" class="md-nav__link">
+      <a href="../../../../info/contenidos/" class="md-nav__link">
         
   
   
@@ -519,7 +524,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/info/cronograma/" class="md-nav__link">
+      <a href="../../../../info/cronograma/" class="md-nav__link">
         
   
   
@@ -542,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/info/docentes/" class="md-nav__link">
+      <a href="../../../../info/docentes/" class="md-nav__link">
         
   
   
@@ -617,7 +622,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/teoricas/inicio/" class="md-nav__link">
+      <a href="../../../../teoricas/inicio/" class="md-nav__link">
         
   
   
@@ -692,7 +697,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/practicos/inicio/" class="md-nav__link">
+      <a href="../../../inicio/" class="md-nav__link">
         
   
   
@@ -732,6 +737,79 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-preparacion-y-entradas" class="md-nav__link">
+    <span class="md-ellipsis">
+      1) Preparación y entradas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-lectura-de-conteos-star-readspergeneouttab" class="md-nav__link">
+    <span class="md-ellipsis">
+      2) Lectura de conteos (STAR ReadsPerGene.out.tab)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-diseno-y-filtrado" class="md-nav__link">
+    <span class="md-ellipsis">
+      3) Diseño y filtrado
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-ejecucion-de-deseq2-y-shrinkage" class="md-nav__link">
+    <span class="md-ellipsis">
+      4) Ejecución de DESeq2 y shrinkage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-visualizacion-y-qc" class="md-nav__link">
+    <span class="md-ellipsis">
+      5) Visualización y QC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-analisis-funcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      6) Análisis funcional
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-interpretacion-y-reproducibilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      7) Interpretación y reproducibilidad
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -743,8 +821,114 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<div><h1 id="preguntas-de-discusion-deseq2-parte-5">Preguntas de discusión — DESeq2 (Parte 5)</h1>
+<p>Este documento contiene preguntas por segmento pensadas para fomentar la discusión y la comprensión de los pasos del análisis con DESeq2.</p>
+<h2 id="1-preparacion-y-entradas">1) Preparación y entradas</h2>
+<ul>
+<li>¿Por qué NO debemos usar TPM/FPKM/RPKM como entrada para DESeq2?</li>
+<li>Si tenemos resultados de Salmon, ¿qué hace <code>tximport</code> cuando usamos <code>countsFromAbundance = "lengthScaledTPM"</code>? ¿Qué problema resuelve?</li>
+<li>¿Qué columnas mínimas debe contener la <code>sample_table</code> y por qué es importante la coherencia de nombres entre archivos y metadata?</li>
+</ul>
+<h2 id="2-lectura-de-conteos-star-readspergeneouttab">2) Lectura de conteos (STAR <code>ReadsPerGene.out.tab</code>)</h2>
+<ul>
+<li>¿Cómo identificás si tus datos son "stranded" o "unstranded" a partir de <code>ReadsPerGene.out.tab</code> y por qué importa?</li>
+<li>Si notas que las columnas 3 y 4 (read1/read2) son muy diferentes entre sí, ¿qué podría estar pasando en el protocolo o en el procesamiento?</li>
+</ul>
+<h2 id="3-diseno-y-filtrado">3) Diseño y filtrado</h2>
+<ul>
+<li>¿Qué significa incluir <code>~ batch + condition</code> en el diseño y en qué casos es indispensable?</li>
+<li>¿Qué riesgos corres al filtrar genes demasiado estrictamente antes del análisis?</li>
+<li>En un experimento con 2 réplicas por condición, ¿cómo ajustarías el filtrado para no eliminar todos los genes?</li>
+</ul>
+<h2 id="4-ejecucion-de-deseq2-y-shrinkage">4) Ejecución de DESeq2 y shrinkage</h2>
+<ul>
+<li>¿Por qué aplicamos shrinkage al <code>log2FoldChange</code> antes de reportarlo en tablas finales?</li>
+<li>¿Qué diferencia práctica hay entre usar <code>apeglm</code> y <code>ashr</code> para shrinkage?</li>
+<li>¿Cómo comprobarías que el contraste que pediste en <code>results()</code> corresponde al coeficiente que estás interpretando?</li>
+</ul>
+<h2 id="5-visualizacion-y-qc">5) Visualización y QC</h2>
+<ul>
+<li>En un PCA, si un par de muestras se alejan significativamente del grupo, ¿qué pasos tomarías antes de excluirlas del análisis?</li>
+<li>¿Qué indicadores en un heatmap te hacen sospechar que hay un batch effect?</li>
+</ul>
+<h2 id="6-analisis-funcional">6) Análisis funcional</h2>
+<ul>
+<li>¿Por qué es importante elegir correctamente el "background" (universo) para un test de sobre-representación?</li>
+<li>¿Qué problemas puede causar convertir IDs incorrectamente (pérdida de genes, asignaciones erróneas)?</li>
+</ul>
+<h2 id="7-interpretacion-y-reproducibilidad">7) Interpretación y reproducibilidad</h2>
+<ul>
+<li>¿Qué información mínima debe acompañar a un <code>DESeq2_all_results.csv</code> para que otro investigador pueda reproducir el análisis?</li>
+<li>¿Por qué es útil incluir <code>sessionInfo()</code> y la <code>sample_table</code> en el repositorio?</li>
+</ul>
+<hr>
+<p>Si querés, puedo añadir estas preguntas directamente en <code>index.md</code> como un bloque de preguntas al final de cada subsección, o dejar el archivo <code>materials/deseq2_questions.md</code> enlazado desde <code>index.md</code>. Indica cómo preferís integrarlo.</p>
+<hr>
+<h1 id="respuestas-esperadas-breves">Respuestas esperadas (breves)</h1>
+<p>Aquí se incluyen respuestas concisas a cada pregunta anterior — pensadas como guía del instructor o como feedback para los estudiantes.</p>
+<h2 id="1-preparacion-y-entradas-respuestas">1) Preparación y entradas — respuestas</h2>
+<ul>
+<li>No usar TPM/FPKM/RPKM: DESeq2 modela conteos enteros y estima la varianza basada en la naturaleza discreta de los conteos; las medidas normalizadas por longitud/composición (TPM/FPKM) invalidan las suposiciones del modelo y producen sesgos en la inferencia.</li>
+<li><code>tximport</code> con <code>countsFromAbundance = "lengthScaledTPM"</code>: convierte abundancias transcriptómicas en estimaciones de conteos corregidas por longitud y biblioteca; esto mejora la comparabilidad entre genes y permite usar estimaciones pseudo-counts en DESeq2.</li>
+<li><code>sample_table</code> mínimo: <code>sample</code> (ID), <code>condition</code> (grupo), opcional <code>batch</code>, <code>replicate</code>, <code>file</code> (ruta). Coherencia de nombres es crítica para alinear columnas de la matriz de conteos con las filas de metadata.</li>
+</ul>
+<h2 id="2-lectura-de-conteos-star-respuestas">2) Lectura de conteos (STAR) — respuestas</h2>
+<ul>
+<li>Identificar strandedness: STAR produce 3 columnas de conteo; comparar totales por columna (col2 unstranded, col3/4 stranded) o usar herramientas como <code>infer_experiment.py</code> (RSeQC) para confirmar; la elección afecta qué columna usar.</li>
+<li>Columnas 3 vs 4 muy diferentes: puede indicar que la librería es stranded y que una de las lecturas es la que mapea preferentemente a genes (protocolo strand-specific), o error en el orden de archivos (R1/R2 intercambiados) o problemas en el pipeline de trimming/align.</li>
+</ul>
+<h2 id="3-diseno-y-filtrado-respuestas">3) Diseño y filtrado — respuestas</h2>
+<ul>
+<li><code>~ batch + condition</code>: controla efectos de lote (batch) que de otro modo confundirían la estimación del efecto de interés; indispensable si hay batches con distribución desigual de condiciones.</li>
+<li>Riesgos de filtrado estricto: perder genes reales de baja expresión, reducir la potencia estadística o introducir sesgos en el universo para análisis funcional.</li>
+<li>En 2 réplicas: usar un filtrado más laxo (ej. <code>rowSums(counts &gt;= 5) &gt;= 2</code>) o analizar con cautela y mencionar la baja potencia; preferir no aplicar umbrales muy altos.</li>
+</ul>
+<h2 id="4-ejecucion-de-deseq2-y-shrinkage-respuestas">4) Ejecución de DESeq2 y shrinkage — respuestas</h2>
+<ul>
+<li>Por qué shrinkage: reduce estimaciones extremas de log2FC en genes con poca cobertura, mejorando reproducibilidad y evitando listas con fold-changes inflados por ruido.</li>
+<li><code>apeglm</code> vs <code>ashr</code>: <code>apeglm</code> suele ofrecer shrinkage adaptativo con buenas propiedades para inferencia de LFC; <code>ashr</code> es otra alternativa; <code>apeglm</code> es la recomendada actualmente para DESeq2.</li>
+<li>Comprobar contraste: usar <code>resultsNames(dds)</code> para ver los nombres de coeficientes, o pasar explícitamente <code>contrast=c(...)</code> a <code>results()</code> para asegurarse del contraste calculado.</li>
+</ul>
+<h2 id="5-visualizacion-y-qc-respuestas">5) Visualización y QC — respuestas</h2>
+<ul>
+<li>Si muestras se alejan en PCA: revisar metadata (batch, calidad de muestra, número de lecturas), inspeccionar FastQC/MultiQC, ver counts totales, considerar excluir solo tras justificar y documentar; probar análisis con/ sin la muestra para ver impacto.</li>
+<li>Indicadores de batch en heatmap: clusters que siguen batches más que condiciones, separación por batch en PCA o correlaciones altas dentro de batch.</li>
+</ul>
+<h2 id="6-analisis-funcional-respuestas">6) Análisis funcional — respuestas</h2>
+<ul>
+<li>Importancia del background: elegir el universo correcto evita sesgos; para RNA-seq es habitual usar los genes que pasaron el filtrado como universo en lugar de todo el genoma.</li>
+<li>Problemas al convertir IDs: pérdida de genes (IDs no mapeados), mapeos erróneos o duplicados; verificar cuántos genes se pierden tras conversión y reportarlo.</li>
+</ul>
+<h2 id="7-interpretacion-y-reproducibilidad-respuestas">7) Interpretación y reproducibilidad — respuestas</h2>
+<ul>
+<li>Información mínima para reproducir: tabla de conteos (raw), <code>sample_table</code> (metadata), script R/NB completo, versión de paquetes (<code>sessionInfo()</code>), y criterios de filtrado y umbrales usados.</li>
+<li><code>sessionInfo()</code> y <code>sample_table</code>: <code>sessionInfo()</code> registra versiones de R y paquetes; <code>sample_table</code> documenta el diseño experimental y permite reproducir la asociación conteo→muestra.</li>
+</ul>
+<hr>
+<p>Si querés, puedo ahora:
+- Insertar las respuestas también dentro de <code>index.md</code> como comentarios ocultos o como un anexo visible (si querés que estén directamente en la clase). 
+- Generar un <code>README.md</code> en <code>materials/</code> con instrucciones para el docente sobre cómo usar estas preguntas en clase.</p>
+<p>Indicame si querés alguna de las dos opciones y lo implemento.</p></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -844,14 +1028,14 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/", "features": ["search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.tabs", "navigation.indexes"], "search": "/assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.tabs", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
     
     
-      <script src="/assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
         <script src="https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js"></script>
       
-        <script src="/javascripts/tablesort.js"></script>
+        <script src="../../../../javascripts/tablesort.js"></script>
       
     
   </body>
