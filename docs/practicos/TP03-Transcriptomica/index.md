@@ -490,4 +490,322 @@ Te invitamos a que revises los archivos para poder comprender su estructura y da
 
 ## Parte 5: Análisis de Expresión Diferencial 
 
-Acá va toda la parte de Deseq2.
+A continuación veremos cómo realizar un análisis completo de expresión diferencial usando **DESeq2** en R, desde los archivos de conteo generados por STAR hasta el análisis funcional (**GO** y **KEGG**).
+
+---
+
+## Resumen del flujo
+
+| Etapa | Descripción | Herramientas |
+|-------|--------------|---------------|
+| Lectura de conteos | Importar archivos de STAR | `read.table`, `list.files` |
+| Preparación del objeto | Crear `DESeqDataSet` y filtrar genes | `DESeq2` |
+| Análisis diferencial | Comparar condiciones | `DESeq`, `results()` |
+| Anotación funcional | GO y KEGG | `clusterProfiler`, `org.Dm.eg.db` |
+| Visualización | Volcano, MA, PCA, Heatmap | `ggplot2`, `pheatmap` |
+| Exportación | Resultados a `.csv` | `write.csv` |
+
+
+---
+
+## 📦 Cargar librerías
+
+!!! info "Entradas y recomendaciones previas"
+    - DESeq2 requiere una matriz de **conteos enteros** (raw counts). No uses TPM/FPKM/RPKM como entrada al modelo.
+    - Prepara una `sample_table` (metadata) con columnas mínimas: `sample`, `condition` y, si aplica, `batch` o `replicate`.
+    - Comprueba el número de réplicas: idealmente ≥ 3 por condición. Con <3 replicados, la potencia estadística será limitada.
+
+!!! note "Código en R"
+    ```r
+    ############# Cargar librerías #############
+    library(DESeq2)
+    library(org.Dm.eg.db)
+    library(AnnotationDbi)
+    library(ggplot2)
+    library(pheatmap)
+    library(tibble)
+    library(dplyr)
+    ```
+
+!!! info
+    Estas librerías permiten:
+
+       - `DESeq2`: análisis de expresión diferencial. 
+      - `org.Dm.eg.db`: base de datos de *Drosophila melanogaster* para anotación. 
+       - `AnnotationDbi`: para mapear identificadores de genes. 
+       - `ggplot2` y `pheatmap`: visualización de resultados. 
+      - `tibble` y `dplyr`: manipulación de datos.
+
+---
+
+## 📂 Leer archivos de conteo
+
+!!! note "Código en R"
+    ```r
+    dir_path <- "/media/aldanacepeda/Elements2/Curso_Omicas/Drosophila_RNAseq_PRJNA1226617/STAR_alignments"
+
+    count_files <- list.files(
+      path = dir_path,
+      pattern = "_ReadsPerGene\\.out\\.tab$",
+      full.names = TRUE
+    )
+
+    if (length(count_files) == 0) {
+      stop("No se encontraron archivos *_ReadsPerGene.out.tab en el directorio indicado.")
+    }
+
+    counts_list <- lapply(count_files, function(f) {
+      read.table(f, skip = 4, header = FALSE, stringsAsFactors = FALSE)
+    })
+
+        # ATENCIÓN: STAR escribe 4 columnas en *_ReadsPerGene.out.tab
+        #  - columna 2: counts para datos unstranded
+        #  - columna 3: counts para stranded (read 1)
+        #  - columna 4: counts para stranded (read 2)
+        # Elegir la columna adecuada según el protocolo (o usar la columna 2 para unstranded)
+        counts <- sapply(counts_list, function(x) x[, 4])
+    sample_names <- gsub("_ReadsPerGene\\.out\\.tab$", "", basename(count_files))
+    colnames(counts) <- sample_names
+    rownames(counts) <- counts_list[[1]]$V1
+    rownames(counts) <- gsub("\\..*", "", rownames(counts))
+
+    cat("Se cargaron", ncol(counts), "muestras y", nrow(counts), "genes.\n")
+    head(counts)
+    ```
+
+!!! info
+    - Se buscan archivos generados por **STAR** (`*_ReadsPerGene.out.tab`).  
+    - Se lee la **columna 4**, que contiene los conteos por gen.  
+    - Se renombra cada muestra según su archivo.  
+    - Se crea una matriz de conteos lista para DESeq2.
+
+---
+
+## 🧾 Leer metadatos
+
+!!! note "Código en R"
+    ```r
+    coldata <- read.csv("/media/aldanacepeda/Elements2/Curso_Omicas/metadata_project.csv")
+    rownames(coldata) <- coldata$sample
+    stopifnot(identical(colnames(counts), rownames(coldata)))
+    ```
+
+!!! info
+    El archivo `metadata_project.csv` contiene información de las muestras  
+    (por ejemplo, `eyecolor`, `replicate`, etc.).  
+    Se verifica que los nombres coincidan entre los conteos y los metadatos.
+
+---
+
+## 🧮 Crear objeto DESeq2 y filtrar genes
+
+!!! note "Código en R"
+    ```r
+    dds <- DESeqDataSetFromMatrix(
+      countData = counts,
+      colData = coldata,
+      design = ~ eyecolor + replicate
+    )
+
+    dds <- dds[rowSums(counts(dds) >= 10) >= 3, ]
+    dds$eyecolor <- relevel(dds$eyecolor, ref = "red")
+    ```
+
+!!! tip
+    - Se crea un objeto `DESeqDataSet` con el diseño experimental.  
+    - Se filtran genes con ≥10 lecturas en al menos 3 muestras.  
+    - Se establece “red” como grupo de referencia.
+
+###Sobre el diseño y filtrado
+
+- Diseño (`design`): debe reflejar la estructura experimental. Ejemplos:
+            - Sin batch: `~ condition`
+            - Con batch: `~ batch + condition`
+            - Paired (muestras emparejadas): `~ subject + condition`
+- Evitá incluir variables colineales (por ejemplo `subject` y `batch` que representen lo mismo).
+- Filtrado previo: el objetivo es quitar genes con muy baja expresión que sólo añaden ruido.
+            - La regla `rowSums(counts(dds) >= 10) >= 3` es conservadora y adecuada para experimentos con ≥3 réplicas.
+            - Alternativa: `keep <- rowSums(counts(dds) >= 5) >= 2` para estudios con menos réplicas.
+- Importante: no normalices los conteos antes de pasarlos a `DESeq2` (DESeq2 calcula sus propios size factors).
+
+---
+
+## 📊 Análisis diferencial
+
+!!! note "Código en R"
+    ```r
+    dds <- DESeq(dds)
+
+    res_deseq <- results(dds, contrast = c("eyecolor", "white", "red"))
+    res_deseq <- lfcShrink(dds, coef = "eyecolor_white_vs_red", res = res_deseq)
+
+    res_df <- as.data.frame(res_deseq) %>%
+      rownames_to_column("ENSEMBL") %>%
+      arrange(padj)
+    ```
+
+!!! info
+    - `DESeq()` ejecuta el modelo estadístico.  
+    - Se compara la condición *white vs red*.  
+    - Se aplica **shrinkage** al `log2FoldChange` para reducir ruido.  
+    - Se guarda el resultado en un `data.frame`.
+
+### Consejos sobre shrinkage y coeficientes
+
+- `lfcShrink()` mejora la estabilidad de los `log2FoldChange`, especialmente para genes con baja cobertura.
+- En versiones recientes de DESeq2 se recomienda `type = "apeglm"` (requiere paquete `apeglm`) para shrinkage más fiable:
+            `resLFC <- lfcShrink(dds, coef="eyecolor_white_vs_red", type="apeglm")`.
+- Para usar `lfcShrink()` con el parámetro `coef` es útil revisar los nombres de coeficientes que creó `DESeq()`:
+            ```r
+            resultsNames(dds)
+            ```
+            Usa el nombre exacto que corresponda al contraste (o utiliza `contrast=` en `results()` para evitar ambigüedades).
+- Interpreta los `log2FoldChange` en conjunto con `padj` (FDR). Un LFC grande pero no significativo (padj alto) no debe considerarse concluyente.
+
+---
+
+## 🧠 Anotación de genes
+
+!!! note "Código en R"
+    ```r
+    res_df$Symbol <- mapIds(
+      org.Dm.eg.db, keys = res_df$ENSEMBL,
+      column = "SYMBOL", keytype = "ENSEMBL", multiVals = "first"
+    )
+
+    res_df$GeneName <- mapIds(
+      org.Dm.eg.db, keys = res_df$ENSEMBL,
+      column = "GENENAME", keytype = "ENSEMBL", multiVals = "first"
+    )
+    ```
+
+!!! tip
+    Traduce IDs de **Ensembl** a **símbolos de genes** y **nombres descriptivos** usando la base `org.Dm.eg.db`.
+
+---
+
+## 🎯 Filtrar genes significativos
+
+!!! note "Código en R"
+    ```r
+    sig_res <- res_df %>%
+      filter(!is.na(padj) & padj < 0.05 & abs(log2FoldChange) > 1)
+
+    cat("Número de genes significativamente expresados:", nrow(sig_res), "\n")
+    ```
+
+!!! info
+    Se seleccionan genes con:
+    - `padj < 0.05` (significativos tras corrección FDR).  
+    - `|log₂FC| > 1` (cambio biológicamente relevante).
+
+---
+
+## 📈 Visualización de resultados
+
+!!! note "MA Plot"
+    ```r
+    plotMA(res_deseq, ylim = c(-4, 4), main = "MA Plot: white vs red")
+    ```
+
+!!! note "Volcano Plot"
+    ```r
+    ggplot(res_df, aes(x = log2FoldChange, y = -log10(padj))) +
+      geom_point(aes(color = padj < 0.05), alpha = 0.6, size = 1.8) +
+      scale_color_manual(values = c("grey70", "#E41A1C")) +
+      geom_vline(xintercept = c(-1, 1), linetype = "dashed") +
+      geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
+      theme_minimal(base_size = 13) +
+      labs(title = "Volcano Plot — Differential Expression (white vs red)",
+           x = "Log2 Fold Change", y = "-log10 adjusted p-value",
+           color = "Significant")
+    ```
+
+!!! info
+    - El **MA Plot** muestra desviaciones de expresión según abundancia.  
+    - El **Volcano Plot** combina magnitud (`log₂FC`) y significancia (`p-value`).
+
+---
+
+## 🧬 Transformación de varianza (PCA + Heatmap)
+
+!!! note "Código en R"
+    ```r
+    vsd <- vst(dds, blind = FALSE)
+
+    plotPCA(vsd, intgroup = "eyecolor") + theme_minimal(base_size = 14)
+
+    top_genes <- head(order(rowVars(assay(vsd)), decreasing = TRUE), 50)
+    mat <- assay(vsd)[top_genes, ] - rowMeans(assay(vsd)[top_genes, ])
+    anno <- as.data.frame(colData(vsd)[, c("eyecolor", "replicate")])
+
+    pheatmap(
+      mat,
+      annotation_col = anno,
+      fontsize_row = 6,
+      scale = "row",
+      clustering_distance_rows = "correlation",
+      main = "Top 50 Most Variable Genes (DESeq2)"
+    )
+    ```
+
+!!! info
+    - `vst()` estabiliza la varianza para datos de conteo.  
+    - PCA permite observar agrupamientos globales por condición.  
+    - El *heatmap* muestra los genes más variables entre muestras.
+
+!!! tip "vst() vs rlog()"
+        - `vst()` (Variance Stabilizing Transformation) es rápido y escalable para datasets grandes (>30 muestras).
+        - `rlog()` produce transformaciones similares pero es computacionalmente más costoso; suele usarse en conjuntos pequeños para visualización fina.
+        - Para PCA y clustering en datasets moderados/grandes, preferir `vst()`.
+
+---
+
+## 🧩 Análisis funcional (GO y KEGG)
+
+!!! note "Código resumido"
+    ```r
+    library(clusterProfiler)
+
+    # Enriquecimiento GO
+    ego_compare <- compareCluster(
+      geneCluster = gene_list,
+      fun = "enrichGO",
+      OrgDb = org.Dm.eg.db,
+      keyType = "ENTREZID",
+      ont = "MF",
+      pAdjustMethod = "BH",
+      pvalueCutoff = 0.05,
+      readable = TRUE
+    )
+
+    dotplot(ego_compare, showCategory = 15, title = "GO MF Enrichment by Eye Color")
+    ```
+
+!!! info
+    - Se identifican funciones moleculares (GO:MF) sobre-representadas.  
+    - Se compara entre condiciones (*white* y *red*).  
+    - Luego se realiza un enriquecimiento **KEGG** para detectar vías metabólicas afectadas.
+
+!!! tip "Notas sobre IDs y background"
+    - `clusterProfiler` suele trabajar con **ENTREZID**; si tenés ENSEMBL, convertí usando `mapIds()` o `bitr()` (paquete `clusterProfiler`) antes del análisis.
+    - Elegí adecuadamente el conjunto de genes de referencia (background). Para datos RNA-seq suele usarse la lista de genes filtrados tras el prefiltrado (no todos los genes del genoma).
+    - Reportá siempre el método de corrección p (ej. BH) y el universo usado para el test de sobre-representación.
+
+---
+
+## 💾 Exportar resultados
+
+!!! note "Código en R"
+    ```r
+    write.csv(res_df, "DESeq2_all_results.csv", row.names = FALSE)
+    write.csv(sig_res, "DESeq2_significant_genes.csv", row.names = FALSE)
+    ```
+
+!!! tip
+    Guarda los resultados para análisis o visualización externa:
+    - `DESeq2_all_results.csv`: todos los genes analizados.  
+    - `DESeq2_significant_genes.csv`: solo los significativamente expresados.
+
+
+
