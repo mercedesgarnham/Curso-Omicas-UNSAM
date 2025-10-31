@@ -508,7 +508,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 📦 Cargar librerías
+## Cargar librerías
 
 !!! info "Entradas y recomendaciones previas"
     - DESeq2 requiere una matriz de **conteos enteros** (raw counts). No uses TPM/FPKM/RPKM como entrada al modelo.
@@ -538,7 +538,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 📂 Leer archivos de conteo
+## Leer archivos de conteo
 
 !!! note "Código en R"
     ```r
@@ -581,7 +581,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 🧾 Leer metadatos
+## Leer metadatos
 
 !!! note "Código en R"
     ```r
@@ -597,7 +597,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 🧮 Crear objeto DESeq2 y filtrar genes
+## Crear objeto DESeq2 y filtrar genes
 
 !!! note "Código en R"
     ```r
@@ -630,7 +630,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 📊 Análisis diferencial
+## Análisis diferencial
 
 !!! note "Código en R"
     ```r
@@ -664,7 +664,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 🧠 Anotación de genes
+## Anotación de genes
 
 !!! note "Código en R"
     ```r
@@ -684,7 +684,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 🎯 Filtrar genes significativos
+## Filtrar genes significativos
 
 !!! note "Código en R"
     ```r
@@ -701,7 +701,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 📈 Visualización de resultados
+## Visualización de resultados
 
 !!! note "MA Plot"
     ```r
@@ -727,7 +727,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 🧬 Transformación de varianza (PCA + Heatmap)
+## Transformación de varianza (PCA + Heatmap)
 
 !!! note "Código en R"
     ```r
@@ -761,7 +761,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 🧩 Análisis funcional (GO y KEGG)
+## Análisis funcional (GO y KEGG)
 
 !!! note "Código resumido"
     ```r
@@ -794,7 +794,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 ---
 
-## 💾 Exportar resultados
+## Exportar resultados
 
 !!! note "Código en R"
     ```r
