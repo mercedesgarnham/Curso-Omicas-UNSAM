@@ -110,8 +110,12 @@ nav:
         # - TP 2: 'practicos/2-Trabajo-Practico-Dos/index.md'
         # - TP 3: 'practicos/3-Trabajo-Practico-Tres/index.md'
         # - practicos/resumen.md
-    # - Instructivos:
-        # - 'instructivos/instructivos.md'
+    - Instructivos:
+        - instructivos/index.md
+        - Instalacion de Windows Subsystem for Linux (WSL): 'instructivos/wsl/index.md'
+        - Instalación de Miniconda: 'instructivos/miniconda/index.md'
+        - Instalación de R y RStudio: 'instructivos/R/index.md'
+
 
 
 # copyright
