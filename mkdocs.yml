@@ -114,6 +114,7 @@ nav:
         - instructivos/index.md
         - Instalacion de Windows Subsystem for Linux (WSL): 'instructivos/wsl/index.md'
         - Instalación de Miniconda: 'instructivos/miniconda/index.md'
+        - Instalación de programas vía conda: 'instructivos/programas/index.md'
         - Instalación de R y RStudio: 'instructivos/R/index.md'
 
 
