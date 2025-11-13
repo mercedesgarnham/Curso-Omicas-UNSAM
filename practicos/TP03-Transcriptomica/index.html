@@ -941,18 +941,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#0-preparacion-del-entorno-importante" class="md-nav__link">
+  <a href="#parte-0-preparacion-del-entorno-importante" class="md-nav__link">
     <span class="md-ellipsis">
-      ⚙️ 0. Preparación del Entorno (¡Importante!)
+      ⚙️ Parte 0. Preparación del Entorno (¡Importante!)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#hands-on" class="md-nav__link">
+  <a href="#comencemos" class="md-nav__link">
     <span class="md-ellipsis">
-      Hands-on!
+      Comencemos!
     </span>
   </a>
   
@@ -969,19 +969,19 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-exploracion-de-los-archivos-crudos" class="md-nav__link">
+  <a href="#exploracion-de-los-archivos-crudos" class="md-nav__link">
     <span class="md-ellipsis">
-      🕵️‍♀️ 1️⃣ Exploración de los archivos crudos
+      🕵️‍♀️ Exploración de los archivos crudos
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🕵️‍♀️ 1️⃣ Exploración de los archivos crudos">
+    <nav class="md-nav" aria-label="🕵️‍♀️ Exploración de los archivos crudos">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#11-exploracion-basica-con-comandos-unix-y-samtools" class="md-nav__link">
+  <a href="#exploracion-basica-con-comandos-unix-y-samtools" class="md-nav__link">
     <span class="md-ellipsis">
-      1.1 Exploración básica con comandos Unix y samtools
+      Exploración básica con comandos Unix y samtools
     </span>
   </a>
   
@@ -1390,7 +1390,7 @@
 <a class="md-button" href="https://drive.google.com/drive/folders/1Ylkt89MIPL0uKkUXA7EOuZt6KHBZlM82?usp=drive_link"><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-9.5 8.5c0 .8-.7 1.5-1.5 1.5H7v2H5.5V9H8c.8 0 1.5.7 1.5 1.5zm5 2c0 .8-.7 1.5-1.5 1.5h-2.5V9H13c.8 0 1.5.7 1.5 1.5zm4-3H17v1h1.5V13H17v2h-1.5V9h3zm-6.5 0h1v3h-1zm-5 0h1v1H7z"></path></svg></span> PDFs Adicionales</span></a></p>
 <hr>
 <h2 id="paper-base">📄 Paper base</h2>
-<p><strong>More than meets the eye: mutation of the <em>white</em> gene in <em>Drosophila</em> has broad phenotypic and transcriptomic effects</strong><br>
+<p><strong><em>More than meets the eye: mutation of the white gene in Drosophila has broad phenotypic and transcriptomic effects</em></strong><br>
 <em>April Rickle, Krittika Sudhakar, Alix Booms, Ellen Stirtz, Adelheid Lempradl</em><br>
 📘 <em>Genetics</em>, Volume 230, Issue 3, July 2025, iyaf097<br>
 🔗 <a href="https://doi.org/10.1093/genetics/iyaf097">DOI: 10.1093/genetics/iyaf097</a></p>
@@ -1400,7 +1400,7 @@
 En el presente práctico utilizaremos las bases de datos generadas en este estudio para realizar el <strong>control de calidad</strong> previo al análisis transcriptómico.</p>
 </div>
 <hr>
-<h2 id="0-preparacion-del-entorno-importante">⚙️ 0. Preparación del Entorno (¡Importante!)</h2>
+<h2 id="parte-0-preparacion-del-entorno-importante">⚙️ Parte 0. Preparación del Entorno (¡Importante!)</h2>
 <p>Antes de comenzar, es fundamental asegurarse de tener todas las herramientas instaladas. La forma más sencilla y recomendada de gestionar estas herramientas bioinformáticas es a través de <strong>Conda</strong> (específicamente, el canal <code>bioconda</code>).</p>
 <p>=== Herramientas de Línea de Comando (con Conda)
     </p><div class="highlight"><pre><span></span><code><span class="c1"># 1. (Recomendado) Crear un entorno de conda dedicado para este análisis</span>
@@ -1431,16 +1431,16 @@ conda<span class="w"> </span>activate<span class="w"> </span>transcriptomics
 <span class="c1"># Instala los paquetes de CRAN necesarios</span>
 <span class="nf">install.packages</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">"ggplot2"</span><span class="p">,</span><span class="w"> </span><span class="s">"pheatmap"</span><span class="p">,</span><span class="w"> </span><span class="s">"tibble"</span><span class="p">,</span><span class="w"> </span><span class="s">"dplyr"</span><span class="p">))</span>
 </code></pre></div>
-<h2 id="hands-on">Hands-on!</h2>
+<h2 id="comencemos">Comencemos!</h2>
 <p>La primera parte de un pipeline adecuado en transcriptómica, comienza evaluando la <strong>calidad de las lecturas RNA-seq</strong> antes y después del trimeado utilizando, en este caso, las herramientas <strong>FastQC</strong>, <strong>Trim Galore</strong> y <strong>MultiQC</strong>.</p>
 <hr>
 <h2 id="datos-experimentales">🧬 Datos experimentales</h2>
 <p>Antes de comenzar el control de calidad, es importante <strong>caracterizar las muestras</strong>:<br>
 ¿De qué organismo provienen? ¿Qué tipo de secuenciación se usó? ¿Cuál es la longitud de las lecturas?</p>
 <p>En esta parte del práctico, el objetivo es que <strong>ustedes mismos obtengan esta información</strong> a partir de los datos crudos y los metadatos del paper.</p>
-<h3 id="1-exploracion-de-los-archivos-crudos">🕵️‍♀️ 1️⃣ Exploración de los archivos crudos</h3>
+<h3 id="exploracion-de-los-archivos-crudos">🕵️‍♀️ Exploración de los archivos crudos</h3>
 <p>Cada muestra está disponible como un archivo comprimido <code>.fastq.gz</code> dentro del directorio del proyecto. Vamos a explorar estos archivos usando diversas herramientas.</p>
-<h4 id="11-exploracion-basica-con-comandos-unix-y-samtools">1.1 Exploración básica con comandos Unix y samtools</h4>
+<h4 id="exploracion-basica-con-comandos-unix-y-samtools">Exploración básica con comandos Unix y samtools</h4>
 <div class="highlight"><pre><span></span><code><span class="c1"># Listar archivos y ver tamaños</span>
 ls<span class="w"> </span>-lh<span class="w"> </span>Drosophila_RNAseq_PRJNA1226617/
 
@@ -1508,7 +1508,7 @@ Por ejemplo:
 <li>Estos pasos aseguran una <strong>mejor alineación</strong> y <strong>menor sesgo</strong> en el análisis transcriptómico.</li>
 </ul>
 </details>
-<p>🧾 2️⃣ Consultar los metadatos del estudio</p>
+<p>🧾Consultar los metadatos del estudio</p>
 <p>Otro camino suele ser que los metadatos asociados al experimento pueden obtenerse desde el NCBI SRA o desde el paper original.</p>
 <p>Buscá el BioProject en NCBI correspondiente al estudio:</p>
 <p>🔗 <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1226617">PRJNA1226617</a></p>
@@ -2512,7 +2512,7 @@ Usamos <strong>vst (Variance Stabilizing Transformation)</strong><br>
     2. <strong>Solo significativos</strong>: La lista "limpia" que usarás para tus gráficos, reportes y análisis funcionales.   </p>
 <hr>
 <p>En caso de querer trabajar con Salmon o de querer hacer estudios de Splicing, les dejamos estos ejercicios adicionales (con el manual) para que los tengan disponibles en caso de serles útiles. </p>
-<p><a class="md-button" href="https://drive.google.com/file/d/1Yrjk58VkLa7iAjwPpNPLrd1X_4DtDBls/view?usp=drive_link"><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-9.5 8.5c0 .8-.7 1.5-1.5 1.5H7v2H5.5V9H8c.8 0 1.5.7 1.5 1.5zm5 2c0 .8-.7 1.5-1.5 1.5h-2.5V9H13c.8 0 1.5.7 1.5 1.5zm4-3H17v1h1.5V13H17v2h-1.5V9h3zm-6.5 0h1v3h-1zm-5 0h1v1H7z"></path></svg></span> Adicional Salmon Deseq2</span></a>
+<p><a class="md-button" href="https://drive.google.com/file/d/1Yrjk58VkLa7iAjwPpNPLrd1X_4DtDBls/view?usp=drive_link"><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-9.5 8.5c0 .8-.7 1.5-1.5 1.5H7v2H5.5V9H8c.8 0 1.5.7 1.5 1.5zm5 2c0 .8-.7 1.5-1.5 1.5h-2.5V9H13c.8 0 1.5.7 1.5 1.5zm4-3H17v1h1.5V13H17v2h-1.5V9h3zm-6.5 0h1v3h-1zm-5 0h1v1H7z"></path></svg></span> Adicional Salmon DESeq2</span></a>
 <a class="md-button" href="https://drive.google.com/file/d/1f--2TyS2n-87CK-MeCDDaMTU7C7lvSAE/view?usp=drive_link"><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-9.5 8.5c0 .8-.7 1.5-1.5 1.5H7v2H5.5V9H8c.8 0 1.5.7 1.5 1.5zm5 2c0 .8-.7 1.5-1.5 1.5h-2.5V9H13c.8 0 1.5.7 1.5 1.5zm4-3H17v1h1.5V13H17v2h-1.5V9h3zm-6.5 0h1v3h-1zm-5 0h1v1H7z"></path></svg></span> Adicional Splicing</span></a></p></div>
 
 
