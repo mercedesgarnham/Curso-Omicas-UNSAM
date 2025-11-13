@@ -25,13 +25,13 @@ theme:
     - navigation.indexes
   palette: 
     - scheme: default
-      primary: #799ec2
+      primary: blue grey
       accent: black
       toggle:
         icon: material/toggle-switch 
         name: Cambiar a modo oscuro
     - scheme: slate 
-      primary: black
+      primary: blue grey
       accent: black
       toggle: 
         icon: material/toggle-switch-off-outline
