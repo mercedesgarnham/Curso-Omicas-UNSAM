@@ -25,7 +25,7 @@ theme:
     - navigation.indexes
   palette: 
     - scheme: default
-      primary: black
+      primary: #799ec2
       accent: black
       toggle:
         icon: material/toggle-switch 
