@@ -5,7 +5,7 @@ tags:
   - genomica
 ---
 
-![Image](imagenes/featured.png){ width="750", align=center }
+![Image](imagenes/seqWorkflow3.png){ width="650", align=center }
 
 # **TP 3**. Transcriptómica { markdown data-toc-label = 'TP 03' }
 
@@ -17,6 +17,8 @@ tags:
 
 En esta clase analizaremos **la calidad de las lecturas crudas y filtradas** de un experimento real de *Drosophila melanogaster*, tomado de un paper reciente que explora diferencias transcriptómicas entre fenotipos de ojo rojo y ojo blanco.
 
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Materiales</span>](https://drive.google.com/drive/folders/1ybf6sZrH7E7Gqiksd4OV2Kc1k26JyhZn?usp=drive_link){ .md-button }
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: PDFs Adicionales</span>](https://drive.google.com/drive/folders/1Ylkt89MIPL0uKkUXA7EOuZt6KHBZlM82?usp=drive_link){ .md-button }
 ---
 
 ## 📄 Paper base
@@ -31,6 +33,43 @@ En esta clase analizaremos **la calidad de las lecturas crudas y filtradas** de 
     En el presente práctico utilizaremos las bases de datos generadas en este estudio para realizar el **control de calidad** previo al análisis transcriptómico.
 
 ---
+
+## ⚙️ 0. Preparación del Entorno (¡Importante!)
+
+Antes de comenzar, es fundamental asegurarse de tener todas las herramientas instaladas. La forma más sencilla y recomendada de gestionar estas herramientas bioinformáticas es a través de **Conda** (específicamente, el canal `bioconda`).
+
+=== Herramientas de Línea de Comando (con Conda)
+    ```bash
+    # 1. (Recomendado) Crear un entorno de conda dedicado para este análisis
+    # Esto evita conflictos entre las dependencias de los programas.
+    conda create -y -n transcriptomics -c bioconda fastqc trim-galore star multiqc samtools
+
+    # 2. Activar el entorno antes de correr los comandos
+    # Deberás hacer esto cada vez que abras una nueva terminal para el práctico.
+    conda activate transcriptomics
+    ```
+
+=== Paquetes de R (con BiocManager)
+    ```r
+    # Para la Parte 5, necesitarás varias librerías de R.
+    # Puedes instalarlas desde tu consola de R o RStudio.
+
+    # Instala BiocManager si no lo tienes
+    if (!requireNamespace("BiocManager", quietly = TRUE))
+        install.packages("BiocManager")
+
+    # Instala los paquetes de Bioconductor necesarios
+    BiocManager::install(c(
+      "DESeq2", 
+      "org.Dm.eg.db", 
+      "AnnotationDbi", 
+      "clusterProfiler",
+      "apeglm"
+    ))
+
+    # Instala los paquetes de CRAN necesarios
+    install.packages(c("ggplot2", "pheatmap", "tibble", "dplyr"))
+    ```
 
 ## Hands-on!
 
@@ -245,7 +284,7 @@ MultiQC consolida todos los reportes de FastQC y Trim Galore en un solo archivo 
 
 ---
 
-## 🧠 Conclusión de este segmento 
+## Conclusión de este segmento 
 
 - Las herramientas **FastQC**, **Trim Galore** y **MultiQC** constituyen la base del **control de calidad en RNA-seq**.  
 - Es fundamental inspeccionar manualmente los reportes y confirmar que no haya sesgos sistemáticos entre muestras.  
@@ -253,7 +292,7 @@ MultiQC consolida todos los reportes de FastQC y Trim Galore en un solo archivo 
 
 ---
 
-## 📚 Recursos adicionales
+## Recursos adicionales
 
 - 🔗 [FastQC Manual](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 - 🔗 [Trim Galore Documentation](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)
@@ -484,11 +523,11 @@ Te invitamos a que revises los archivos para poder comprender su estructura y da
     FBGN0000008	4567	2345	3456
     ```
 
-!!! tip "📚 Referencias"
+!!! tip "Referencias"
     - [Manual de STAR](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf)
     - [Tutorial de RNA-seq con STAR](https://hbctraining.github.io/Intro-to-rnaseq-hpc-gt/lessons/03_alignment.html)
 
-## Parte 5: Análisis de Expresión Diferencial 
+## 🧠 Parte 5: Análisis de Expresión Diferencial 
 
 A continuación veremos cómo realizar un análisis completo de expresión diferencial usando **DESeq2** en R, desde los archivos de conteo generados por STAR hasta el análisis funcional (**GO** y **KEGG**).
 
@@ -511,8 +550,8 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 ## Cargar librerías
 
 !!! info "Entradas y recomendaciones previas"
-    - DESeq2 requiere una matriz de **conteos enteros** (raw counts). No uses TPM/FPKM/RPKM como entrada al modelo.
-    - Prepara una `sample_table` (metadata) con columnas mínimas: `sample`, `condition` y, si aplica, `batch` o `replicate`.
+    - DESeq2 requiere una matriz de **conteos enteros** (raw counts). Nunca uses TPM, FPKM o RPKM como entrada al modelo, ya que DESeq2 aplica su propia normalización interna.
+    - Prepara una `sample_table` (metadata) con columnas mínimas: `sample`, `condition` y, si aplica, `batch` o `replicate`. Por ejemplo: sample (nombre de la muestra) y condition (la variable que quieres comparar, ej. "ojo blanco" vs "ojo rojo")
     - Comprueba el número de réplicas: idealmente ≥ 3 por condición. Con <3 replicados, la potencia estadística será limitada.
 
 !!! note "Código en R"
@@ -593,7 +632,12 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 !!! info
     El archivo `metadata_project.csv` contiene información de las muestras  
     (por ejemplo, `eyecolor`, `replicate`, etc.).  
-    Se verifica que los nombres coincidan entre los conteos y los metadatos.
+    Se verifica que los nombres coincidan entre los conteos y los metadatos.    
+    ⭢ **En otras palabras**:   
+    La matriz counts solo tiene números. No "sabe" qué muestra es "ojo rojo" o "ojo blanco".   
+    - El archivo `coldata` (o metadata) es la clave que le da contexto a los datos.   
+    - Le dice a DESeq2: "la columna SRR32429928 corresponde a 'white', y la columna SRR32429938 corresponde a 'red'".   
+    - El comando `stopifnot()` es un seguro: si los nombres no coinciden perfectamente, el script se detendrá con un error. Esto previene análisis erróneos.
 
 ---
 
@@ -628,9 +672,17 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
             - Alternativa: `keep <- rowSums(counts(dds) >= 5) >= 2` para estudios con menos réplicas.
 - Importante: no normalices los conteos antes de pasarlos a `DESeq2` (DESeq2 calcula sus propios size factors).
 
+!!! tip "🧉 En criollo..." 
+    - `design = ~ eyecolor + replicate`: Esta es la fórmula del modelo. 
+    Le dice a DESeq2: "Quiero modelar los conteos basándome en la variable eyecolor (nuestro interés principal), pero también 'quitando' la variabilidad que provenga de la variable replicate (un factor de confusión)". 
+    - `Filtrado (rowSums >= 10)`: ¿Por qué filtramos? Para eliminar genes con conteos muy bajos (ej. 0, 1, 2 lecturas). Estos genes no tienen poder estadístico para ser detectados como diferenciales y solo añaden "ruido" al análisis, afectando el ajuste del modelo y la corrección por multiple testing. La regla "al menos 10 conteos en 3 muestras" es un filtro común y conservador. - relevel(..., ref = "red"):
+    - **¡Paso crítico!** Por defecto, R compara en orden alfabético (compararía "red" vs "white"). Al usar relevel, forzamos a que "red" (ojo rojo) sea la base o control. Esto significa que los resultados (log2FoldChange) se interpretarán como el cambio en "white" relativo a "red". Un LFC positivo significará que el gen está up-regulated en "white".
+
 ---
 
 ## Análisis diferencial
+
+El paso "mágico": ejecuta el pipeline de DESeq2 dds <- DESeq(dds)
 
 !!! note "Código en R"
     ```r
@@ -650,6 +702,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
     - Se aplica **shrinkage** al `log2FoldChange` para reducir ruido.  
     - Se guarda el resultado en un `data.frame`.
 
+
 ### Consejos sobre shrinkage y coeficientes
 
 - `lfcShrink()` mejora la estabilidad de los `log2FoldChange`, especialmente para genes con baja cobertura.
@@ -661,6 +714,13 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
             ```
             Usa el nombre exacto que corresponda al contraste (o utiliza `contrast=` en `results()` para evitar ambigüedades).
 - Interpreta los `log2FoldChange` en conjunto con `padj` (FDR). Un LFC grande pero no significativo (padj alto) no debe considerarse concluyente.
+
+!!! info "🧉 Explicando en criollo los pasos del análisis" 
+    - `dds <- DESeq(dds)`: Este único comando ejecuta los tres pasos clave del análisis: 
+     1. Estimación de "size factors": Calcula los factores de normalización para cada muestra (para corregir por diferencias en la profundidad de secuenciación).  
+     2. Estimación de dispersión: Calcula la variabilidad gen-por-gen y la "encoge" (shrinkage) hacia un promedio, dándole más poder estadístico a genes con baja expresión.  
+     3. Test (GLM): Ajusta un Modelo Lineal Generalizado (GLM) de tipo Binomial Negativo a cada gen y testea la significancia del coeficiente eyecolor. - results(dds, ...): Simplemente extrae la tabla de resultados del objeto dds para la comparación "white vs red". 
+    - `lfcShrink(...)`: ¿Qué es "shrinkage"? Es un "moderador". Los genes con pocos conteos pueden tener por azar un log2FoldChange (LFC) muy alto (ej. 1 lectura vs 8 lecturas = LFC de 3). El shrinkage "encoge" esos LFCs poco confiables hacia cero, dándonos una estimación más robusta del LFC real. Esencial para rankear genes y para visualización.
 
 ---
 
@@ -680,7 +740,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
     ```
 
 !!! tip
-    Traduce IDs de **Ensembl** a **símbolos de genes** y **nombres descriptivos** usando la base `org.Dm.eg.db`.
+     Nuestros resultados res_df tienen IDs de Ensembl (ej. FBGN0000003), que son precisos pero no muy legibles. mapIds usa el paquete `org.Dm.eg.db` para traducir esos IDs a Símbolos de gen (ej. w) y Nombres de gen (ej. white), que son mucho más fáciles de interpretar.
 
 ---
 
@@ -694,10 +754,13 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
     cat("Número de genes significativamente expresados:", nrow(sig_res), "\n")
     ```
 
-!!! info
-    Se seleccionan genes con:
-    - `padj < 0.05` (significativos tras corrección FDR).  
-    - `|log₂FC| > 1` (cambio biológicamente relevante).
+Se seleccionan genes con:    
+     - `padj < 0.05` (significativos tras corrección FDR).  
+     - `|log₂FC| > 1` (cambio biológicamente relevante).
+
+!!! info "🧉 Entendiendo los dos filtros"
+    - `padj < 0.05` **(Significancia Estadística)**: padj es el p-valor ajustado (o FDR). Un p-valor normal te dice la probabilidad de que un resultado sea por azar. Al testear ~20,000 genes, muchos saldrán "significativos" solo por azar. El padj corrige esto (control de Tasa de Falso Descubrimiento). Un padj < 0.05 significa que tenemos un 5% de FDR, lo cual es un estándar aceptable.
+    - `abs(log2FoldChange) > 1` **(Significancia Biológica)**: Un log2FoldChange de 1 equivale a un cambio de $2^1$ = 2 veces (el doble o la mitad). Este filtro nos asegura que solo nos quedamos con genes que no solo son estadísticamente significativos, sino que también muestran un cambio de magnitud (al menos 2x) que es más probable que sea biológicamente relevante.
 
 ---
 
@@ -721,13 +784,17 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
            color = "Significant")
     ```
 
-!!! info
-    - El **MA Plot** muestra desviaciones de expresión según abundancia.  
-    - El **Volcano Plot** combina magnitud (`log₂FC`) y significancia (`p-value`).
+!!! info "🧉"
+    - El **MA Plot** muestra desviaciones de expresión según abundancia.  En sí, es un control de calidad. Muestra el `log2FoldChange` (eje Y) contra la media de conteos (eje X). Deberíamos ver que la mayoría de los puntos (genes) están en cero, y los puntos rojos   
+    - El **Volcano Plot** combina magnitud (`log₂FC`) y significancia (`p-value`). Es el gráfico de resultados principal. Combina la significancia estadística (`-log10(padj)` en el eje Y) con la magnitud biológica (`log2FoldChange` en el eje X). Los genes en las "esquinas" superiores (ej. arriba a la derecha) son los más interesantes: alta significancia y gran cambio.
 
 ---
 
 ## Transformación de varianza (PCA + Heatmap)
+
+No podemos usar los conteos crudos para PCA/Heatmap!   
+Usamos **vst (Variance Stabilizing Transformation)**  
+`vsd <- vst(dds, blind = FALSE)`
 
 !!! note "Código en R"
     ```r
@@ -759,6 +826,11 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
         - `rlog()` produce transformaciones similares pero es computacionalmente más costoso; suele usarse en conjuntos pequeños para visualización fina.
         - Para PCA y clustering en datasets moderados/grandes, preferir `vst()`.
 
+!!! info "🧉 Más info en criollo sobre Transformación de Varianza (vst)" 
+    - *¿Por qué no usar los conteos crudos?*  En datos RNA-seq, los genes con más conteos (más expresión) también tienen más varianza. Esto es un problema para métodos como PCA o K-means, que asumen que la varianza es similar en todo el dataset.
+     - `vst()` (o `rlog()`) transforma los datos para que la varianza sea independiente de la media. Esto "estabiliza" la varianza y permite una comparación justa entre todos los genes y muestras. 
+     - **PCA**: Es el mejor control de calidad global. Nos permite ver si nuestras réplicas biológicas (replicate) agrupan juntas y si las condiciones (eyecolor) se separan. Si las réplicas no agrupan, ¡tienes un problema! 
+     - **Heatmap**: Muestra patrones. Aquí, graficamos los 50 genes más variables del dataset. Deberíamos ver un bloque de genes "encendidos" en "white" y "apagados" en "red", y viceversa.
 ---
 
 ## Análisis funcional (GO y KEGG)
@@ -782,16 +854,20 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
     dotplot(ego_compare, showCategory = 15, title = "GO MF Enrichment by Eye Color")
     ```
 
-!!! info
-    - Se identifican funciones moleculares (GO:MF) sobre-representadas.  
-    - Se compara entre condiciones (*white* y *red*).  
-    - Luego se realiza un enriquecimiento **KEGG** para detectar vías metabólicas afectadas.
+- Se identifican funciones moleculares (GO:MF) sobre-representadas.   
+- Se compara entre condiciones (*white* y *red*).    
+ - Luego se realiza un enriquecimiento **KEGG** para detectar vías metabólicas afectadas.  
 
 !!! tip "Notas sobre IDs y background"
     - `clusterProfiler` suele trabajar con **ENTREZID**; si tenés ENSEMBL, convertí usando `mapIds()` o `bitr()` (paquete `clusterProfiler`) antes del análisis.
     - Elegí adecuadamente el conjunto de genes de referencia (background). Para datos RNA-seq suele usarse la lista de genes filtrados tras el prefiltrado (no todos los genes del genoma).
     - Reportá siempre el método de corrección p (ej. BH) y el universo usado para el test de sobre-representación.
 
+
+!!! info "🧉 Más info en criollo sobre el Enriquecimiento Funcional (GO)" 
+    - **¿Cuál es el objetivo?** Ya tenemos nuestra lista de ~X00 genes significativos (ej. sig_res). Pero una lista de genes no dice mucho. Queremos saber: ¿Qué hacen estos genes? 
+    - **Test de sobrerrepresentación (ORA)**: El análisis GO toma nuestra lista y la compara con el "universo" de todos los genes. Pregunta: "De mis 200 genes significativos, 50 están involucrados en 'metabolismo de pigmentos'. ¿Es esto más de lo que esperaría por puro azar?"
+    - `enrichGO` hace este test estadístico y nos devuelve una lista de términos GO (ej. "transporte de pigmentos", "desarrollo ocular") que están "sobrerrepresentados" (enriquecidos) en nuestra lista de genes. Esto nos da la biología detrás de los cambios.
 ---
 
 ## Exportar resultados
@@ -807,5 +883,14 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
     - `DESeq2_all_results.csv`: todos los genes analizados.  
     - `DESeq2_significant_genes.csv`: solo los significativamente expresados.
 
+###Buenas Prácticas 
+Siempre es buena práctica guardar dos archivos:   
+    1. **Todos los resultados**: Incluye genes no significativos. Es útil si luego quieres ver qué pasó con un gen específico que no fue significativo.    
+    2. **Solo significativos**: La lista "limpia" que usarás para tus gráficos, reportes y análisis funcionales.   
 
+---
 
+En caso de querer trabajar con Salmon o de querer hacer estudios de Splicing, les dejamos estos ejercicios adicionales (con el manual) para que los tengan disponibles en caso de serles útiles. 
+
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: Adicional Salmon Deseq2</span>](https://drive.google.com/file/d/1Yrjk58VkLa7iAjwPpNPLrd1X_4DtDBls/view?usp=drive_link){ .md-button }
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: Adicional Splicing</span>](https://drive.google.com/file/d/1f--2TyS2n-87CK-MeCDDaMTU7C7lvSAE/view?usp=drive_link){ .md-button }
