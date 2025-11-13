@@ -23,7 +23,7 @@ En esta clase analizaremos **la calidad de las lecturas crudas y filtradas** de 
 
 ## 📄 Paper base
 
-**More than meets the eye: mutation of the *white* gene in *Drosophila* has broad phenotypic and transcriptomic effects**  
+***More than meets the eye: mutation of the white gene in Drosophila has broad phenotypic and transcriptomic effects***  
 *April Rickle, Krittika Sudhakar, Alix Booms, Ellen Stirtz, Adelheid Lempradl*  
 📘 *Genetics*, Volume 230, Issue 3, July 2025, iyaf097  
 🔗 [DOI: 10.1093/genetics/iyaf097](https://doi.org/10.1093/genetics/iyaf097)
@@ -34,7 +34,7 @@ En esta clase analizaremos **la calidad de las lecturas crudas y filtradas** de 
 
 ---
 
-## ⚙️ 0. Preparación del Entorno (¡Importante!)
+## ⚙️ Parte 0. Preparación del Entorno (¡Importante!)
 
 Antes de comenzar, es fundamental asegurarse de tener todas las herramientas instaladas. La forma más sencilla y recomendada de gestionar estas herramientas bioinformáticas es a través de **Conda** (específicamente, el canal `bioconda`).
 
@@ -71,7 +71,7 @@ Antes de comenzar, es fundamental asegurarse de tener todas las herramientas ins
     install.packages(c("ggplot2", "pheatmap", "tibble", "dplyr"))
     ```
 
-## Hands-on!
+## Comencemos!
 
 La primera parte de un pipeline adecuado en transcriptómica, comienza evaluando la **calidad de las lecturas RNA-seq** antes y después del trimeado utilizando, en este caso, las herramientas **FastQC**, **Trim Galore** y **MultiQC**.
 
@@ -84,11 +84,11 @@ Antes de comenzar el control de calidad, es importante **caracterizar las muestr
 
 En esta parte del práctico, el objetivo es que **ustedes mismos obtengan esta información** a partir de los datos crudos y los metadatos del paper.
 
-### 🕵️‍♀️ 1️⃣ Exploración de los archivos crudos
+### 🕵️‍♀️ Exploración de los archivos crudos
 
 Cada muestra está disponible como un archivo comprimido `.fastq.gz` dentro del directorio del proyecto. Vamos a explorar estos archivos usando diversas herramientas.
 
-#### 1.1 Exploración básica con comandos Unix y samtools
+#### Exploración básica con comandos Unix y samtools
 
 ```bash
 # Listar archivos y ver tamaños
@@ -154,7 +154,7 @@ zcat Drosophila_RNAseq_PRJNA1226617/SRR32429928_1.fastq.gz | wc -l | awk '{print
     - Se recomienda realizar un control de calidad con **FastQC** y aplicar **trimming**.  
     - Estos pasos aseguran una **mejor alineación** y **menor sesgo** en el análisis transcriptómico.
 
-🧾 2️⃣ Consultar los metadatos del estudio
+🧾Consultar los metadatos del estudio
 
 Otro camino suele ser que los metadatos asociados al experimento pueden obtenerse desde el NCBI SRA o desde el paper original.
 
@@ -892,5 +892,5 @@ Siempre es buena práctica guardar dos archivos:
 
 En caso de querer trabajar con Salmon o de querer hacer estudios de Splicing, les dejamos estos ejercicios adicionales (con el manual) para que los tengan disponibles en caso de serles útiles. 
 
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: Adicional Salmon Deseq2</span>](https://drive.google.com/file/d/1Yrjk58VkLa7iAjwPpNPLrd1X_4DtDBls/view?usp=drive_link){ .md-button }
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: Adicional Salmon DESeq2</span>](https://drive.google.com/file/d/1Yrjk58VkLa7iAjwPpNPLrd1X_4DtDBls/view?usp=drive_link){ .md-button }
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: Adicional Splicing</span>](https://drive.google.com/file/d/1f--2TyS2n-87CK-MeCDDaMTU7C7lvSAE/view?usp=drive_link){ .md-button }
