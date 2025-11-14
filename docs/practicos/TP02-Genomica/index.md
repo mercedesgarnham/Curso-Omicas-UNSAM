@@ -60,7 +60,7 @@ Existen numerosas bases de datos que albergan información genómica y genética
 * **[NCBI](https://www.ncbi.nlm.nih.gov/)**: La base de datos del National Center for Biotechnology Information (NCBI) también alberga secuencias genómicas y datos relacionados con _D. melanogaster_. 
 
 
-### 🕵️‍♀️ Ejercicio 1: Exploración de bases de datos 
+### ● Ejercicio 1: Exploración de bases de datos 
 
 Dentro de la carpeta **Materiales** van a encontrar los archivos necesarios para realizar el práctico. El genoma de referencia y sus anotaciones fueron obtenidas de **FlyBase**. Explorando la web de Flybase (pestaña **Downloads**), respondan:
 
@@ -108,9 +108,9 @@ Dentro de la carpeta **Materiales** van a encontrar los archivos necesarios para
     ```
 
 
-### 📄Ejercicio 2: Inspección de archivos FASTQ
+### ● Ejercicio 2: Inspección de archivos FASTQ
 
-En la carpeta **Materiales** van a encontrar dos archivos FASTQ que comienzan con _subset_ y terminan con _.fastq_. Estos archivos contienen una selección de las lecturas de secuenciación que vamos a analizar. Si quisieran obtener las lecturas completas, pueden descargarlas desde el [SRA](https://trace.ncbi.nlm.nih.gov/Traces/?view=run_browser&acc=SRR33554827&display=download). 
+En la carpeta **Materiales** van a encontrar dos archivos FASTQ que comienzan con _subset_ y terminan con _.fastq_. Estos archivos contienen **una selección** de las lecturas de secuenciación que vamos a analizar. Si quisieran obtener las lecturas completas, pueden descargarlas desde el [SRA](https://trace.ncbi.nlm.nih.gov/Traces/?view=run_browser&acc=SRR33554827&display=download). 
 
 !!! question " "
 
@@ -164,7 +164,7 @@ La calidad de las lecturas de secuenciación es un aspecto crucial en los análi
 
 * **Adapter Content**: Este gráfico muestra la **presencia de secuencias de adaptadores** en las lecturas. La presencia de adaptadores puede interferir con el mapeo y otros análisis, por lo que es importante identificarlos y eliminarlos si es necesario.
 
-### 🧪 Ejercicio 3: Control de calidad de las lecturas
+### ● Ejercicio 3: Control de calidad de las lecturas
 
 Para evaluar la calidad de las lecturas que tenemos en la carpeta *Materiales*, vamos a utilizar **FastQC**. 
 
@@ -218,9 +218,9 @@ Durante el alineamiento, lo que hacemos es encontrar la posición en el genoma d
 
 Existen varias herramientas para realizar el alineamiento de lecturas, entre las más populares se encuentran **BWA** y **Bowtie2**. La elección del alineador depende del tipo y largo de las lecturas, del hardware con el que contemos y del balance entre velocidad/exactitud que sea útil para nuestro análisis.En este práctico, vamos a utilizar **BWA-MEM** (un algoritmo de alineamiento de BWA) debido a su eficiencia y precisión en el alineamiento de lecturas cortas.
 
-### 🗺️ Ejercicio 4: Indexado del genoma de referencia
+### ● Ejercicio 4: Indexado del genoma de referencia
 
-Antes de alinear las lecturas, necesitamos preparar el genoma de referencia para que pueda ser utilizado por el alineador. Este proceso se llama **indexado** y crea una estructura de datos que permite búsquedas rápidas durante el alineamiento. 
+Antes de alinear las lecturas, **necesitamos preparar el genoma de referencia** para que pueda ser utilizado por el alineador. Este proceso se llama **indexado** y crea una estructura de datos que permite búsquedas rápidas durante el alineamiento. 
 
 Para indexar el genoma de referencia, corran en la terminal:
 
@@ -243,7 +243,7 @@ Los archivos generados son índices que permiten a BWA realizar búsquedas rápi
 | **.pac** | Contiene la secuencia del genoma en un formato comprimido. |
 | **.sa** | Es el índice de sufijos, que también facilita la búsqueda de patrones en el genoma. |
 
-### Ejercicio 5: Alineamiento de las lecturas
+### ● Ejercicio 5: Alineamiento de las lecturas
 
 Ahora que tenemos el genoma de referencia indexado, podemos proceder a alinear nuestras lecturas de secuenciación. Utilizaremos el comando `bwa mem` para este propósito. Corran en la terminal:
 
@@ -272,3 +272,49 @@ Vamos a realizar la conversión y ordenamiento del archivo SAM a BAM utilizando 
 !!! question "Preguntas"
     3. ¿Qué diferencias hay entre los archivos .sam y .bam (prueben explorar con `head` el archivo .bam)? 
     4. ¿Cuál es el factor de compresión?
+
+Por último, asi como indexamos el genoma de referencia, también es recomendable indexar el archivo BAM ordenado. Esto va a hacer que los _genome browsers_  puedan acceder rápidamente a las lecturas alineadas en posiciones específicas del genoma. 
+
+Corran en la terminal:
+
+```bash
+  # Recuerden estar en la carpeta Outputs donde está el archivo .bam
+
+  samtools index subset_SRR33554828_bwa_sorted.bam
+
+```
+
+!!! info "índice BAM (.bai)"
+
+    Al indexar el archivo BAM, se genera un archivo adicional con la extensión `.bai`. Este archivo, como su nombre lo indica, actúa como el índice de un libro. Si el browser quiere ver, por ejemplo, el cromosoma 2L, no tiene que leer todo el archivo BAM. Lo que hace es consultar el archivo .bai para saber en qué parte del archivo BAM se encuentran las lecturas correspondientes a ese cromosoma, y así puede acceder directamente a esa sección, ahorrando tiempo y recursos.
+
+## 🖥️ Visualización interactiva con JBrowse2
+
+Un _genome browser_ es una herramienta que permite visualizar y explorar datos genómicos de manera interactiva. Estos navegadores proporcionan una interfaz gráfica donde los usuarios pueden ver secuencias de ADN, anotaciones genómicas, lecturas alineadas y otros tipos de datos relacionados con el genoma.
+
+En este TP vamos a utilizar **JBrowse2**, un navegador genómico moderno y altamente personalizable. Este browser se maneja cargando _tracks_ (capas) de datos genómicos que pueden incluir secuencias de referencia, anotaciones de genes, lecturas alineadas y variantes genéticas.
+
+!!! info "Instrucciones de instalación de JBrowse2"
+
+    Tanto en las máquinas del laboratorio como si están trabajando con sus computadoras de forma virtual, van a necesitar instalar JBrowse2.  Elijan la pestaña que corresponda a su método de cursada
+
+    === "Laboratorio"
+
+        1. Abran una terminal y asegúrense de estar en su carpeta home:
+
+        ```bash
+          cd ~
+        ```
+
+        2. Descarguen JBrowse2 utilizando `wget`:
+
+    === "Virtual"
+
+        1. Abran una terminal y asegúrense de estar en su carpeta home:
+
+        ```bash
+          cd ~
+        ```
+
+        2. Descarguen JBrowse2 utilizando `wget`:
+
