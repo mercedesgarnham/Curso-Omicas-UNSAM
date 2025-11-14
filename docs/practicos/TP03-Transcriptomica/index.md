@@ -110,42 +110,43 @@ zcat Drosophila_RNAseq_PRJNA1226617/SRR32429928_1.fastq.gz | wc -l | awk '{print
     3. Línea separadora con +
     4. Calidades en formato Phred+33
 
-
 !!! question "Preguntas"
-    - ¿Qué información podés obtener del encabezado (@SRR...)?
-    - ¿Podés identificar si la lectura es paired-end o single-end?
-    - ¿Qué longitud tienen las secuencias?
-    - ¿Qué nos dice la distribución de calidades?
 
+    === "Preguntas"
+    
+        1. ¿Qué información podés obtener del encabezado (@SRR...)?
+        2. ¿Podés identificar si la lectura es paired-end o single-end?
+        3. ¿Qué longitud tienen las secuencias?
+        4. ¿Qué nos dice la distribución de calidades?
 
-??? success "🔹 ¿Qué información podés obtener del encabezado (@SRR...)?"
+    === "Respuesta 1"
 
-    - **Identificador del experimento:** SRR32429928 (acceso SRA, indica el conjunto de lecturas del estudio).  
-    - **Número de lectura:** .1, .2, .3, etc., identifican cada lectura individual.  
-    - **Información del instrumento:** AV234602:FC336:2416495127 hace referencia al identificador del flujo y la celda del secuenciador.  
-    - **Coordenadas de la lectura en el flowcell:** 1:10102:0091:0008 indican el número de la celda, la hilera y la columna donde se leyó la secuencia.  
-    - **Longitud declarada de la lectura:** length=75.
+        - **Identificador del experimento:** SRR32429928 (acceso SRA, indica el conjunto de lecturas del estudio).
+        - **Número de lectura:** .1, .2, .3, etc., identifican cada lectura individual.
+        - **Información del instrumento:** AV234602:FC336:2416495127 hace referencia al identificador del flujo y la celda del secuenciador.
+        - **Coordenadas de la lectura en el flowcell:** 1:10102:0091:0008 indican el número de la celda, la hilera y la columna donde se leyó la secuencia.
+        - **Longitud declarada de la lectura:** length=75.
 
-??? success "🔹 ¿Podés identificar si la lectura es *paired-end* o *single-end*?"
+    === "Respuesta 2"
 
-    Es pair-end porque los archivos terminan en _1 y _2 respectivamente.
+        Es pair-end porque los archivos terminan en _1 y _2 respectivamente.
 
-??? success "🔹 ¿Qué longitud tienen las secuencias?"
+    === "Respuesta 3"
 
-    La longitud indicada en el encabezado y confirmada al inspeccionar las secuencias es de **75 nucleótidos** (length=75).  
+        La longitud indicada en el encabezado y confirmada al inspeccionar las secuencias es de **75 nucleótidos** (length=75).
 
-??? success "🔹 ¿Qué nos dice la distribución de calidades?"
+    === "Respuesta 4"
 
-    En la línea de calidad (la que comienza con +), cada carácter representa la **calidad Phred** de un nucleótido.  
-    Por ejemplo:
-    ```
-    GLLLLLLLMMMMNMMNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-    ```
-
-    - Los caracteres como L, M, N, G corresponden a **valores ASCII** que indican distintas calidades de lectura.  
-    - Las letras **más altas en el alfabeto ASCII** representan **mayor calidad**.  
-    - Se observa una **disminución progresiva en la calidad** hacia el final de la secuencia (más N), algo común en lecturas Illumina.  
-    - Esto sugiere que el **extremo 3’** de las lecturas tiende a tener **menor confianza en la llamada de bases** y puede requerir **trimming** antes del alineamiento.
+        En la línea de calidad (la que comienza con +), cada carácter representa la **calidad Phred** de un nucleótido.
+        Por ejemplo:
+        ```
+        GLLLLLLLMMMMNMMNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+        ```
+        
+        - Los caracteres como L, M, N, G corresponden a **valores ASCII** que indican distintas calidades de lectura.
+        - Las letras **más altas en el alfabeto ASCII** representan **mayor calidad**.
+        - Se observa una **disminución progresiva en la calidad** hacia el final de la secuencia (más N), algo común en lecturas Illumina.
+        - Esto sugiere que el **extremo 3’** de las lecturas tiende a tener **menor confianza en la llamada de bases** y puede requerir **trimming** antes del alineamiento.
 
 ??? tip "Interpretación general y próximos pasos"
 
