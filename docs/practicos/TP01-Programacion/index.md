@@ -39,7 +39,7 @@ En bioinformática y análisis de datos, Linux ofrece ventajas importantes: perm
 A través de la terminal, los usuarios pueden interactuar directamente con el sistema operativo, ejecutar programas, gestionar archivos y carpetas, y combinar herramientas de manera flexible.
 
 
-## Introducción a Bash
+### Introducción a Bash
 
 Bash (Bourne Again SHell) es un intérprete de comandos que permite interactuar con el sistema operativo mediante texto.  
 
@@ -47,8 +47,7 @@ Usando Bash, los usuarios pueden navegar entre carpetas, gestionar archivos, eje
 
 En bioinformática, Bash es fundamental para procesar grandes volúmenes de datos, lanzar pipelines de análisis y manipular archivos de secuenciación de manera eficiente sin necesidad de interfaces gráficas.
 
-### Abrir la terminal
-!!! tip " "
+!!! tip "Abrir la terminal"
   
     === "Desde Linux"
         1. Presionar `Ctrl + Alt + T`  
@@ -62,7 +61,7 @@ En bioinformática, Bash es fundamental para procesar grandes volúmenes de dato
         wsl
         ```
 
-### Conceptos básicos al escribir comandos
+*Conceptos básicos al escribir comandos*
 
 - Los comandos se escriben en **minúsculas** y respetando espacios entre palabras.  
 - Un comando suele tener la siguiente estructura:  
@@ -79,7 +78,7 @@ comando [opciones] [argumentos]
 - Se pueden usar **tabulaciones** para autocompletar nombres de archivos o carpetas, evitando errores de tipeo.  
 - Los **comentarios** se escriben con `#` y la terminal los ignora, útil para documentar scripts.
 
-### Comandos básicos de Bash
+#### Comandos básicos de Bash
 
 A continuación hay una lista de los comandos más usados en Bash, vamos a ir viendo los más importantes para este curso en la siguiente sección
 
@@ -109,65 +108,65 @@ A continuación hay una lista de los comandos más usados en Bash, vamos a ir vi
 | `|`     | Pipe: envía la salida de un comando como entrada de otro | `cat archivo.txt | grep "gene"` → filtra líneas con "gene" |
 | `*`     | Comodín que representa cualquier cadena de caracteres | `ls *.fastq` → lista todos los archivos que terminan en `.fastq` |
 
+#### Errores más comunes en Bash
+
 ??? note "Errores más comunes en Bash"
 
     A continuación se presenta una lista de los errores típicos al usar Bash en Linux.
 
-    ## 1. Comando no encontrado
+    *1. Comando no encontrado*
     `command not found`  
     Ocurre cuando el comando está mal escrito o no está instalado.
 
-    ## 2. Archivo o directorio inexistente
+    *2. Archivo o directorio inexistente*
     `No such file or directory`  
     La ruta está mal escrita, el archivo no existe o estás en otro directorio.
 
-    ## 3. Permiso denegado
+    *3. Permiso denegado*
     `Permission denied`  
     Intentás ejecutar o acceder a algo sin permisos suficientes.
 
-    ## 4. Error de sintaxis
+    *4. Error de sintaxis*
     `syntax error`  
     Paréntesis, comillas, corchetes o símbolos mal usados.
 
-    ## 5. Opción inválida
+    *5. Opción inválida*
     `invalid option`  
     Usaste una bandera que ese comando no reconoce.
 
-    ## 6. Argumentos faltantes
+    *6. Argumentos faltantes*
     El comando necesita más información para poder ejecutarse.
 
-    ## 7. Archivo bloqueado por otro proceso
+    *7. Archivo bloqueado por otro proceso*
     No podés borrar, mover o modificar un archivo que está siendo usado por otro programa.
 
-    ## 8. Variables o rutas mal expandidas
+    *8. Variables o rutas mal expandidas*
     Errores con `$variable`, `~` o rutas entre comillas.
 
-    ## 9. Sobrescritura accidental o archivos vacíos
+    *9. Sobrescritura accidental o archivos vacíos*
     El comando no falla, pero genera un resultado incorrecto o vacío.
 
-    ## 10. Problemas con espacios en nombres de archivos
+    *10. Problemas con espacios en nombres de archivos*
     Rutas como `mi archivo de datos.csv` requieren comillas o barra invertida.
 
-    ## 11. Entorno mal configurado
+    *11. Entorno mal configurado*
     PATH roto, conda no activado o módulos no cargados.
 
-    ## 12. Redirecciones o pipes mal usados
+    *12. Redirecciones o pipes mal usados*
     Errores con `|`, `>`, `<` o combinaciones mal colocadas.
 
-    ## 13. Bucles infinitos en scripts
+    *13. Bucles infinitos en scripts*
     Errores lógicos que hacen que el script no termine.
 
-    ## 14. Caracteres especiales o codificaciones problemáticas
+    *14. Caracteres especiales o codificaciones problemáticas*
     Tildes, emojis o caracteres invisibles que rompen el comando.
-
-
 
 ### Navegación y cambio de directorio en Bash
 
 En la terminal de Linux/Ubuntu, es fundamental saber **dónde estamos ubicados** y cómo movernos entre carpetas.  
 Esto permite ejecutar comandos sobre los archivos correctos y organizar proyectos de manera eficiente.
 
-#### Comando para ver la ubicación actual
+**Comando para ver la ubicación actual**
 
 ```bash
 pwd
@@ -181,11 +180,12 @@ Ejecutar el comando `pwd` y leer la salida
 
 ### Crear `mkdir` y eliminar `rmdir` carpetas
 
-#### ¿Qué hacen?
+**¿Qué hacen?**
+
 - `mkdir` → Crear nuevas carpetas.  
 - `rmdir` → Eliminar carpetas vacías.
 
-#### Sintaxis general
+**Sintaxis general**
 
 ```bash
 # Crear una carpeta
@@ -252,7 +252,7 @@ cd nombre_de_carpeta
 - Para ir al directorio personal del usuario se usa: `cd ~`  
 
 
-**Ejemplos prácticos**
+#### Ejemplos
 
 ```bash
 cd datos/                 # va al subdirectorio "datos"
@@ -310,7 +310,7 @@ cd /home/usuario/proyecto  # va directamente a la ruta absoluta
         $ cd archivo.txt
         bash: cd: archivo.txt: Not a directory
 
-**Buenas prácticas**
+#### Buenas prácticas
 
 1. Siempre verificar la ubicación actual con `pwd` antes de cambiar de carpeta.  
 2. Usar **tabulaciones** para autocompletar nombres de carpetas y evitar errores de tipeo.  
@@ -321,10 +321,10 @@ Ejecutar el comando `cd` para ingresar a la carpeta "TP01"
 
 ### Descargar archivos de un URL `wget`
 
-#### ¿Qué hace?
+**¿Qué hace?**
 `wget` permite descargar archivos desde una URL directamente a tu computadora. Es muy útil para obtener genomas, secuencias, scripts o datos de bancos en línea.
 
-#### Sintaxis general
+**Sintaxis general**
 ```bash
 wget [opciones] URL
 ```
@@ -353,20 +353,103 @@ wget -c https://example.org/archivo_grande.fasta
 ```
 
 
-### Buenas prácticas
+#### Buenas prácticas
 - Usar siempre URLs confiables y documentarlas en un README.  
 - Para archivos grandes, usar `-c` para poder continuar la descarga si se corta.  
 - Evitar descargar directamente a carpetas críticas; primero descargar en una carpeta de trabajo.  
 - Verificar el archivo descargado (tamaño, checksum) antes de usarlo en análisis.
 
-##### Ejercicio 3
+##### Ejercicio 4
 Ejecutar el comando `wget` para descargar los datos de este práctico 
+
+```bash
+wget https://github.com/mercedesgarnham/Curso-Omicas-UNSAM/raw/refs/heads/main/docs/practicos/TP01-Programacion/datos.tar
+```
+
+### Descomprimir carpetas `tar` y archivos `gunzip` y `zcat`
+
+**¿Qué hacen?**
+- `tar` → permite **empaquetar múltiples archivos y carpetas en un solo archivo** (tarball), y también **extraerlos**.  
+- `gunzip` → Descomprime archivos `.gz`.  
+- `zcat` → Muestra el contenido de archivos `.gz` sin descomprimirlos en disco.
+
+**Sintaxis general**
+
+```bash
+# Crear un tarball
+tar -cf archivo.tar carpeta_o_archivos
+
+# Extraer un tarball
+tar -xf archivo.tar
+
+# Ver contenido de un tarball
+tar -tf archivo.tar
+
+# Descomprimir un archivo
+gunzip [opciones] archivo.gz
+
+# Mostrar contenido de un archivo comprimido
+zcat [opciones] archivo.gz
+```
+
+- `archivo.gz` → archivo comprimido en formato gzip  
+- `[opciones]` → parámetros adicionales como `-c` para salida a pantalla o `-f` para forzar la acción
+
+#### Ejemplos
+
+Descomprimir un archivo
+
+```bash
+gunzip sample.fasta.gz
+```
+
+Descomprimir varios archivos a la vez
+
+```bash
+gunzip *.gz
+```
+
+Mostrar contenido de un archivo comprimido sin descomprimirlo
+
+```bash
+zcat sample.fasta.gz
+```
+
+Redirigir la salida de `zcat` a otro archivo
+
+```bash
+zcat sample.fasta.gz > sample.fasta
+```
+
+#### Buenas prácticas
+- Siempre verificar que tienes suficiente espacio antes de descomprimir archivos grandes.  
+- Usar `zcat` cuando quieras inspeccionar rápidamente el contenido sin ocupar espacio adicional.  
+- Evitar sobreescribir archivos importantes al redirigir la salida; usar nombres descriptivos.  
+- Combinar con otros comandos usando pipes, por ejemplo:
+
+```bash
+zcat sample.fasta.gz | grep "ATG"
+```
+
+##### Ejercicio 5
+Ejecutar el comando `tar` para descargar los datos de este práctico 
+
+```bash
+tar -xf datos.tar
+```
+
+##### Ejercicio 6
+Ejecutar el comando `gunzip` para descargar los datos de este práctico 
+
+```bash
+gunzip *.fasta.gz
+```
 
 ### Comandos `head` y `tail`
 
 Los comandos `head` y `tail` permiten **ver partes de un archivo de texto** sin abrirlo completo, lo cual es útil para inspeccionar archivos grandes, como FASTQ o CSV.
 
-#### `head`
+** Ver el comienzo de un archivo con `head` **
 
 - Muestra las primeras líneas de un archivo.  
 - Por defecto, muestra las **primeras 10 líneas**, pero se puede cambiar con la opción `-n`.
@@ -379,7 +462,7 @@ head sample.fastq
 head -n 20 sample.fastq
 ```
 
-#### `tail`
+** Ver el final de un archivo con `tail`**
 
 - Muestra las últimas líneas de un archivo.  
 - También por defecto son 10 líneas, modificables con `-n`.
@@ -476,17 +559,28 @@ tail -n 15 sample.fastq
         head Mis\ Datos/datos.txt
 
 
-**Buenas prácticas**
+#### Buenas prácticas
 
 1. Usar `head` para revisar rápidamente la estructura de archivos grandes.  
 2. Usar `tail` para monitorear archivos que se actualizan continuamente (como logs).  
+
+##### Ejercicio 7
+Ejecutar el comando `head` y `tail` para visualizar group_1.fasta
+
+```bash
+head group_1.fasta
+```
+
+```bash
+tail group_1.fasta
+```
 
 ### Comando `wc -l` y uso de comodines `*`
 
 En bioinformática es común tener **muchos archivos** de secuenciación (FASTQ, BAM, etc.).  
 El comodín `*` permite seleccionar varios archivos a la vez, y `wc -l` sirve para contar líneas, útil para saber cuántas lecturas hay en un FASTQ (cada lectura ocupa 4 líneas).
 
-#### Contar líneas del archivo
+**Contar líneas del archivo con  `wc -l`**
 
 Descargá de los materiales los archivos .fasta
 
@@ -499,7 +593,7 @@ wc -l group_1.fasta
 - La opción `-l` muestra **solo las líneas**.  
 - Cada lectura en un FASTA tiene 2 líneas → un header (">") y la secuencia
 
-#### Contar líneas en varios archivos con comodín `*`
+**Contar líneas en varios archivos con comodín `*`**
 
 ```bash
 # Contar líneas de todos los archivos que terminan en "1.fastq"
@@ -515,11 +609,9 @@ wc -l *.fasta
   4251533 group_4.fasta
   8124884 total
 ```
-- Para calcular lecturas por archivo, dividir cada número por 2.
 
-#### Ejemplo práctico para estudiantes
 
-**Buenas prácticas**
+#### Buenas prácticas
 
 - Revisar que los archivos seleccionados por el comodín sean los correctos con `ls *.fasta` antes de ejecutar `wc -l`.  
 
@@ -527,13 +619,13 @@ wc -l *.fasta
 
 En Bash, el **pipe (`|`)** permite **conectar la salida de un comando con la entrada de otro**, lo que facilita procesar datos de manera eficiente sin generar archivos intermedios.
 
-#### Concepto
+**Concepto**
 
 - Cada comando en la terminal produce una **salida estándar** (stdout).  
 - La pipe `|` toma esa salida y la pasa como **entrada estándar** (stdin) al siguiente comando.  
 - Esto permite **encadenar comandos**, filtrando, contando o transformando información en un solo paso.
 
-**Ejemplos usando comandos básicos**
+#### Ejemplos
 
 ```bash
 # Contar cuántos archivos FASTQ hay en el directorio
@@ -553,7 +645,7 @@ head group_1.fasta | wc -l
 tail -n 15 group_1.fasta | wc -l
 ```
 
-**Buenas prácticas**
+#### Buenas prácticas
 
 1. Probar cada comando por separado antes de encadenarlos con `|`.  
 2. Usar pipes para **evitar crear archivos temporales innecesarios**.  
@@ -561,11 +653,11 @@ tail -n 15 group_1.fasta | wc -l
 
 ### Comandos para mover `mv` y copiar `cp` archivos
 
-#### ¿Qué hacen?
+**¿Qué hacen?**
 - `mv` → Mover o renombrar archivos o carpetas.  
 - `cp` → Copiar archivos o carpetas.
 
-#### Sintaxis general
+**Sintaxis general**
 ```bash
 # Mover o renombrar
 mv [opciones] origen destino
@@ -614,13 +706,24 @@ cp -i archivo destino/
 Mantener nombres descriptivos y consistentes para archivos y carpetas, por ejemplo:  
 `sample_01_R1.fastq.gz` en lugar de `a.fastq`.
 
+##### Ejercicio 8
+Ejecutar el comando generar una carpeta llamada resultados, ingresar a la carpeta y copiar todos los fastas usando el comando  `cp`
+
+```bash
+cp ../*.fasta . 
+```
+
 ### Procesamiento de tablas usando `awk`
 
-#### ¿Qué hace?
+!!! info ""
+        En esta práctica no vamos a usar awk para explorar tablas pero es importante que sepan el uso del comando para las siguientes clases.
+
+
+**¿Qué hace?**
 `awk` es un mini-lenguaje para procesar texto basado en columnas.  
 Se usa mucho en bioinformática para analizar tablas, TSV, BED, GTF y archivos similares.
 
-#### Sintaxis general
+**Sintaxis general**
 
 ```bash
 awk 'condición {acción}' archivo
@@ -667,7 +770,6 @@ Saltar la primera línea (por ejemplo encabezado)
 awk 'NR>1 {print $2}' archivo.tsv
 ```
 
-
 #### Buenas prácticas
 - Probar los comandos primero con archivos pequeños antes de procesar grandes volúmenes de datos.  
 - Usar comillas simples `' '` para delimitar el programa de `awk`.  
@@ -678,67 +780,12 @@ awk 'NR>1 {print $2}' archivo.tsv
 awk '{print $1 "\t" $3}' archivo.tsv > salida.tsv
 ```
 
-### Descomprimir archivos `gunzip` y `zcat`
-
-#### ¿Qué hacen?
-- `gunzip` → Descomprime archivos `.gz`.  
-- `zcat` → Muestra el contenido de archivos `.gz` sin descomprimirlos en disco.
-
-#### Sintaxis general
-
-```bash
-# Descomprimir un archivo
-gunzip [opciones] archivo.gz
-
-# Mostrar contenido de un archivo comprimido
-zcat [opciones] archivo.gz
-```
-
-- `archivo.gz` → archivo comprimido en formato gzip  
-- `[opciones]` → parámetros adicionales como `-c` para salida a pantalla o `-f` para forzar la acción
-
-#### Ejemplos
-
-Descomprimir un archivo
-
-```bash
-gunzip sample.fasta.gz
-```
-
-Descomprimir varios archivos a la vez
-
-```bash
-gunzip *.gz
-```
-
-Mostrar contenido de un archivo comprimido sin descomprimirlo
-
-```bash
-zcat sample.fasta.gz
-```
-
-Redirigir la salida de `zcat` a otro archivo
-
-```bash
-zcat sample.fasta.gz > sample.fasta
-```
-
-#### Buenas prácticas
-- Siempre verificar que tienes suficiente espacio antes de descomprimir archivos grandes.  
-- Usar `zcat` cuando quieras inspeccionar rápidamente el contenido sin ocupar espacio adicional.  
-- Evitar sobreescribir archivos importantes al redirigir la salida; usar nombres descriptivos.  
-- Combinar con otros comandos usando pipes, por ejemplo:
-
-```bash
-zcat sample.fasta.gz | grep "ATG"
-```
-
 ### Navegación de manuales
 
 FastQC es una herramienta para **control de calidad de archivos FASTQ**.  
 Antes de usar cualquier comando, es recomendable consultar su manual para entender todas las opciones disponibles.
 
-#### Abrir el manual de FastQC
+**Abrir el manual de FastQC**
 
 ```bash
 man fastqc
@@ -747,7 +794,7 @@ man fastqc
 - `man` (manual) muestra la documentación de cualquier comando instalado en el sistema.  
 - Permite leer todas las opciones, parámetros y ejemplos de uso del programa.
 
-#### Navegación básica dentro de un manual (`man`)
+**Navegación básica dentro de un manual (`man`)**
 
 - **Flechas arriba/abajo**: moverse línea por línea.  
 - **Barra espaciadora**: avanzar una página completa.  
@@ -756,8 +803,7 @@ man fastqc
 - **/palabra**: buscar una palabra dentro del manual.  
 - **n**: ir al siguiente resultado de la búsqueda.  
 
-
-#### Guardar la salida de un comando en un archivo de texto 
+**Guardar la salida de un comando en un archivo de texto**
 
 En la terminal podés guardar la salida de un comando usando los operadores `>` y `>>`.
 
@@ -784,8 +830,7 @@ echo "Nueva línea" >> manual_fastqc.txt
 head manual_fastqc.txt > manual_fastqc.txt
 ```
 
-
-**Ejemplo práctico**
+#### Ejemplo práctico
 
 ```bash
 # Buscar rápidamente todas las opciones de salida de FastQC
@@ -794,7 +839,7 @@ man fastqc
 # Presionar n para navegar entre los resultados de la búsqueda
 ```
 
-**Buenas prácticas**
+#### Buenas prácticas
 
 1. Consultar siempre el manual de un comando antes de usarlo para evitar errores.  
 2. Combinar la lectura del manual con ejemplos prácticos para entender mejor cada opción.  
@@ -808,14 +853,14 @@ Los **scripts en Bash** permiten automatizar estas tareas, hacerlas reproducible
 !!! info ""
     En este curso no vamos a elaborar scripts, pero está sección les explica como hacerlo en caso de que lo necesiten
 
-#### Qué es un script
+**Qué es un script**
 
 - Un **script** es un archivo de texto que contiene una serie de comandos de Bash que se ejecutan en secuencia.  
 - Permite **automatizar análisis**, por ejemplo: contar lecturas, mover archivos o ejecutar pipelines completos.
 
-##### Ejercicio 1
+##### Ejercicio 9
 
-En  los materiales encontrarán el script `contar_fastq.sh`.
+En los materiales encontrarán el script `contar_fastq.sh`.
 
 1. Abrir el archivo de texto y leer los comandos. ¿Qué hace cada uno?
 
@@ -871,7 +916,7 @@ chmod +x contar_fastq.sh
 
 - `chmod +x` permite que el script se pueda ejecutar como un programa.  
 
-### Ejecutar un script
+Y luego correr:
 
 ```bash
 ./contar_fastq.sh
@@ -879,7 +924,7 @@ chmod +x contar_fastq.sh
 
 - `./` indica que el script se encuentra en el directorio actual.  
 
-**Buenas prácticas**
+#### Buenas prácticas
 
 1. Documentar cada comando dentro del script usando comentarios (`#`).  
 2. Probar el script con **archivos de ejemplo** antes de usarlo con datos importantes.  
@@ -897,7 +942,7 @@ Para cada uno de los archivos `.fastav de los materiales
     === "Preguntas"
         1. Generar una carpeta nueva para guardar los resultados de este ejercicio
         2. Ingresar a la nueva carpeta
-        3. Copiar los archivos fasta de los materiales a la carpeta nueva
+        3. Copiar los archivos .fasta de los materiales a la carpeta nueva
         4  Imprimir por terminal las primeras 5 lineas de cada archivo fasta
         5. Imprimir por terminal el encabezado de cada secuencia.
         6. Imprimir por terminal la cantidad de secuencias por archivo
@@ -906,42 +951,49 @@ Para cada uno de los archivos `.fastav de los materiales
         8. Bonus: Guardar todos los comandos anteriores en un script y ejecutarlo de maner tal que el script guarde las salidas de cada paso en un archivo de texto
 
     === "Respuesta 1"
+        1. Generar una carpeta nueva para guardar los resultados de este ejercicio
 
         ```bash
-        mkdir resultados # Reemplaza 
+        mkdir resultados 
         ```
 
     === "Respuesta 2"
+        2. Ingresar a la nueva carpeta
 
         ```bash
         cd resultados
         ```
 
     === "Respuesta 3"
+        3. Copiar los archivos .fasta de los materiales a la carpeta nueva
 
         ```bash
         cp ../*.fasta .
         ```
 
     === "Respuesta 4"
+        4  Imprimir por terminal las primeras 5 lineas de cada archivo fasta
 
         ```bash
         head -5 archivo.fasta # Reemplaza archivo.fasta por el nombre correcto del archivo
         ```
 
     === "Respuesta 5"
+        5. Imprimir por terminal el encabezado de cada secuencia.
 
         ```bash
         grep "^>" archivo.fasta # Reemplaza archivo.fasta por el nombre correcto del archivo
         ```
 
     === "Respuesta 6"
+        6. Imprimir por terminal la cantidad de secuencias por archivo
 
         ```bash
         grep ">" archivo.fasta | wc -l # Reemplaza archivo.fasta por el nombre correcto del archivo
         ```
 
     === "Respuesta 7"
+        7. Guardar en un archivo de texto el nombre de cada archivo fasta y la cantidad de secuencias
 
         ```bash
         echo "group_1.fasta" > salida.txt 
@@ -980,7 +1032,7 @@ Es especialmente útil para bioinformática, donde los análisis requieren repro
 En R, las variables son **contenedores de datos**.  
 Es importante conocer los **tipos de datos** y cómo crearlas, ya que esto determina qué operaciones se pueden realizar sobre ellas.
 
-#### Ver tipo de datos de una variable
+**Ver tipo de datos de una variable**
 
 - Para conocer el tipo de una variable se usa la función `class()`.
 
@@ -1020,7 +1072,7 @@ activo <- TRUE
 | factor     | factor(c("A","B")) | Variables categóricas                        |
 | integer    | 5L            | Enteros (se especifica con L al final)        |
 
-**Buenas prácticas**
+#### Buenas prácticas
 
 1. Nombrar variables de forma clara y consistente.  
 2. Usar `class()` y `str()` para verificar el tipo y la estructura de las variables.  
@@ -1031,6 +1083,74 @@ activo <- TRUE
 En R, un **data frame** es una estructura que permite almacenar datos en **filas y columnas**, similar a una tabla de Excel.  
 Saber abrir y manipular un data frame es fundamental para analizar datos de manera eficiente.
 
+## Importar CSV y datasets en R: rutas y opciones
+
+### 1️⃣ Importar un CSV desde una ruta local
+
+```r
+# Ruta absoluta
+df <- read.csv("/home/usuario/proyecto/expresion_genica.csv", header = TRUE, sep = ",")
+
+# Ruta relativa (desde el directorio de trabajo actual)
+df <- read.csv("expresion_genica.csv", header = TRUE, sep = ",")
+
+# Ver primeras filas
+head(df)
+```
+
+- Para ver el directorio de trabajo actual:  
+```r
+getwd()
+```
+- Para cambiar el directorio de trabajo:  
+```r
+setwd("/home/usuario/proyecto")
+```
+
+---
+
+### 2️⃣ Importar CSV desde una URL
+
+```r
+url <- "https://raw.githubusercontent.com/mercedesgarnham/Curso-Omicas-UNSAM/main/docs/practicos/TP01-Programacion/expresion_genica.csv" # es un
+df <- read.csv(url, header = TRUE, sep = ",")
+head(df)
+```
+
+- Muy útil para datasets disponibles en línea  
+- Asegurarse de usar la **versión “raw”** del archivo en GitHub u otros repositorios
+
+---
+
+### 3️⃣ Usar datasets incluidos en R
+
+```r
+# Cargar dataset de ejemplo
+data("mtcars")
+head(mtcars)
+```
+
+- R trae varios datasets de ejemplo (`iris`, `mtcars`, `PlantGrowth`, etc.)  
+- Útil para **practicar sin necesidad de descargar archivos**
+
+---
+
+### 4️⃣ Importar usando RStudio GUI
+
+1. En RStudio, ir a **File → Import Dataset → From Text (readr) / From CSV**  
+2. Seleccionar el archivo en tu computadora  
+3. Ajustar opciones (encabezado, separador, codificación)  
+4. Hacer clic en **Import** → se crea automáticamente un data.frame en el entorno
+
+---
+
+### 🔹 Buenas prácticas
+
+- Verificar siempre `getwd()` para asegurarse de que la ruta relativa funcione  
+- Para reproducibilidad, es recomendable usar **rutas relativas dentro del proyecto**  
+- Explorar los datos con `head(df)`, `tail(df)` y `str(df)` después de importarlos
+
+
 #### Abrir un data frame
 
 - Se puede crear directamente o leer desde un archivo CSV usando `read.csv()`.
@@ -1038,14 +1158,13 @@ Saber abrir y manipular un data frame es fundamental para analizar datos de mane
 ```r
 # Crear un data frame manualmente
 df <- data.frame(
-  nombre = c("Ana", "Luis", "María"),
-  edad = c(25, 30, 28),
-  peso = c(55.0, 70.5, 60.2)
+  Gene = c("TP53","BRCA1","GAPDH","MYC","EGFR",
+           "ACTB","CDK2","BCL2","VEGFA","MTOR"),
+  Control = c(12, 8, 50, 20, 15, 45, 10, 7, 18, 25),
+  Tratamiento1 = c(15, 10, 48, 22, 17, 44, 12, 9, 20, 28),
+  Tratamiento2 = c(10, 6, 52, 18, 14, 46, 11, 8, 17, 24),
+  Tratamiento3 = c(13, 9, 49, 21, 16, 45, 12, 7, 19, 26)
 )
-
-# Leer un data frame desde un archivo CSV
-df2 <- read.csv("datos.csv")
-```
 
 #### Ver las primeras y últimas filas
 
@@ -1060,20 +1179,20 @@ tail(df)  # Últimas 6 filas por defecto
 
 ```r
 # Acceder a la columna "edad"
-df$edad
+df$Control
 ```
 
 - Usando corchetes `[ , ]`:
 
 ```r
 # Acceder a la columna "peso"
-df[ , "peso"]
+df[ , "Control"]
 
 # Acceder a varias columnas
-df[ , c("nombre", "edad")]
+df[ , c("Gene", " Control")]
 ```
 
-**Buenas prácticas**
+#### Buenas prácticas
 
 1. Verificar la estructura del data frame con `str(df)` para conocer tipos de columnas.  
 2. Usar nombres claros para las columnas y filas.  
@@ -1110,10 +1229,10 @@ En análisis de datos, especialmente en genómica y transcriptómica, es común 
 
 ```r
 # Ejemplo: normalización de una columna numérica con min-max
-df$edad_norm <- (df$edad - min(df$edad)) / (max(df$edad) - min(df$edad))
+df$Control_norm <- (df$Control - min(df$Control)) / (max(df$Control) - min(df$Control))
 
 # Ejemplo: transformación logarítmica
-df$peso_log <- log(df$peso)
+df$Control_log <- log(df$Control)
 ```
 
 #### Parseo de datos
@@ -1126,16 +1245,16 @@ df$peso_log <- log(df$peso)
 
 ```r
 # Convertir una columna a factor
-df$nombre <- as.factor(df$nombre)
+df$nombre <- as.factor(df$Gene)
 
 # Eliminar filas con valores NA
 df_clean <- na.omit(df)
 
 # Seleccionar solo columnas necesarias
-df_subset <- df[ , c("nombre", "edad_norm")]
+df_subset <- df[ , c("Gene", "Control_norm")]
 ```
 
-**Buenas prácticas**
+#### Buenas prácticas
 
 1. Verificar siempre los tipos de datos con `str(df)` antes y después del parseo.  
 2. Documentar cada paso de transformación para reproducibilidad.  
@@ -1145,6 +1264,50 @@ df_subset <- df[ , c("nombre", "edad_norm")]
 
 En R, las **librerías** son colecciones de funciones que amplían la funcionalidad básica del lenguaje.  
 `ggplot2` es una librería muy utilizada para **visualización de datos**, permitiendo crear gráficos claros y personalizables.
+
+#### a) Desde CRAN (repositorio oficial)
+
+```r
+# Instalar ggplot2 si no está
+install.packages("ggplot2")
+
+# Cargar la librería
+library(ggplot2)
+```
+
+- `install.packages("nombre_paquete")` → descarga e instala desde CRAN  
+- `library(nombre_paquete)` → carga la librería en la sesión actual  
+
+---
+
+#### b) Usando BiocManager para paquetes de Bioconductor
+
+```r
+# Instalar BiocManager si no está
+install.packages("BiocManager")
+
+# Cargar BiocManager
+library(BiocManager)
+
+# Instalar un paquete de Bioconductor, por ejemplo DESeq2
+BiocManager::install("DESeq2")
+```
+
+- Bioconductor se usa mucho en **genómica y bioinformática**  
+- `BiocManager::install()` permite instalar paquetes que no están en CRAN  
+
+---
+
+#### c) Instalación desde el navegador de RStudio
+
+1. Abrir RStudio  
+2. Ir a la pestaña **“Packages”**  
+3. Clic en **“Install”**  
+4. Escribir el nombre del paquete (por ejemplo `ggplot2` o `DESeq2`)  
+5. Hacer clic en **Install**  
+
+- RStudio descarga e instala el paquete automáticamente  
+- Luego usar `library(paquete)` para cargarlo en la sesión  
 
 #### Cargar una librería
 
@@ -1161,31 +1324,56 @@ library(ggplot2)
 ###### 1. Histograma
 
 ```r
-# Histograma de la columna "edad"
-ggplot(df, aes(x = edad)) +
-  geom_histogram(binwidth = 5, fill = "lightblue", color = "black") +
-  labs(title = "Histograma de edades", x = "Edad", y = "Frecuencia")
+# Histograma de la columna "Control"
+ggplot(long_df, aes(x = Expresion, fill = Condicion)) +
+  geom_histogram(binwidth = 2, alpha = 0.7, position = "identity") +
+  labs(title = "Histograma de expresión génica",
+       x = "Expresión",
+       y = "Frecuencia") +
+  theme_minimal()
+
 ```
 
 ###### 2. Scatter plot (gráfico de dispersión)
 
 ```r
-# Relación entre edad y peso
-ggplot(df, aes(x = edad, y = peso)) +
-  geom_point(color = "red") +
-  labs(title = "Edad vs Peso", x = "Edad", y = "Peso")
+# Scatter plot Control vs Tratamiento1
+ggplot(genomics_df, aes(x = Control, y = Tratamiento1, label = Gene)) +
+  geom_point(color = "blue", size = 3) +
+  geom_text(vjust = -0.5, size = 3) +
+  labs(title = "Control vs Tratamiento1",
+       x = "Control",
+       y = "Tratamiento1") +
+  theme_minimal()
 ```
 
 ###### 3. Boxplot
 
 ```r
-# Distribución del peso por nombre
-ggplot(df, aes(x = nombre, y = peso)) +
-  geom_boxplot(fill = "lightgreen") +
-  labs(title = "Boxplot de peso por persona", x = "Nombre", y = "Peso")
+# Boxplot de todas las condiciones
+ggplot(long_df, aes(x = Condicion, y = Expresion, fill = Condicion)) +
+  geom_boxplot(alpha = 0.7) +
+  labs(title = "Distribución de expresión por condición",
+       x = "Condición",
+       y = "Expresión") +
+  theme_minimal()
 ```
 
-**Buenas prácticas**
+###### 4. Heatmap
+
+```r
+# Distribución del peso por nombre
+ggplot(long_df, aes(x = Condicion, y = Gene, fill = Expresion)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(title = "Heatmap de expresión génica",
+       x = "Condición",
+       y = "Gen") +
+  theme_minimal()
+```
+
+
+#### Buenas prácticas
 
 1. Verificar que la columna que se quiere graficar sea del tipo adecuado (numérica o factor).  
 2. Usar títulos y etiquetas claras para facilitar la interpretación.  
