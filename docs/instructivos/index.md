@@ -13,3 +13,4 @@ Esta es la página de inicio de los instructivos. En esta sección encontrarás 
 2. [Instalación de Miniconda](miniconda/index.md)
 3. [Instalación de programas vía conda](programas/index.md)
 4. [Instalación de R y RStudio](R/index.md)
+5. [Instalación de JBrowse2](jbrowse2/index.md)

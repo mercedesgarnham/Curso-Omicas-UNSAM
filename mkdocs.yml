@@ -118,6 +118,7 @@ nav:
         - Instalación de Miniconda: 'instructivos/miniconda/index.md'
         - Instalación de programas vía conda: 'instructivos/programas/index.md'
         - Instalación de R y RStudio: 'instructivos/R/index.md'
+        - Instalación de JBrowse2: 'instructivos/jbrowse2/index.md'
 
 
 
