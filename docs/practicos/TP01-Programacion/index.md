@@ -1083,68 +1083,67 @@ activo <- TRUE
 En R, un **data frame** es una estructura que permite almacenar datos en **filas y columnas**, similar a una tabla de Excel.  
 Saber abrir y manipular un data frame es fundamental para analizar datos de manera eficiente.
 
-## Importar CSV y datasets en R: rutas y opciones
+??? note "Importar CSV y datasets en R: rutas y opciones"
 
-### 1️⃣ Importar un CSV desde una ruta local
+        **Importar un CSV desde una ruta local**
 
-```r
-# Ruta absoluta
-df <- read.csv("/home/usuario/proyecto/expresion_genica.csv", header = TRUE, sep = ",")
+        ```r
+        # Ruta absoluta
+        df <- read.csv("/home/usuario/proyecto/expresion_genica.csv", header = TRUE, sep = ",")
 
-# Ruta relativa (desde el directorio de trabajo actual)
-df <- read.csv("expresion_genica.csv", header = TRUE, sep = ",")
+        # Ruta relativa (desde el directorio de trabajo actual)
+        df <- read.csv("expresion_genica.csv", header = TRUE, sep = ",")
 
-# Ver primeras filas
-head(df)
-```
+        # Ver primeras filas
+        head(df)
+        ```
 
-- Para ver el directorio de trabajo actual:  
-```r
-getwd()
-```
-- Para cambiar el directorio de trabajo:  
-```r
-setwd("/home/usuario/proyecto")
-```
+        - Para ver el directorio de trabajo actual:  
+        ```r
+        getwd()
+        ```
+        - Para cambiar el directorio de trabajo:  
+        ```r
+        setwd("/home/usuario/proyecto")
+        ```
 
----
+        ---
 
-### 2️⃣ Importar CSV desde una URL
+        **Importar CSV desde una URL**
 
-```r
-url <- "https://raw.githubusercontent.com/mercedesgarnham/Curso-Omicas-UNSAM/main/docs/practicos/TP01-Programacion/expresion_genica.csv" # es un
-df <- read.csv(url, header = TRUE, sep = ",")
-head(df)
-```
+        ```r
+        url <- "https://raw.githubusercontent.com/mercedesgarnham/Curso-Omicas-UNSAM/refs/heads/main/docs/practicos/TP01-Programacion/expresion_genica.csv" # es un
+        df <- read.csv(url, header = TRUE, sep = ",")
+        head(df)
+        ```
 
-- Muy útil para datasets disponibles en línea  
-- Asegurarse de usar la **versión “raw”** del archivo en GitHub u otros repositorios
+        - Muy útil para datasets disponibles en línea  
+        - Asegurarse de usar la **versión “raw”** del archivo en GitHub u otros repositorios
 
----
 
-### 3️⃣ Usar datasets incluidos en R
+        **Usar datasets incluidos en R**
 
-```r
-# Cargar dataset de ejemplo
-data("mtcars")
-head(mtcars)
-```
+        ```r
+        # Cargar dataset de ejemplo
+        data("mtcars")
+        head(mtcars)
+        ```
 
-- R trae varios datasets de ejemplo (`iris`, `mtcars`, `PlantGrowth`, etc.)  
-- Útil para **practicar sin necesidad de descargar archivos**
+        - R trae varios datasets de ejemplo (`iris`, `mtcars`, `PlantGrowth`, etc.)  
+        - Útil para **practicar sin necesidad de descargar archivos**
 
----
+        ---
 
-### 4️⃣ Importar usando RStudio GUI
+        **Importar usando RStudio GUI**
 
-1. En RStudio, ir a **File → Import Dataset → From Text (readr) / From CSV**  
-2. Seleccionar el archivo en tu computadora  
-3. Ajustar opciones (encabezado, separador, codificación)  
-4. Hacer clic en **Import** → se crea automáticamente un data.frame en el entorno
+        1. En RStudio, ir a **File → Import Dataset → From Text (readr) / From CSV**  
+        2. Seleccionar el archivo en tu computadora  
+        3. Ajustar opciones (encabezado, separador, codificación)  
+        4. Hacer clic en **Import** → se crea automáticamente un data.frame en el entorno
 
----
+        ---
 
-### 🔹 Buenas prácticas
+### Buenas prácticas
 
 - Verificar siempre `getwd()` para asegurarse de que la ruta relativa funcione  
 - Para reproducibilidad, es recomendable usar **rutas relativas dentro del proyecto**  
@@ -1157,14 +1156,11 @@ head(mtcars)
 
 ```r
 # Crear un data frame manualmente
-df <- data.frame(
-  Gene = c("TP53","BRCA1","GAPDH","MYC","EGFR",
-           "ACTB","CDK2","BCL2","VEGFA","MTOR"),
-  Control = c(12, 8, 50, 20, 15, 45, 10, 7, 18, 25),
-  Tratamiento1 = c(15, 10, 48, 22, 17, 44, 12, 9, 20, 28),
-  Tratamiento2 = c(10, 6, 52, 18, 14, 46, 11, 8, 17, 24),
-  Tratamiento3 = c(13, 9, 49, 21, 16, 45, 12, 7, 19, 26)
-)
+# Cargar dataset
+url <- "https://raw.githubusercontent.com/mercedesgarnham/Curso-Omicas-UNSAM/refs/heads/main/docs/practicos/TP01-Programacion/expresion_genica.csv" # es un
+df <- read.csv(url, header = TRUE, sep = ",")
+head(df)
+```
 
 #### Ver las primeras y últimas filas
 
@@ -1189,7 +1185,7 @@ df$Control
 df[ , "Control"]
 
 # Acceder a varias columnas
-df[ , c("Gene", " Control")]
+df[ , c("Gene", "Control")]
 ```
 
 #### Buenas prácticas
@@ -1231,9 +1227,13 @@ En análisis de datos, especialmente en genómica y transcriptómica, es común 
 # Ejemplo: normalización de una columna numérica con min-max
 df$Control_norm <- (df$Control - min(df$Control)) / (max(df$Control) - min(df$Control))
 
+
 # Ejemplo: transformación logarítmica
-df$Control_log <- log(df$Control)
+df$Control_log <- log(df$Control + 1)
 ```
+
+##### Ejercicio 
+Generar las columnas normalizadas para los tratamientos
 
 #### Parseo de datos
 
@@ -1265,49 +1265,50 @@ df_subset <- df[ , c("Gene", "Control_norm")]
 En R, las **librerías** son colecciones de funciones que amplían la funcionalidad básica del lenguaje.  
 `ggplot2` es una librería muy utilizada para **visualización de datos**, permitiendo crear gráficos claros y personalizables.
 
-#### a) Desde CRAN (repositorio oficial)
+??? note "Tipos de instalación"
+        **a) Desde CRAN (repositorio oficial)**
 
-```r
-# Instalar ggplot2 si no está
-install.packages("ggplot2")
+        ```r
+        # Instalar ggplot2 si no está
+        install.packages("ggplot2")
 
-# Cargar la librería
-library(ggplot2)
-```
+        # Cargar la librería
+        library(ggplot2)
+        ```
 
-- `install.packages("nombre_paquete")` → descarga e instala desde CRAN  
-- `library(nombre_paquete)` → carga la librería en la sesión actual  
+        - `install.packages("nombre_paquete")` → descarga e instala desde CRAN  
+        - `library(nombre_paquete)` → carga la librería en la sesión actual  
 
----
+        ---
 
-#### b) Usando BiocManager para paquetes de Bioconductor
+        **b) Usando BiocManager para paquetes de Bioconductor**
 
-```r
-# Instalar BiocManager si no está
-install.packages("BiocManager")
+        ```r
+        # Instalar BiocManager si no está
+        install.packages("BiocManager")
 
-# Cargar BiocManager
-library(BiocManager)
+        # Cargar BiocManager
+        library(BiocManager)
 
-# Instalar un paquete de Bioconductor, por ejemplo DESeq2
-BiocManager::install("DESeq2")
-```
+        # Instalar un paquete de Bioconductor, por ejemplo DESeq2
+        BiocManager::install("DESeq2")
+        ```
 
-- Bioconductor se usa mucho en **genómica y bioinformática**  
-- `BiocManager::install()` permite instalar paquetes que no están en CRAN  
+        - Bioconductor se usa mucho en **genómica y bioinformática**  
+        - `BiocManager::install()` permite instalar paquetes que no están en CRAN  
 
----
+        ---
 
-#### c) Instalación desde el navegador de RStudio
+        #### c) Instalación desde el navegador de RStudio
 
-1. Abrir RStudio  
-2. Ir a la pestaña **“Packages”**  
-3. Clic en **“Install”**  
-4. Escribir el nombre del paquete (por ejemplo `ggplot2` o `DESeq2`)  
-5. Hacer clic en **Install**  
+        1. Abrir RStudio  
+        2. Ir a la pestaña **“Packages”**  
+        3. Clic en **“Install”**  
+        4. Escribir el nombre del paquete (por ejemplo `ggplot2` o `DESeq2`)  
+        5. Hacer clic en **Install**  
 
-- RStudio descarga e instala el paquete automáticamente  
-- Luego usar `library(paquete)` para cargarlo en la sesión  
+        - RStudio descarga e instala el paquete automáticamente  
+        - Luego usar `library(paquete)` para cargarlo en la sesión  
 
 #### Cargar una librería
 
@@ -1325,11 +1326,18 @@ library(ggplot2)
 
 ```r
 # Histograma de la columna "Control"
-ggplot(long_df, aes(x = Expresion, fill = Condicion)) +
-  geom_histogram(binwidth = 2, alpha = 0.7, position = "identity") +
-  labs(title = "Histograma de expresión génica",
-       x = "Expresión",
-       y = "Frecuencia") +
+ggplot(df, aes(x = Control)) +
+  geom_histogram( fill = "skyblue", color = "black") +
+  labs(title = "Histograma Control", x = "Expresión", y = "Frecuencia") +
+  theme_minimal()
+
+```
+
+```r
+# Histograma de la columna "Control_norm"
+ggplot(df, aes(x = Control_norm)) +
+  geom_histogram( fill = "skyblue", color = "black") +
+  labs(title = "Histograma Control", x = "Expresión", y = "Frecuencia") +
   theme_minimal()
 
 ```
@@ -1338,38 +1346,52 @@ ggplot(long_df, aes(x = Expresion, fill = Condicion)) +
 
 ```r
 # Scatter plot Control vs Tratamiento1
-ggplot(genomics_df, aes(x = Control, y = Tratamiento1, label = Gene)) +
-  geom_point(color = "blue", size = 3) +
-  geom_text(vjust = -0.5, size = 3) +
-  labs(title = "Control vs Tratamiento1",
-       x = "Control",
-       y = "Tratamiento1") +
-  theme_minimal()
+ggplot(df, aes(x = Condicion, y = Expresion, fill = Condicion)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = NA) +   # oculta los outliers para no sobrecargar
+  geom_jitter(width = 0.2, alpha = 0.5, color = "black") +  # puntos individuales
+  labs(title = "Distribución de expresión por condición",
+       x = "Condición",
+       y = "Expresión") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # rotar etiquetas eje x
 ```
 
 ###### 3. Boxplot
 
 ```r
 # Boxplot de todas las condiciones
-ggplot(long_df, aes(x = Condicion, y = Expresion, fill = Condicion)) +
-  geom_boxplot(alpha = 0.7) +
-  labs(title = "Distribución de expresión por condición",
-       x = "Condición",
-       y = "Expresión") +
-  theme_minimal()
+df_plot <- data.frame(
+  Condicion = rep(c("Control", "Tratamiento1", "Tratamiento2"), each = nrow(df)),
+  Expresion = c(df$Control, df$Tratamiento1, df$Tratamiento2),
+  Gene = rep(df$Gene, 3)
+)
+
+df_plot <- data.frame(
+  Condicion = rep(c("Control", "Tratamiento1", "Tratamiento2"), each = nrow(df)),
+  Expresion = c(df$Control, df$Tratamiento1, df$Tratamiento2),
+  Gene = rep(df$Gene, 3)
+)
 ```
 
 ###### 4. Heatmap
 
 ```r
-# Distribución del peso por nombre
-ggplot(long_df, aes(x = Condicion, y = Gene, fill = Expresion)) +
+df_long <- data.frame(
+  Gene = rep(df$Gene, 3),
+  Condicion = rep(c("Control", "Tratamiento1", "Tratamiento2"), each = nrow(df)),
+  Expresion = c(df$Control, df$Tratamiento1, df$Tratamiento2)
+)
+
+ggplot(df_long, aes(x = Condicion, y = Gene, fill = Expresion)) +
   geom_tile() +
-  scale_fill_gradient(low = "white", high = "red") +
-  labs(title = "Heatmap de expresión génica",
+  scale_fill_gradient(low = "white", high = "blue") +
+  labs(title = "Heatmap de expresión génica simulada",
        x = "Condición",
-       y = "Gen") +
-  theme_minimal()
+       y = "Gen",
+       fill = "Expresión") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 6))  # ajustar tamaño si hay muchos genes
+
 ```
 
 
@@ -1426,21 +1448,5 @@ ggplot(res, aes(x = log2FC, y = negLogP)) +
 2. Revisar los valores atípicos antes de interpretar resultados.  
 3. Usar colores y etiquetas en Volcano plots para resaltar genes significativos.
 
-### Ejercicio integrador - Parte 2
-
-En este ejercicio deberás combinar varios conceptos vistos en clase. Resuelve los siguientes pasos:
-
-1) Abrí un data frame a partir de un archivo CSV usando `read.csv()`.  
-
-2) Hacé un parseo de los datos: revisá los tipos de columnas y convertí a `numeric`, `character` o `factor` según corresponda.  
-   Eliminá filas o columnas con valores faltantes si es necesario.  
-
-3) Normalizá al menos una columna numérica del data frame utilizando un método de R base (por ejemplo, min-max o log).  
-
-4) Generá un gráfico básico usando funciones de R base (`plot()`, `hist()` o `boxplot()`).  
-   Agregá títulos y etiquetas de ejes.  
-
-5) Calculá un PCA sobre las columnas numéricas del data frame usando `prcomp()`.  
-   Graficá los dos primeros componentes principales con `plot()`.  
 
 
