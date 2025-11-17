@@ -1,19 +1,10 @@
 ---
 title: Teorica Uno
-hide: 
-  #- navigation
-  - toc
 tags: 
   - teoricas
 ---
 
 # **Teórica 1:** Introducción a ómicas de ácidos nucleicos { markdown data-toc-label = 'teorica uno }
-
-## Video de la clase
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:octicons-video-16: Video</span>](https://us02web.zoom.us/rec/share/qr-M4yk00tnGvLK9aw1o-e5j_A4DWbotxxPOeXVFB6uIrHRAHyqN3KSLDb67mSV8.3Ck5eTtPMnOu7p4J){ .md-button }
-
-
-Código de acceso: 23uq0+Ty
 
 ## Parte 1: 
 ### Dr. Carlos Buscaglia
