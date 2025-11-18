@@ -8,6 +8,7 @@ title: Prácticos
 
 Esta es la página de inicio de los prácticos de este curso. A continuación una lista de datos útiles.
 
+ 1. [TP 1](TP01-Programacion/index.md)
 <!--
 1. [TP 1](TP01-Programacion/index.md)
 2. [TP 2](TP02-Genomica/index.md)
@@ -18,3 +19,19 @@ Esta es la página de inicio de los prácticos de este curso. A continuación un
 ## Consultas y Canales de Comunicación 
 
  * :material-email: Por email a esta dirección <curso-omicas@iib.unsam.edu.ar>
+
+ * Discord del curso:  <https://discord.gg/bRS4hPQW> 
+
+---
+## A continuación les dejamos las grabaciones de las clases prácticas: 
+
+## **Práctico 1:**  **Introducción a programación** 
+
+## Video de la clase
+
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:octicons-video-16: Video</span>](https://us02web.zoom.us/rec/share/5VTwvfV5xUuxQ95B1QWOuNs-dwgxtKBEoNcvt9lYnDn4NsDhEM8IpTZpgYEa-evB.GwNMzF73oDDLmJY8?startTime=1763467718000){ .md-button }
+
+  Código de acceso: 3@5T#Nr#
+
+
+
