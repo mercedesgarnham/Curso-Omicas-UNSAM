@@ -1,7 +1,7 @@
 ---
 tags:
-  - teoricas
-title: Teoricas
+  - practicos
+title: Prácticos
 ---
 
 ## Hola! 
