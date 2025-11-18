@@ -35,7 +35,7 @@ Es posible que durante la instalación, conda les pida confirmar la instalación
 Para crear el entorno `tp2` con las herramientas necesarias, ejecuten el siguiente comando en la terminal:
 
 ```bash
-    conda create -n tp2 -c bioconda -c conda-forge fastqc multiqc bwa samtools
+    conda create -n tp2 -c bioconda -c conda-forge fastqc multiqc bwa samtools bcftools
 ```
 
 Este comando crea un entorno llamado `tp2` e instala las herramientas FastQC, MultiQC, BWA y SAMtools desde los canales **bioconda** y **conda-forge**.
