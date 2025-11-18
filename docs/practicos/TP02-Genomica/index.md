@@ -189,6 +189,12 @@ Corran en la terminal el siguiente comando:
   fastqc -o ../Outputs/resultados_fastqc *fastq
 
 ```
+
+!!! info "Errores comunes"
+
+    Si ven que el comando no funciona, es probable que el error que estén viendo sea porque no existe el directorio de salida. Pueden crearlo con el comando `mkdir` o desde la carpeta utilizando la interfaz gráfica.
+
+
 !!! question "Preguntas" 
 
     1. ¿Cuántos archivos fastqc se generaron en la carpeta de resultados? ¿Qué tipo de archivos son?
@@ -206,7 +212,9 @@ Para obtener el informe de MultiQC corran en la terminal:
 ```bash
   # multiqc necesita que le indiquemos la carpeta donde estan los reportes de fastqc y la carpeta donde va a guardar el reporte final
 
-  multiqc resultados_fastqc/ -o resultados_multiqc
+  multiqc ../Outputs/resultados_fastqc/ -o ../Outputs/resultados_multiqc
+
+  # ../ Significa moverse una carpeta hacia arriba, en este caso desde TP2/Materiales a TP2/Outputs
 
 ```
 
