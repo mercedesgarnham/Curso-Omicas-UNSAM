@@ -11,7 +11,7 @@ show:
 
 # **🧬 TP 2**. Del control de calidad a la detección de variantes genómicas { markdown data-toc-label = 'TP 02' }
 
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Materiales</span>](https://drive.google.com/file/d/1b74X8uGOYGTHt_OaJZbn9N385MjwWswV/view?usp=sharing){ .md-button }
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Materiales</span>](https://drive.google.com/drive/folders/1rfv1DqA5ASeo22wHrG9wJqN4qs7Clu9r?usp=sharing){ .md-button }
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://docs.google.com/presentation/d/1Vb3GfjxVjIiaMuHPtCnXc1vxpQ3hG7AaOPPnJNm9Ew0/edit?usp=sharing){ .md-button }
 <!--
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-youtube: Clase grabada</span>](https://drive.google.com/){ .md-button }
@@ -273,7 +273,7 @@ Vamos a realizar la conversión y ordenamiento del archivo SAM a BAM utilizando 
     3. ¿Qué diferencias hay entre los archivos .sam y .bam (prueben explorar con `head` el archivo .bam)? 
     4. ¿Cuál es el factor de compresión?
 
-Por último, asi como indexamos el genoma de referencia, también es recomendable indexar el archivo BAM ordenado. Esto va a hacer que los _genome browsers_  puedan acceder rápidamente a las lecturas alineadas en posiciones específicas del genoma. 
+Por último, asi como indexamos el genoma de referencia para el alineamiento, también es recomendable indexar el archivo BAM ordenado. Esto va a hacer que los _genome browsers_  puedan acceder rápidamente a las lecturas alineadas en posiciones específicas del genoma. 
 
 Corran en la terminal:
 
@@ -294,27 +294,186 @@ Un _genome browser_ es una herramienta que permite visualizar y explorar datos g
 
 En este TP vamos a utilizar **JBrowse2**, un navegador genómico moderno y altamente personalizable. Este browser se maneja cargando _tracks_ (capas) de datos genómicos que pueden incluir secuencias de referencia, anotaciones de genes, lecturas alineadas y variantes genéticas.
 
-!!! info "Instrucciones de instalación de JBrowse2"
+Para este punto ya deberían tener el programa instalado en su computadora. Si no es así, pueden seguir las instrucciones de instalación que se encuentra en la sección de [instructivos](../../instructivos/jbrowse2/index.md).
 
-    Tanto en las máquinas del laboratorio como si están trabajando con sus computadoras de forma virtual, van a necesitar instalar JBrowse2.  Elijan la pestaña que corresponda a su método de cursada
+### ● Ejercicio 6: Cargando datos en JBrowse2
 
-    === "Laboratorio"
+1. Abran JBrowse2 y creen un nuevo proyecto clickeando en **OPEN NEW GENOME**. Esto va a abrir una ventana donde van a poder cargar el genoma de referencia. 
 
-        1. Abran una terminal y asegúrense de estar en su carpeta home:
+    | Celda | Contenido | Descripción |
+    |---|---|---|
+    | Assembly name | Drosophila melanogaster (r5.57) | Nombre del genoma de referencia |
+    | Type | FastaAdapter | Tipo de _track_ |
+    | Fasta file | dmel-all-chromosome-r5.57.fasta | Ruta local al archivo .fasta del genoma de referencia |
+
+2. Ahora van a ver dos botones, uno que dice **OPEN** y otro que dice **SHOW ALL REGIONS IN ASSEMBLY**. Seleccionen el cromosoma **YHet** y hagan click en **OPEN**.
+
+3. El siguiente paso es agregar las anotaciones genómicas. Hagan click en el ícono de **+** que está en la barra lateral izquierda y seleccionen **Add track**. Si no lo encuentran, clickeen **OPEN TRACK SELECTOR** y ahí van a ver el botón de **+**.
+
+    | Celda | Contenido | Descripción |
+    |---|---|---|
+    | Main file | dmel_5.57.gff | archivo gff _parseado_ |
+    | Index file | - No completar - | Archivo de índice del gff (no es necesario) |
+    
+    Luego hagan click en **NEXT** para terminar de configurar el track.
+
+    Dejen las opciones por defecto y hagan click en **ADD**.
+
+    Una vez que cargue (puede tardar unos segundos), deberían ver las anotaciones genómicas sobre el genoma de referencia. Si les aparece un _warning_ en amarillo, hagan zoom en alguna región para que desaparezca.
+
+4. Finalmente, vamos a cargar las lecturas alineadas. Hagan click nuevamente en el ícono de **+** y seleccionen **Add track**.
+
+    | Celda | Contenido | Descripción |
+    |---|---|---|
+    | File | subset_SRR33554828_bwa_sorted.bam | Archivo .bam con las lecturas alineadas |
+    | Index file | subset_SRR33554828_bwa_sorted.bam.bai | Archivo .bai con el índice del archivo .bam |
+
+    Presionen **NEXT** para continuar, y luego hagan click en **ADD** para finalizar.
+
+    Ahora deberían ver las lecturas alineadas sobre el genoma de referencia y las anotaciones genómicas.
+
+### ● Ejercicio 7: Explorando los datos en JBrowse2
+
+Si todo salió bien, ya deberían tener cargados en JBrowse2 el genoma de referencia, las anotaciones genómicas y las lecturas alineadas. Ahora es momento de explorar los datos. Su navegador debería verse similar a la imagen de abajo:
+
+![Image](imagenes/carga_datos_jbrowse.png){ width="900", align=center }
+
+!!!question "Ejercicio de exploración"
+
+    === "Preguntas"
+
+        1. ¿Qué pueden decir sobre la cobertura de las lecturas alineadas? ¿Hay regiones del genoma con mayor o menor cobertura?
+
+        2.  En términos de similitud con el genoma de referencia, ¿las lecturas parecen alinearse bien? ¿Hay muchas discrepancias visibles?
+
+        3. ¿Pueden identificar alguna región genómica específica donde haya anotaciones pero no lecturas alineadas? ¿Qué podría indicar esto?
+
+    === "Respuesta 1"
+
+        La cobertura de las lecturas alineadas puede variar a lo largo del genoma. Algunas regiones pueden tener una alta densidad de lecturas, lo que indica una buena cobertura, mientras que otras regiones pueden tener pocas o ninguna lectura alineada, lo que sugiere una baja cobertura. Estas variaciones pueden deberse a factores como la eficiencia de la secuenciación, la complejidad del genoma o la presencia de regiones repetitivas. 
+
+        Por ejemplo, **gypsy_6** (pueden encontrar la anotación ubicandose en YHet:109,557..124,226) es una región con alta cobertura de lecturas alineadas, lo cual tiene sentido cuando vemos en la descripción de la anotación que es una _repeat region_.
+
+    === "Respuesta 2"
+
+        En general, las lecturas parecen alinearse bien con el genoma de referencia, ya que la mayoría de las lecturas están ubicadas en posiciones coherentes con las anotaciones genómicas. Las discrepancias parecen ser variaciones puntuales, vistas como colores en las lecturas alineadas. En este punto no podemos decir con certeza si son errores puntuales o si es una variación genética real.
+
+    === "Respuesta 3"
+
+        Sí, es posible identificar regiones genómicas donde hay anotaciones pero no lecturas alineadas. Esto podría indicar varias cosas, como regiones del genoma que no fueron bien cubiertas durante la secuenciación, regiones altamente repetitivas que dificultan el alineamiento, o incluso posibles errores en las anotaciones genómicas. Estas áreas pueden ser de interés para estudios adicionales, ya que podrían revelar información sobre la estructura y función del genoma.
+
+        Las lecturas cortas no son la mejor forma de resolver regiones repetitivas, por lo que es dificil concluir algo en estas zonas sin datos adicionales. En estos casos, es mejor utilizar tecnologías de secuenciación de lecturas largas que pueden atravesar estas regiones y proporcionar una mejor resolución. 
+
+No cierren JBrowse2, ya que lo vamos a necesitar para el siguiente ejercicio.
+
+### ● Ejercicio 8: Identificación de variantes genéticas
+
+Ahora que hemos explorado las lecturas alineadas, el siguiente paso es identificar posibles variantes genéticas en comparación con el genoma de referencia. Si bien ya vimos, por la presencia de bases coloreadas, esta observación no es suficiente para concluir que hay variantes genéticas reales. El **llamado de variantes** (variant calling) es un proceso que analiza todos los alineamientos y decide estadísticamente si existe una variante en una posición específica del genoma.
+
+Vamos a utilizar **bcftools** para realizar el llamado de variantes con nuestros archivos BAM. Corran en la terminal:
+
+=== "Obtención de variantes"
+
+    === "Código"
 
         ```bash
-          cd ~
+          # Recuerden estar en la carpeta Outputs donde está el archivo .bam
+
+          # Primero, generamos un archivo VCF con las variantes detectadas
+
+          bcftools mpileup -f ../Materiales/dmel-all-chromosome-r5.57.fasta subset_SRR33554828_bwa_sorted.bam | bcftools call -mv -Ov -o subset_SRR33554828_variants.vcf
+
         ```
 
-        2. Descarguen JBrowse2 utilizando `wget`:
-
-    === "Virtual"
-
-        1. Abran una terminal y asegúrense de estar en su carpeta home:
+    === "Código con comentarios"
 
         ```bash
-          cd ~
+          # Recuerden estar en la carpeta Outputs donde está el archivo .bam
+
+          # El comando antes del pipe (|) genera un _pileup_ de las lecturas alineadas utilizando el genoma de referencia. Este comando genera un archivo BCF, que nosotros no vamos a ver porque se va a utilizar como input para el siguiente comando.
+
+          # -f indica el archivo fasta del genoma de referencia
+
+          # El comando después del pipe (|) realiza el llamado de variantes utilizando el _pileup_ generado previamente.
+
+          # -mv indica que queremos hacer llamado de variantes (m) y mostrar solo las variantes (v)
+          # -Ov indica que queremos el output en formato VCF (texto)
+          # -o indica el nombre del archivo de salida
+
+          bcftools mpileup -f ../Materiales/dmel-all-chromosome-r5.57.fasta subset_SRR33554828_bwa_sorted.bam | bcftools call -mv -Ov -o subset_SRR33554828_variants.vcf
+
         ```
 
-        2. Descarguen JBrowse2 utilizando `wget`:
+Ahora que tenemos el archivo VCF con las variantes detectadas, podemos cargarlo en JBrowse2 para visualizarlas junto con las lecturas alineadas y las anotaciones genómicas. Vuelvan a JBrowse2 y hagan click en el ícono de **+** para agregar un nuevo track.
 
+| Celda | Contenido | Descripción |
+|---|---|---|
+| File | subset_SRR33554828_variants.vcf | Archivo .vcf con las variantes detectadas |
+| Index file | - No completar - | Archivo de índice del VCF (se genera automáticamente al cargar el VCF) |
+
+Para ver mejor las variantes, vamos a desactivar momentáneamente las anotaciones. En el panel **Available Tracks**, destilden la casilla correspondiente al gff.
+
+!!! question
+
+    === "Preguntas"
+
+        1. ¿Cuántas variantes se detectaron en total? Pueden contar las líneas del archivo VCF que no comienzan con # utilizando el comando `grep -v '^#' | wc -l`?
+
+        2. Busquen alguna variante en particular y explíquenla. ¿Qué tipo de variante es? ¿En qué posición del genoma se encuentra? ¿Afecta a algún gen anotado?
+
+        3. ¿Cómo podrían validar si estas variantes son reales y no errores de secuenciación o alineamiento?
+
+    === "Respuesta 1"
+
+        Pueden contar las líneas del archivo VCF que no comienzan con # utilizando el siguiente comando en la terminal:
+
+        ```bash
+          # Recuerden estar en la carpeta Outputs donde está el archivo .vcf
+
+          grep -v '^#' subset_SRR33554828_variants.vcf | wc -l
+        ```
+
+        Este comando filtra las líneas que no comienzan con '#' (que son los encabezados y comentarios) y luego cuenta el número de líneas restantes, que corresponden a las variantes detectadas.
+
+    === "Respuesta 2"
+
+        Hay muchos ejemplos de distintas variantes en el archivo VCF. Variantes de interés podrían ser aquellas que se encuentran en regiones codificantes de genes o en regiones reguladoras importantes. Por ejemplo, inserciones o deleciones que alteren el marco de lectura de un gen, o SNPs que cambien aminoácidos críticos en proteínas.
+
+    === "Respuesta 3"
+
+        Para validar si las variantes son reales, se podrían utilizar varias estrategias:
+
+        * **Re-secuenciación**: Realizar una nueva secuenciación de la misma muestra para ver si las variantes se reproducen.
+
+        * **Métodos alternativos**: Utilizar técnicas como PCR seguida de secuenciación Sanger para confirmar la presencia de variantes específicas.
+
+        * **Validación funcional**: Si la variante afecta a un gen conocido, realizar experimentos funcionales para evaluar el impacto de la variante en la función del gen o la proteína.
+
+        Tengamos en cuenta que las variantes detectadas en este TP son solo un subconjunto de las posibles variantes presentes en la muestra, ya que trabajamos con un subconjunto de lecturas. Para un análisis más completo, sería ideal trabajar con el conjunto completo de datos de secuenciación. También es importante considerar distintos genomas de referencia, para contemplar variaciones de poblaciones o cepas.
+
+
+## 🧠 Resumen
+
+¡Llegamos al final de la guía! En este TP realizamos un _pipeline_ de análisis de datos de secuenciación:
+
+1. Empezamos con datos crudos (.fastq) obtenidos de bases de datos públicas.
+
+2. Evaluamos la calidad de las lecturas utilizando FastQC y MultiQC.
+
+3. Alineamos las lecturas al genoma de referencia utilizando BWA para crear un archivo .SAM.
+
+4. Convertimos el archivo .SAM a .BAM ordenado e indexado utilizando samtools.
+
+5. Visualizamos los datos en JBrowse2, explorando las lecturas alineadas y las anotaciones genómicas.
+
+6. Realizamos el llamado de variantes utilizando bcftools y visualizamos las variantes detectadas en JBrowse2.
+
+Y recuerden, que **el punto mas importante de todo este proceso es la interpretación biológica de los resultados obtenidos**, y ahí es donde ustedes pueden aportar su conocimiento y creatividad para generar nuevas hipótesis y descubrimientos.
+
+## 📚 Recursos adicionales
+
+* [FastQC Documentation](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+* [BWA Manual](http://bio-bwa.sourceforge.net/bwa.shtml)
+* [Samtools Documentation](http://www.htslib.org/doc/samtools.html)
+* [JBrowse2 Documentation](https://jbrowse.org/jb2/docs/)
+* [Bcftools Documentation](http://www.htslib.org/doc/bcftools.html)
