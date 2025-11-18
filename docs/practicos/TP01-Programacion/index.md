@@ -199,6 +199,8 @@ rmdir [opciones] carpeta
 - `[opciones]` → parámetros adicionales como `-p` para crear carpetas anidadas
 
 #### Ejemplos
+Los ejemplos que aparecen a continuación sirven solo para entender la sintaxis, no los corran! 
+El código que deben ejecutar está indicado en la sección Ejercicios.
 
 Crear una carpeta simple
 
@@ -253,6 +255,8 @@ cd nombre_de_carpeta
 
 
 #### Ejemplos
+Los ejemplos que aparecen a continuación sirven solo para entender la sintaxis, no los corran! 
+El código que deben ejecutar está indicado en la sección Ejercicios.
 
 ```bash
 cd datos/                 # va al subdirectorio "datos"
@@ -333,6 +337,8 @@ wget [opciones] URL
 - `[opciones]` → parámetros adicionales, por ejemplo para renombrar o continuar descargas interrumpidas
 
 #### Ejemplos
+Los ejemplos que aparecen a continuación sirven solo para entender la sintaxis, no los corran! 
+El código que deben ejecutar está indicado en la sección Ejercicios.
 
 Descargar un archivo desde internet
 
@@ -360,11 +366,13 @@ wget -c https://example.org/archivo_grande.fasta
 - Verificar el archivo descargado (tamaño, checksum) antes de usarlo en análisis.
 
 ##### Ejercicio 4
-Ejecutar el comando `wget` para descargar los datos de este práctico 
+Ejecutar el comando `wget` para descargar el siguiente un set de datos. Buscar en la tabla el comando que lista los archivos y carpetas del directorio para verificar que se haya descargado
 
 ```bash
-wget https://github.com/mercedesgarnham/Curso-Omicas-UNSAM/raw/refs/heads/main/docs/practicos/TP01-Programacion/datos.tar
+wget https://people.sc.fsu.edu/~jburkardt/data/csv/airtravel.csv
 ```
+
+Descargar los materiales que hay al comienzo del TP y guardarlos en la carpeta TP01
 
 ### Descomprimir carpetas `tar` y archivos `gunzip` y `zcat`
 
@@ -396,6 +404,8 @@ zcat [opciones] archivo.gz
 - `[opciones]` → parámetros adicionales como `-c` para salida a pantalla o `-f` para forzar la acción
 
 #### Ejemplos
+Los ejemplos que aparecen a continuación sirven solo para entender la sintaxis, no los corran! 
+El código que deben ejecutar está indicado en la sección Ejercicios.
 
 Descomprimir un archivo
 
@@ -453,6 +463,11 @@ Los comandos `head` y `tail` permiten **ver partes de un archivo de texto** sin 
 
 - Muestra las primeras líneas de un archivo.  
 - Por defecto, muestra las **primeras 10 líneas**, pero se puede cambiar con la opción `-n`.
+
+
+#### Ejemplos
+Los ejemplos que aparecen a continuación sirven solo para entender la sintaxis, no los corran! 
+El código que deben ejecutar está indicado en la sección Ejercicios.
 
 ```bash
 # Ver las primeras 10 líneas de sample.fastq
@@ -670,6 +685,8 @@ cp [opciones] origen destino
 - `destino` → carpeta de destino o nuevo nombre del archivo
 
 #### Ejemplos
+Los ejemplos que aparecen a continuación sirven solo para entender la sintaxis, no los corran! 
+El código que deben ejecutar está indicado en la sección Ejercicios.
 
 Mover un archivo a otra carpeta
 
@@ -712,6 +729,8 @@ Ejecutar el comando generar una carpeta llamada resultados, ingresar a la carpet
 ```bash
 cp ../*.fasta . 
 ```
+!!! tip ""
+        En este ejercicio es muy imporante usar la ruta correcta para el origen y el destino. Podés ver la ruta usando `pwd`
 
 ### Procesamiento de tablas usando `awk`
 
@@ -739,6 +758,8 @@ Opciones comunes:
 - `$1, $2, ...` → columnas del archivo  
 
 #### Ejemplos
+Los ejemplos que aparecen a continuación sirven solo para entender la sintaxis, no los corran! 
+El código que deben ejecutar está indicado en la sección Ejercicios.
 
 Imprimir la primera columna de un archivo
 
@@ -788,7 +809,7 @@ Antes de usar cualquier comando, es recomendable consultar su manual para entend
 **Abrir el manual de FastQC**
 
 ```bash
-man fastqc
+man grep
 ```
 
 - `man` (manual) muestra la documentación de cualquier comando instalado en el sistema.  
@@ -815,26 +836,26 @@ En la terminal podés guardar la salida de un comando usando los operadores `>` 
 **Guardar la lista de archivos en un archivo nuevo:**
 
 ```bash
-man fastqc > manual_fastqc.txt
+man grep > manual_grep.txt
 ```
 
 **Agregar una línea al final del archivo:**
 
 ```bash
-echo "Nueva línea" >> manual_fastqc.txt
+echo "Nueva línea" >> manual_grep.txt
 ```
 
 **Guardar las primeras líneas de un archivo:**
 
 ```bash
-head manual_fastqc.txt > manual_fastqc.txt
+head manual_fastqc.txt > manual_grep.txt
 ```
 
 #### Ejemplo práctico
 
 ```bash
 # Buscar rápidamente todas las opciones de salida de FastQC
-man fastqc
+man grep
 # Dentro del manual, presionar / y escribir "output" y luego Enter
 # Presionar n para navegar entre los resultados de la búsqueda
 ```
@@ -862,7 +883,10 @@ Los **scripts en Bash** permiten automatizar estas tareas, hacerlas reproducible
 
 En los materiales encontrarán el script `contar_fastq.sh`.
 
-1. Abrir el archivo de texto y leer los comandos. ¿Qué hace cada uno?
+1. Abrir el archivo de texto y leer los comandos. ¿Qué hace cada uno? 
+
+!!! tip ""
+    Podés consultar la tabla al inicio de esta guía 
 
 | Línea / Comando        | Explicación                                                                 |
 |------------------------|-----------------------------------------------------------------------------|
@@ -940,60 +964,52 @@ Para cada uno de los archivos `.fastav de los materiales
 !!! question " "
   
     === "Preguntas"
-        1. Generar una carpeta nueva para guardar los resultados de este ejercicio
-        2. Ingresar a la nueva carpeta
-        3. Copiar los archivos .fasta de los materiales a la carpeta nueva
-        4  Imprimir por terminal las primeras 5 lineas de cada archivo fasta
-        5. Imprimir por terminal el encabezado de cada secuencia.
-        6. Imprimir por terminal la cantidad de secuencias por archivo
-        7. Guardar en un archivo de texto el nombre de cada archivo fasta y la cantidad de secuencias
+        1. Ingresa a la carpeta para guardar los resultados de este ejercicio
+        2. Verificá que se hayan copiado los archivos .fasta dentro de la carpeta de resultados
+        3  Imprimir por terminal las primeras 5 lineas de cada archivo fasta
+        4. Imprimir por terminal el encabezado de cada secuencia.
+        5. Imprimir por terminal la cantidad de secuencias por archivo
+        6. Guardar en un archivo de texto el nombre de cada archivo fasta y la cantidad de secuencias
 
-        8. Bonus: Guardar todos los comandos anteriores en un script y ejecutarlo de maner tal que el script guarde las salidas de cada paso en un archivo de texto
+        7. Bonus: Guardar todos los comandos anteriores en un script y ejecutarlo de maner tal que el script guarde las salidas de cada paso en un archivo de texto
 
     === "Respuesta 1"
-        1. Generar una carpeta nueva para guardar los resultados de este ejercicio
+        1. Ingresa a la carpeta para guardar los resultados de este ejercicio
 
         ```bash
-        mkdir resultados 
+        cd resultados 
         ```
 
     === "Respuesta 2"
-        2. Ingresar a la nueva carpeta
+        2. Verificá que se hayan copiado los archivos .fasta dentro de la carpeta de resultados
 
         ```bash
-        cd resultados
+        ls
         ```
 
     === "Respuesta 3"
-        3. Copiar los archivos .fasta de los materiales a la carpeta nueva
-
-        ```bash
-        cp ../*.fasta .
-        ```
-
-    === "Respuesta 4"
-        4  Imprimir por terminal las primeras 5 lineas de cada archivo fasta
+        3.  Imprimir por terminal las primeras 5 lineas de cada archivo fasta
 
         ```bash
         head -5 archivo.fasta # Reemplaza archivo.fasta por el nombre correcto del archivo
         ```
 
-    === "Respuesta 5"
-        5. Imprimir por terminal el encabezado de cada secuencia.
+    === "Respuesta 4"
+        4. Imprimir por terminal el encabezado de cada secuencia.
 
         ```bash
         grep "^>" archivo.fasta # Reemplaza archivo.fasta por el nombre correcto del archivo
         ```
 
-    === "Respuesta 6"
-        6. Imprimir por terminal la cantidad de secuencias por archivo
+    === "Respuesta 5"
+        5. Imprimir por terminal la cantidad de secuencias por archivo
 
         ```bash
         grep ">" archivo.fasta | wc -l # Reemplaza archivo.fasta por el nombre correcto del archivo
         ```
 
-    === "Respuesta 7"
-        7. Guardar en un archivo de texto el nombre de cada archivo fasta y la cantidad de secuencias
+    === "Respuesta 6"
+        6. Guardar en un archivo de texto el nombre de cada archivo fasta y la cantidad de secuencias
 
         ```bash
         echo "group_1.fasta" > salida.txt 
@@ -1155,12 +1171,13 @@ Saber abrir y manipular un data frame es fundamental para analizar datos de mane
 - Se puede crear directamente o leer desde un archivo CSV usando `read.csv()`.
 
 ```r
-# Crear un data frame manualmente
-# Cargar dataset
-url <- "https://raw.githubusercontent.com/mercedesgarnham/Curso-Omicas-UNSAM/refs/heads/main/docs/practicos/TP01-Programacion/expresion_genica.csv" # es un
-df <- read.csv(url, header = TRUE, sep = ",")
-head(df)
+# Cargar el dataset de la carpeta de materiales
+df <- read.csv("datos.cancer.prostata.txt", header = TRUE, sep = "\t")
 ```
+
+??? note "Atención"
+        Recordá usar la ruta correcta al archivo!
+
 
 #### Ver las primeras y últimas filas
 
@@ -1175,17 +1192,14 @@ tail(df)  # Últimas 6 filas por defecto
 
 ```r
 # Acceder a la columna "edad"
-df$Control
+df$tipo_muestra
 ```
 
 - Usando corchetes `[ , ]`:
 
 ```r
-# Acceder a la columna "peso"
-df[ , "Control"]
-
-# Acceder a varias columnas
-df[ , c("Gene", "Control")]
+df[ , "tipo_muestra"]
+df[ , c("tipo_muestra", "edad_diagnostico")]
 ```
 
 #### Buenas prácticas
@@ -1224,15 +1238,14 @@ En análisis de datos, especialmente en genómica y transcriptómica, es común 
   - Z-score (media = 0, desviación estándar = 1)
 
 ```r
-# Ejemplo: normalización de una columna numérica con min-max
-df$Control_norm <- (df$Control - min(df$Control)) / (max(df$Control) - min(df$Control))
+# Normalización Min-Max por columna
+df$APOE_expresion_norm <- (df$APOE_expresion  - min(df$APOE_expresion )) / (max(df$APOE_expresion ) - min(df$APOE_expresion ))
 
-
-# Ejemplo: transformación logarítmica
-df$Control_log <- log(df$Control + 1)
+# Log-transform (sumar 1 para evitar log(0))
+df$APOE_expresion_og <- log(df$APOE_expresion + 1)
 ```
 
-##### Ejercicio 
+##### Ejercicio 10
 Generar las columnas normalizadas para los tratamientos
 
 #### Parseo de datos
@@ -1245,13 +1258,13 @@ Generar las columnas normalizadas para los tratamientos
 
 ```r
 # Convertir una columna a factor
-df$nombre <- as.factor(df$Gene)
+df$nombre <- as.factor(df$ID)
 
 # Eliminar filas con valores NA
 df_clean <- na.omit(df)
 
 # Seleccionar solo columnas necesarias
-df_subset <- df[ , c("Gene", "Control_norm")]
+df_subset <- df[ , c("ID", "tipo_muestra")]
 ```
 
 #### Buenas prácticas
@@ -1313,9 +1326,13 @@ En R, las **librerías** son colecciones de funciones que amplían la funcionali
 #### Cargar una librería
 
 ```r
-# Instalar ggplot2 si no está instalado
+# Instalar las librerias necesarias
 install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("plotly")
+```
 
+```r
 # Cargar la librería
 library(ggplot2)
 ```
@@ -1324,76 +1341,131 @@ library(ggplot2)
 
 ###### 1. Histograma
 
-```r
-# Histograma de la columna "Control"
-ggplot(df, aes(x = Control)) +
-  geom_histogram( fill = "skyblue", color = "black") +
-  labs(title = "Histograma Control", x = "Expresión", y = "Frecuencia") +
-  theme_minimal()
-
-```
+Este tipo de gráfico es útil para observar rápidamente cómo se concentran los datos, si hay valores extremos o si la distribución es uniforme, sesgada o multimodal.
 
 ```r
-# Histograma de la columna "Control_norm"
-ggplot(df, aes(x = Control_norm)) +
-  geom_histogram( fill = "skyblue", color = "black") +
-  labs(title = "Histograma Control", x = "Expresión", y = "Frecuencia") +
-  theme_minimal()
-
+# Histograma con R base
+hist(df$ano_diagnostico)
 ```
+
+En este segundo ejemplo usamos ggplot2, un sistema de gráficos mucho más flexible y estéticamente agradable.
+```r
+# Histograma con ggplot
+ggplot(df, aes(x = ano_diagnostico)) +
+  geom_histogram( fill = "skyblue", color = "black") +
+  labs(title = "Histograma Control", x = "ano_diagnostico", y = "Frecuencia") +
+  theme_minimal()
+```
+
+Ambas versiones generan el mismo tipo de gráfico, pero cada una cumple un rol distinto:
+R base es simple y rápida para exploración inicial, mientras que ggplot2 ofrece mayor control visual y es ideal para análisis más formales o comunicativos.
+
+##### Ejercicio 11
+¿Que diferencias ven entre ambos histogramas?
 
 ###### 2. Scatter plot (gráfico de dispersión)
 
+Los gráficos de dispersión permiten analizar la relación entre dos variables numéricas.
+Son especialmente útiles para detectar patrones, tendencias, correlaciones o valores atípicos.
+
 ```r
-# Scatter plot Control vs Tratamiento1
-ggplot(df, aes(x = Condicion, y = Expresion, fill = Condicion)) +
-  geom_boxplot(alpha = 0.7, outlier.shape = NA) +   # oculta los outliers para no sobrecargar
-  geom_jitter(width = 0.2, alpha = 0.5, color = "black") +  # puntos individuales
-  labs(title = "Distribución de expresión por condición",
-       x = "Condición",
-       y = "Expresión") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # rotar etiquetas eje x
+# Gráfico de dispersión con R base
+plot(df$APOE_expresion, df$MX1_expresion)
 ```
 
-###### 3. Boxplot
+```r
+# Gráfico de dispersión con ggplot
+ggplot(df, aes(x = APOE_expresion, y = MX1_expresion)) +
+  geom_point(color = "blue", size = 3, alpha = 0.7) +       # puntos con transparencia
+  labs(title = "APOE_expresion vs MX1_expresion",
+       x = "APOE_expresion",
+       y = "MX1_expresion") +
+  theme_minimal()
+```
+
+###### 3. Barplot y Boxplot
+
+Los barplots y boxplots son herramientas fundamentales para visualizar la distribución de variables categóricas y numéricas.
+
+- Un barplot muestra la frecuencia de categorías.
+
+- Un boxplot resume la distribución de una variable numérica, permitiendo detectar mediana, dispersión y posibles outliers.
+
+- Cuando se combina un boxplot con una variable categórica, permite comparar distribuciones entre grupos.
 
 ```r
-# Boxplot de todas las condiciones
-df_plot <- data.frame(
-  Condicion = rep(c("Control", "Tratamiento1", "Tratamiento2"), each = nrow(df)),
-  Expresion = c(df$Control, df$Tratamiento1, df$Tratamiento2),
-  Gene = rep(df$Gene, 3)
-)
+# Barplot con R base
+barplot(table(df$tipo_muestra))
+```
 
-df_plot <- data.frame(
-  Condicion = rep(c("Control", "Tratamiento1", "Tratamiento2"), each = nrow(df)),
-  Expresion = c(df$Control, df$Tratamiento1, df$Tratamiento2),
-  Gene = rep(df$Gene, 3)
-)
+```r
+# Boxplot con R base 
+boxplot(df$edad_diagnostico,
+        main = "Edad al diagnóstico",
+        ylab = "Edad",
+        col = "lightblue")
+```
+
+```r
+# Boxplot de edad dividido por recaida con R base 
+boxplot(edad_diagnostico ~ recaida,
+        data = df,
+        main = "Edad al diagnóstico según recaída",
+        xlab = "Recaída",
+        ylab = "Edad",
+        col = c("lightgreen", "tomato"))
 ```
 
 ###### 4. Heatmap
 
+Los heatmaps permiten visualizar patrones en datos de expresión génica:
+cada fila representa una muestra y cada columna un gen.
+
+Los colores muestran la intensidad de expresión: valores más altos o bajos se distinguen rápidamente, lo que facilita identificar tendencias globales o agrupamientos naturales.
+
 ```r
-df_long <- data.frame(
-  Gene = rep(df$Gene, 3),
-  Condicion = rep(c("Control", "Tratamiento1", "Tratamiento2"), each = nrow(df)),
-  Expresion = c(df$Control, df$Tratamiento1, df$Tratamiento2)
+expr_cols <- c(
+  "APOE_expresion", "MX1_expresion", "YWHAZ_expresion",
+  "AR_expresion", "B2M_expresion", "POSTN_expresion",
+  "SEPT2_expresion", "MARCH10_expresion"
 )
 
-ggplot(df_long, aes(x = Condicion, y = Gene, fill = Expresion)) +
-  geom_tile() +
-  scale_fill_gradient(low = "white", high = "blue") +
-  labs(title = "Heatmap de expresión génica simulada",
-       x = "Condición",
-       y = "Gen",
-       fill = "Expresión") +
-  theme_minimal() +
-  theme(axis.text.y = element_text(size = 6))  # ajustar tamaño si hay muchos genes
+mat <- as.matrix(df[ , expr_cols])
+rownames(mat) <- df$ID
+
+heatmap(mat,
+        col = heat.colors(50),
+        scale = "row",
+        margins = c(8, 8))
+)
 
 ```
 
+En este caso normalizamos cada gen entre 0 y 1 antes de graficar.
+Esto es útil cuando los genes tienen escalas muy diferentes, para que ninguno "domine" visualmente el heatmap.
+
+```r
+# Heatmap normalizado
+df_norm <- df
+
+df_norm[ , paste0(expr_cols, "_norm")] <- lapply(df_norm[, expr_cols], function(x) {
+  (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+})
+
+# Seleccionamos solo las columnas normalizadas
+expr_norm_cols <- paste0(expr_cols, "_norm")
+
+mat <- as.matrix(df_norm[, expr_norm_cols])
+rownames(mat) <- df_norm$ID
+
+# Heatmap base
+heatmap(
+  mat,
+  col = colorRampPalette(c("white", "red"))(100),
+  scale = "none",     # ya están normalizadas
+  margins = c(8, 10)
+
+```
 
 #### Buenas prácticas
 
@@ -1411,36 +1483,98 @@ En análisis de datos biológicos, especialmente transcriptómicos:
 #### PCA en R
 
 ```r
-# Suponiendo un data frame de expresión genética con filas = genes y columnas = muestras
-# Normalizamos los datos previamente
-expr_matrix <- as.matrix(df[ , -1])  # eliminar columna de nombres si existe
+expr_norm_cols <- paste0(expr_cols, "_norm")
 
-# Realizar PCA
-pca_result <- prcomp(expr_matrix, scale. = TRUE)
+expr_matrix <- df_norm[, expr_norm_cols]
+expr_matrix <- as.matrix(expr_matrix)
 
-# Ver resumen de la varianza explicada
-summary(pca_result)
+pca_res <- prcomp(expr_matrix, center = TRUE, scale. = FALSE)
 
-# Graficar los dos primeros componentes principales
-plot(pca_result$x[,1], pca_result$x[,2], 
-     xlab = "PC1", ylab = "PC2", main = "PCA de muestras", pch = 19)
+pca_df <- as.data.frame(pca_res$x)
+pca_df$ID <- df_norm$ID
+pca_df$tipo_muestra <- df_norm$tipo_muestra   # por ejemplo
+
+library(ggplot2)
+
+ggplot(pca_df, aes(PC1, PC2)) +
+  geom_point(size = 4) +
+  theme_minimal(base_size = 14) +
+  ggtitle("PCA basado en genes normalizados")
+
 ```
 
 #### Volcano Plot en R
 
 - Se utiliza para visualizar **log2 fold-change vs. -log10(p-value)** de un análisis diferencial.
 
-```r
-# Suponiendo un data frame "res" con columnas log2FC y pvalue
-res$negLogP <- -log10(res$pvalue)
+Abrir el set de datos "datos_expresion.csv"
 
-# Graficar Volcano Plot
-ggplot(res, aes(x = log2FC, y = negLogP)) +
-  geom_point(alpha = 0.5) +
-  geom_vline(xintercept = c(-1, 1), col = "red", linetype = "dashed") +
-  geom_hline(yintercept = -log10(0.05), col = "blue", linetype = "dashed") +
-  labs(title = "Volcano Plot", x = "log2 Fold Change", y = "-log10(p-value)")
+```r
+df <- read.csv("datos_expresion.csv", header = TRUE)
 ```
+
+Importar e instalar las librerias necesarias
+
+```r
+library(dplyr)
+library(ggplot2)
+```
+
+Generar los datos para el volcano plot
+
+```r
+normal <- df %>% filter(tipo_muestra == "normal") %>% select(starts_with("GENE"))
+tumor  <- df %>% filter(tipo_muestra == "tumor") %>% select(starts_with("GENE"))
+
+log2fc <- colMeans(tumor) - colMeans(normal)
+
+pvals <- sapply(1:ncol(normal), function(i) {
+  t.test(tumor[[i]], normal[[i]])$p.value
+})
+
+volcano_df <- data.frame(
+  gene = colnames(normal),
+  log2FC = log2fc,
+  neglog10p = -log10(pvals)
+)
+```
+
+
+Graficar el volcano plot
+
+```r
+ggplot(volcano_df, aes(x = log2FC, y = neglog10p)) +
+  geom_point(alpha = 0.6, size = 2) +
+  geom_vline(xintercept = c(-1, 1), linetype = "dashed") +
+  geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Volcano plot (dataset simulado)",
+    x = "log2 Fold Change",
+    y = "-log10(p-value)"
+  )
+```
+
+También podemos usar plotly para hacer un gráfico interactivo
+
+```r
+library(plotly)
+
+p <- ggplot(volcano_df, aes(x = log2FC, y = neglog10p, text = gene)) +
+  geom_point(alpha = 0.6, size = 2) +
+  geom_vline(xintercept = c(-1, 1), linetype = "dashed") +
+  geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Volcano plot interactivo (dataset simulado)",
+    x = "log2 Fold Change",
+    y = "-log10(p-value)"
+  )
+
+ggplotly(p, tooltip = c("text", "x", "y"))
+```
+##### Ejercicio 12
+Indicar tres genes que estén positivamente expresados
 
 **Buenas prácticas**
 

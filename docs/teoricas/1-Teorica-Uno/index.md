@@ -15,12 +15,10 @@ tags:
 
 Código de acceso: 23uq0+Ty
 
-## Parte 1: 
+## Parte 1: Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas
 ### Dr. Carlos Buscaglia
-Material aún no disponible
-<!--
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Materiales</span>](https://drive.google.com/drive/folders/1DWHLrVXh_CWFjFnEgD0xOTp0p3rcvUu8?usp=sharing){ .md-button }
--->
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1pBKO4EdDET-qLzQ_3Fgpu1ZMj-0cj9sT/view?usp=sharing){ .md-button }
+
 
 
 ## Parte 2: Desde Genoma del la fisico-química de la célula
