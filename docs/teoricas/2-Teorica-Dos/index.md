@@ -14,17 +14,15 @@ tags:
 
 Código de acceso: 0f2^vG%e
 
-## Parte 1: Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas
+## Parte 1: Métodos de secuenciación. Ensamblados. Mapeo.
 ### Dr. Fernán Aguero   
-Aún no disponible las slides
 
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](){ .md-button }
-
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1OCVRZ0BmY07KuBOBtZhwXwgu305uk7A7/view?usp=sharing){ .md-button }
 
 
-## Parte 2: Desde Genoma del la fisico-química de la célula
+
+## Parte 2: Guía para la anotación de genomas
 ### Dra. Virginia Balouz 
-Aún no disponible las slides
 
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](){ .md-button }
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1y11C3D-DqpUgFNHuDMwE-APSd5t5bZAR/view?usp=sharing){ .md-button }
 
