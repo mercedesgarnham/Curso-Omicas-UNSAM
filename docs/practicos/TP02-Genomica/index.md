@@ -1,8 +1,8 @@
 ---
 title: Practica Dos
-#tags: 
-#  - practicos
-#  - genomica
+tags: 
+  - practicos
+  - genomica
 show:
   - toc 
 ---
@@ -195,13 +195,23 @@ Corran en la terminal el siguiente comando:
     Si ven que el comando no funciona, es probable que el error que estén viendo sea porque no existe el directorio de salida. Pueden crearlo con el comando `mkdir` o desde la carpeta utilizando la interfaz gráfica.
 
 
-!!! question "Preguntas" 
+!!! question " "
 
-    1. ¿Cuántos archivos fastqc se generaron en la carpeta de resultados? ¿Qué tipo de archivos son?
+    === "Preguntas"
 
-    2. Viendo los reportes de calidad, ¿Qué opinan de los datos? ¿Los usarían para análisis posteriores?. Pueden comparar con este ejemplo de [Reporte de FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/bad_sequence_fastqc.html). ¿Hay alguna métrica que no hayamos visto en el reporte de nuestras lecturas?
+        1. ¿Cuántos archivos fastqc se generaron en la carpeta de resultados? ¿Qué tipo de archivos son?
 
-Los archivos .html contienen el informe de FastQC, mientras que los archivos .zip contienen los datos en bruto utilizados para generar el informe. Abran ambos archivos .html y exploren las diferentes secciones del informe. 
+        2. Viendo los reportes de calidad, ¿Qué opinan de los datos? ¿Los usarían para análisis posteriores?. Pueden comparar con este ejemplo de [Reporte de FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/bad_sequence_fastqc.html). ¿Hay alguna métrica que no hayamos visto en el reporte de nuestras lecturas?
+
+    === "Respuesta 1"
+
+        En la carpeta de resultados deberían ver dos archivos .html y dos archivos .zip, uno para cada archivo .fastq que analizamos. El archivo .html contiene el informe visual de FastQC, mientras que el archivo .zip contiene los datos en bruto utilizados para generar el informe. Para responder la pregunta dos, abran los archivos .html.  
+
+    === "Respuesta 2"
+
+        Los datos son confiables porque tienen una buena calidad en la mayoría de las métricas evaluadas por FastQC. Solo tenemos un _warning_ en la métrica de "Per base sequence content", que puede ser común en lecturas cortas y no necesariamente indica un problema grave. En el reporte que vemos, comparado con el ejemplo de FastQC, no existe la métrica _per tile sequence quality_, porque esta métrica es específica de la plataforma Illumina y no aplica para las lecturas obtenidas con DNBSEQ-T7.
+
+
 
 !!! info "Agregando reportes con MultiQC"
 
@@ -238,8 +248,13 @@ Para indexar el genoma de referencia, corran en la terminal:
 
   bwa index dmel-all-chromosome-r5.57.fasta
 ```
-!!! question "Preguntas"
-    1. ¿Cuántos archivos nuevos tienen ahora en la carpeta Materiales?  
+!!! question " "
+
+    === "Preguntas"
+        1. ¿Cuántos archivos nuevos tienen ahora en la carpeta Materiales?  
+
+    === "Respuesta 1"
+        Deberían ver cinco archivos nuevos con las siguientes extensiones: .amb, .ann, .bwt, .pac, .sa.
 
 Los archivos generados son índices que permiten a BWA realizar búsquedas rápidas en el genoma de referencia durante el proceso de alineamiento. Cada archivo tiene un propósito específico:
 
@@ -263,8 +278,23 @@ Ahora que tenemos el genoma de referencia indexado, podemos proceder a alinear n
   bwa mem dmel-all-chromosome-r5.57.fasta *1.fastq *2.fastq > ../Outputs/subset_SRR33554828_bwa.sam
 ```
 
-!!! question "Preguntas"
-    2. ¿Qué tipo de archivo se generó en la carpeta Outputs? ¿Qué información contiene este archivo? Pueden inspeccionarlo con `head` y `tail`.
+!!! question " "
+
+    === "Preguntas"
+
+        1. ¿Qué tipo de archivo se generó en la carpeta Outputs? ¿Qué información contiene este archivo? Pueden inspeccionarlo con `head` y `tail`.
+
+    === "Respuesta 1"
+
+        El archivo generado es un archivo **SAM** (Sequence Alignment/Map). Este archivo es un estándar para almacenar alineamientos de secuencias, y contiene información detallada sobre cómo cada lectura de secuenciación se alinea al genoma de referencia. 
+
+        Al inspeccionar el archivo con `head` y `tail`, pueden ver que el archivo SAM tiene dos secciones principales:
+
+        1. **Encabezado**: Las primeras líneas del archivo comienzan con el símbolo '@' y contienen metadatos sobre el alineamiento, como la versión del formato SAM, la referencia del genoma utilizado, y estadísticas generales del alineamiento.
+
+        2. **Cuerpo**: Después del encabezado, cada línea representa una lectura alineada y contiene varios campos separados por tabulaciones. Estos campos incluyen el identificador de la lectura, la posición en el genoma donde se alinea, la secuencia de la lectura, los puntajes de calidad, y otros detalles relevantes sobre el alineamiento.
+
+
 
 !!! info "De SAM a BAM"
     El archivo **SAM** (Sequence Alignment/Map) puede ser bastante grande y no es eficiente para su almacenamiento y procesamiento. Por lo tanto, es común convertirlo a un formato binario más compacto llamado **BAM** (Binary Alignment/Map). Además, los archivos BAM suelen ordenarse por la posición en el genoma para facilitar el acceso y análisis de las lecturas alineadas.
@@ -277,9 +307,21 @@ Vamos a realizar la conversión y ordenamiento del archivo SAM a BAM utilizando 
   samtools view -Sb subset_SRR33554828_bwa.sam | samtools sort -o subset_SRR33554828_bwa_sorted.bam
 
 ```
-!!! question "Preguntas"
-    3. ¿Qué diferencias hay entre los archivos .sam y .bam (prueben explorar con `head` el archivo .bam)? 
-    4. ¿Cuál es el factor de compresión?
+!!! question " "
+
+    === "Preguntas"
+        
+        1. ¿Qué diferencias hay entre los archivos .sam y .bam (prueben explorar con `head` el archivo .bam)? 
+    
+        2. ¿Cuál es el factor de compresión?
+
+    === "Respuesta 1"
+
+        El archivo .bam es un archivo binario, por lo que no se puede leer directamente con `head` como un archivo de texto. Si intentan hacerlo, verán caracteres incomprensibles. En cambio, el archivo .sam es un archivo de texto legible que contiene información detallada sobre cada alineamiento.
+
+    === "Respuesta 2"
+
+        Pueden comparar el tamaño de ambos archivos utilizando el comando `ls -lh` en la terminal para ver cuánto espacio ocupa cada uno. El factor de compresión es la división del tamaño del archivo .sam por el tamaño del archivo .bam.
 
 Por último, asi como indexamos el genoma de referencia para el alineamiento, también es recomendable indexar el archivo BAM ordenado. Esto va a hacer que los _genome browsers_  puedan acceder rápidamente a las lecturas alineadas en posiciones específicas del genoma. 
 
@@ -346,7 +388,7 @@ Si todo salió bien, ya deberían tener cargados en JBrowse2 el genoma de refere
 
 ![Image](imagenes/carga_datos_jbrowse.png){ width="900", align=center }
 
-!!!question "Ejercicio de exploración"
+!!!question " "
 
     === "Preguntas"
 
@@ -421,7 +463,7 @@ Ahora que tenemos el archivo VCF con las variantes detectadas, podemos cargarlo 
 
 Para ver mejor las variantes, vamos a desactivar momentáneamente las anotaciones. En el panel **Available Tracks**, destilden la casilla correspondiente al gff.
 
-!!! question
+!!! question " "
 
     === "Preguntas"
 
@@ -477,6 +519,85 @@ Para ver mejor las variantes, vamos a desactivar momentáneamente las anotacione
 6. Realizamos el llamado de variantes utilizando bcftools y visualizamos las variantes detectadas en JBrowse2.
 
 Y recuerden, que **el punto mas importante de todo este proceso es la interpretación biológica de los resultados obtenidos**, y ahí es donde ustedes pueden aportar su conocimiento y creatividad para generar nuevas hipótesis y descubrimientos.
+
+## 🧩 Ejercicio adicional: Evaluación de ensamblajes usando QUAST
+
+Para esta parte adicional del práctico, vamos a utilizar el genoma publicado por el mismo grupo del cual obtuvimos las lecturas de Illumina. Pueden descargar el ensamblaje explorando [este enlace](https://www.ncbi.nlm.nih.gov/nuccore/JBMFZO000000000.1). Vayan hasta el final de la página y clickeen el enlace que dice **WGS**. Van a acceder al [Sequence Set Browser](https://www.ncbi.nlm.nih.gov/Traces/wgs/JBMFZO01?display=download) del genoma, y desde ahí, en la pestaña Download, descargen el archivo **FASTA**. Este archivo está comprimido, por lo tanto **no se olviden de descomprimirlo a la hora de utilizarlo**.
+
+Como vimos en la teórica, a partir de las lecturas se puede realizar un ensamblaje del genoma. Una vez que tenemos el ensamblaje, es importante evaluar su calidad utilizando herramientas como **QUAST** (Quality Assessment Tool for Genome Assemblies). QUAST calcula métricas clave como el N50, el largo total y la cantidad de contigs que hay en un ensamblaje. Dado que lo vamos a comparar con un genoma de referencia, también podemos calcular la precisión del ensamblaje respecto a la referencia.
+
+!!! info "Requisitos"
+
+    Para esta parte del TP vamos a necesitar instalar QUAST, lo cual podemos hacer dentro del ambiente conda del tp2. Para instalarlo, corran en la terminal:
+
+    ```bash
+        conda install -c bioconda quast
+    ```
+
+Una vez instalado QUAST, vamos a realizar la comparación. Corran en la terminal:
+
+=== "Codigo"
+
+    ``` bash
+
+        quast.py -r Materiales/dmel-all-chromosome-r5.57.fasta -o Outputs/resultados_quast JBMFZO01.1.fsa_nt/JBMFZO01.1.fsa_nt
+    ```
+
+=== "Codigo con comentarios"
+
+    ``` bash
+
+        # El ejemplo tiene como directorio de trabajo la carpeta del TP
+
+        quast.py -r Materiales/dmel-all-chromosome-r5.57.fasta -o Outputs/resultados_quast JBMFZO01.1.fsa_nt/JBMFZO01.1.fsa_nt
+
+        # -r es el genoma de referencia, que se encuentra dentro de la carpeta Materiales
+
+        # -o dice donde quiero guardar los resultados, en una carpeta dentro Outputs llamada "resultados_quast"
+
+        # El último parámetro es el genoma de referencia
+    ```
+
+Este código tarda un par de minutos en completarse. Cuando finalice, vayan a la carpeta de resultados y abran el archivo `report.html`. Van a encontrar una tabla con métricas y varios gráficos interactivos.
+
+!!! question " "
+
+    === "Preguntas"
+
+        1. Observen las métricas **# contigs** y **L50**. Sabiendo que *Drosophila melanogaster* tiene 4 pares de cromosomas (X, 2, 3, 4) y un par sexual (Y), ¿Cómo interpretan que el número total de fragmentos sea tan bajo? ¿Qué representan esos 3 contigs del L50?
+        
+        2. Busquen el valor de N50 en el reporte. ¿Qué significa este número y por qué es más informativo que el "largo promedio" de los contigs?
+
+        3. Comparen el **Total length** del ensamblaje contra la longitud de la referencia. ¿El ensamblaje es más grande o más chico? ¿A qué creen que se debe esa diferencia de aproximadamente 7 Mb?
+
+        4. Teniendo en cuenta que en los ejercicios anteriores trabajamos con lecturas de **Illumina** (cortas), ¿creen que este ensamblaje se pudo lograr *solo* con las lecturas que analizaron antes? ¿Por qué?
+
+    === "Respuesta 1"
+
+        El ensamblaje es de **calidad cromosómica**. Tener solo 12 contigs indica que cada secuencia corresponde prácticamente a un brazo cromosómico completo o un cromosoma entero.
+        
+        El **L50 de 3** significa que con solo los 3 fragmentos más grandes ya cubrimos la mitad del genoma. Biológicamente, esto tiene sentido porque *Drosophila* tiene cromosomas muy grandes (el 2, el 3 y el X) que constituyen la mayor parte del ADN. Este valor indica que el ensamblaje logró reconstruir esos grandes cromosomas casi sin cortes. Si no lo encuentran esta métrica, clickeen en **Extended report**
+
+
+    === "Respuesta 2"
+        
+        El **N50** es una métrica estadística que indica la continuidad del ensamblaje. Se define como la longitud del contig más corto tal que, si ordenamos todos los contigs de mayor a menor, la suma de las longitudes de los contigs más largos cubre al menos el 50% del tamaño total del ensamblaje.
+
+    === "Respuesta 3"
+        
+        El ensamblaje es ligeramente **más pequeño** (161.6 Mb vs 168.7 Mb).
+    
+        Esta diferencia de ~7 Mb suele corresponder a regiones de **heterocromatina constitutiva**, centrómeros o telómeros. Estas zonas están llenas de secuencias altamente repetitivas que son extremadamente difíciles de secuenciar y ensamblar, por lo que a menudo quedan fuera incluso en los mejores ensamblajes, o la referencia incluye regiones "de relleno" (N's) para estimar esos tamaños que este ensamblaje no tiene.
+
+    === "Respuesta 4"
+        
+        **No, es muy improbable** que este resultado provenga solo de lecturas cortas (Illumina).
+    
+        Las lecturas cortas no pueden atravesar regiones repetitivas largas, lo que suele resultar en ensamblajes fragmentados con miles de contigs pequeños y un N50 bajo (ej. 50-100 kb). Un N50 de **29 Mb** sugiere fuertemente que se utilizaron tecnologías de **lecturas largas** (como PacBio o Nanopore) o mapas ópticos para cerrar los huecos ("gaps") y lograr esa continuidad. El archivo que analizamos es seguramente un ensamblaje híbrido o curado profesionalmente.
+
+        Si buscan el proyecto en [NCBI](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1237537), verán que el mismo grupo publicó lecturas de Oxford Nanopore y PacBIO HiFi, con toda esa información generaron el ensamblado.
+
+
 
 ## 📚 Recursos adicionales
 
