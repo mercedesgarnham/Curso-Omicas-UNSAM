@@ -40,13 +40,13 @@ Antes de comenzar, es fundamental asegurarse de tener todas las herramientas ins
 
 === Herramientas de Línea de Comando (con Conda)
     ```bash
-    # 1. (Recomendado) Crear un entorno de conda dedicado para este análisis
+    # 1. Crear un entorno de conda dedicado para este análisis
     # Esto evita conflictos entre las dependencias de los programas.
-    conda create -y -n transcriptomics -c bioconda fastqc trim-galore star multiqc samtools
+    conda create -n tp3 -y -c bioconda -c conda-forge star trim-galore fastqc multiqc samtools igv
 
     # 2. Activar el entorno antes de correr los comandos
     # Deberás hacer esto cada vez que abras una nueva terminal para el práctico.
-    conda activate transcriptomics
+    conda activate tp3
     ```
 
 === Paquetes de R (con BiocManager)
@@ -88,27 +88,52 @@ En esta parte del práctico, el objetivo es que **ustedes mismos obtengan esta i
 
 Cada muestra está disponible como un archivo comprimido `.fastq.gz` dentro del directorio del proyecto. Vamos a explorar estos archivos usando diversas herramientas.
 
+
 #### Exploración básica con comandos Unix y samtools
 
-```bash
-# Listar archivos y ver tamaños
-ls -lh Drosophila_RNAseq_PRJNA1226617/
+=== "Rápido — comandos y notas principales"
 
-# Ver las primeras 4 entradas del FASTQ
-zcat Drosophila_RNAseq_PRJNA1226617/SRR32429928_1.fastq.gz | head -4
+    ```bash
+    # Descargar/descomprimir materiales y entrar a la carpeta del práctico (TP3)
+    cd TP3
+    ls -lh
 
-## OPCIONAL ##
-# Contar número total de lecturas (dividir por 4 ya que cada lectura usa 4 líneas)
-zcat Drosophila_RNAseq_PRJNA1226617/SRR32429928_1.fastq.gz | wc -l | awk '{print $1/4}'
+    # Ver las primeras 4 líneas del FASTQ (ejemplo)
+    zcat SRR32429928_1.fastq.gz | head -4
 
-```
+    # Contar número estimado de lecturas (líneas / 4)
+    zcat SRR32429928_1.fastq.gz | wc -l | awk '{print $1/4}'
+    ```
+
+=== "Detallado — explicaciones completas línea por línea"
+
+    ```bash
+    # 0) Primero: descarguen y descompriman los materiales del práctico.
+    #    En la distribución del curso los materiales vienen en un ZIP o carpeta.
+    #    Tras descargar/descomprimir, la carpeta del práctico se llamará `TP3`.
+
+    # 1) Entrar a la carpeta del práctico y listar archivos
+    cd TP3
+    ls -lh
+
+    # 2) Ver las primeras 4 entradas del FASTQ (ejemplo en la muestra SRR32429928)
+    # `zcat` descomprime el archivo `.gz` y escribe el contenido en stdout,
+    # aquí lo canalizamos a `head -4` para ver las primeras 4 líneas del FASTQ.
+    zcat SRR32429928_1.fastq.gz | head -4
+
+    ## OPCIONAL ##
+    # Contar número total de lecturas (dividir por 4 ya que cada lectura usa 4 líneas)
+    # `wc -l` cuenta líneas del FASTQ comprimido (vía `zcat`); cada lectura ocupa 4 líneas,
+    # por eso usamos `awk` para dividir el número total de líneas por 4 y obtener el número de lecturas.
+    zcat SRR32429928_1.fastq.gz | wc -l | awk '{print $1/4}'
+    ```
 
 !!! info "Estructura del FASTQ"
-    Cada entrada en el archivo FASTQ contiene 4 líneas:
-    1. Encabezado con @ (información de la secuenciación)
-    2. Secuencia de nucleótidos
-    3. Línea separadora con +
-    4. Calidades en formato Phred+33
+    Cada entrada en el archivo FASTQ contiene 4 líneas:  
+    1. Encabezado con @ (información de la secuenciación)  
+    2. Secuencia de nucleótidos  
+    3. Línea separadora con +  
+    4. Calidades en formato Phred+33  
 
 !!! question "Preguntas"
 
@@ -155,7 +180,7 @@ zcat Drosophila_RNAseq_PRJNA1226617/SRR32429928_1.fastq.gz | wc -l | awk '{print
     - Se recomienda realizar un control de calidad con **FastQC** y aplicar **trimming**.  
     - Estos pasos aseguran una **mejor alineación** y **menor sesgo** en el análisis transcriptómico.
 
-🧾Consultar los metadatos del estudio
+🧾**Consultar los metadatos del estudio**
 
 Otro camino suele ser que los metadatos asociados al experimento pueden obtenerse desde el NCBI SRA o desde el paper original.
 
@@ -163,12 +188,14 @@ Buscá el BioProject en NCBI correspondiente al estudio:
 
 🔗 [PRJNA1226617](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1226617)
 
+Podés entrar a la pestaña "SRA" de la página del proyecto y abrir uno de los runs de RNA-seq para ver la descripción y metadatos del experimento (por ejemplo: [`SRX27758951`]( https://www.ncbi.nlm.nih.gov/sra/SRX27758951) ).
+   
 !!! tip
-    Podés ver detalles como:
-    - Plataforma de secuenciación (Instrument Model)
-    - Layout (Paired / Single)
-    - Read length (por ejemplo, 75 bp)
-    - Tipo de librería (mRNA, Total RNA, etc.)
+    Podés ver detalles como:   
+    - Plataforma de secuenciación (Instrument Model)    
+    - Layout (Paired / Single)  
+    - Read length (por ejemplo, 75 bp)  
+    - Tipo de librería (mRNA, Total RNA, etc.)  
 
 
 ??? success "💡 Ver respuesta esperada"
@@ -184,21 +211,27 @@ Buscá el BioProject en NCBI correspondiente al estudio:
 
 **Distribución de muestras:**
 
-🪰⚪ *White-eye*: muestras 28 a 32  
-🪰🔴 *Red-eye*: muestras 38 a 42  
+🪰⚪ *White-eye*: 5 muestras  
+🪰🔴 *Red-eye*: 5 muestras
 
-!!! note "Archivos de entrada"
-        Los archivos `.fastq.gz` ya están disponibles en la carpeta compartida del curso.
+!!! note "Sobre las muestras usadas en este práctico"
+    El estudio original dispone de múltiples runs de RNA-seq (por ejemplo, 5 réplicas por condición), como es habitual en experimentos de transcriptómica.
+    Sin embargo, dado el tamaño de los archivos y las limitaciones de tiempo en clase, en este práctico **ejecutaremos los pasos de forma demostrativa con una sola muestra**.
+    Las instrucciones están escritas para que puedan repetirse fácilmente sobre todas las muestras si decidís correr el análisis completo fuera de la clase.
 
 ---
 
 ## 🧩 Parte 1: Análisis de calidad inicial
 
-=== 1️⃣ Ejecutar FastQC
+**Ejecutar FastQC**
     ```bash
      #FastQC permite evaluar la calidad de las lecturas crudas (`.fastq.gz`).
      mkdir -p fastqc_results
-     fastqc Drosophila_RNAseq_ PRJNA1226617/SRR32429928_1.fastq.gz -o fastqc_results
+
+     # Si están fuera de TP3: cd TP3
+     #RECUERDEN CORRER DENTRO DE LA CARPETA TP3 ! ! ! 
+
+     fastqc SRR32429928_1.fastq.gz -o fastqc_results
 
     ```
 
@@ -206,7 +239,7 @@ Buscá el BioProject en NCBI correspondiente al estudio:
         Cada muestra generará un archivo `.html` con los gráficos de calidad y un archivo `.zip` con los datos resumidos.
         Acá también podrías encontrar información sobre tu secuenciación como tamaño de reads, calidad, etc.
 
-=== 2️⃣ Explorar resultados
+**Explorar resultados**
     ```bash
     #Abrir uno de los reportes HTML (por ejemplo, en un navegador web local):
     xdg-open fastqc_results/SRR32429928_1_fastqc.html
@@ -221,21 +254,41 @@ Revisar los siguientes módulos principales:
 !!! question "Preguntas para discutir"
         - ¿Qué patrones de calidad observas hacia el final de las lecturas?  
         - ¿Existen adaptadores detectados?  
-        - ¿Hay diferencias notorias entre muestras?
 
 ---
 
 ## ✂️ Parte 2: Trimeado de lecturas
 
-=== 1️⃣ Ejecutar Trim Galore
+**Ejecutar Trim Galore**
 
 Trim Galore combina **Cutadapt** y **FastQC** para recortar adaptadores y bases de baja calidad.
-    ```bash
 
+=== "Rápido — comandos (listos para copiar)"
+
+    ```bash
+    # Crear carpeta de salida (trimmed + fastqc)
+    mkdir -p trimmed_reads
+
+    # Ejecutar Trim Galore para la muestra SRR32429928 (comandos listos para copiar)
+    trim_galore \
+    --paired \
+    --illumina \
+    --quality 20 \
+    --fastqc \
+    --length 50 \
+    --cores 4 \
+    --output_dir trimmed_reads \
+    SRR32429928_1.fastq.gz \
+    SRR32429928_2.fastq.gz
+    ```
+
+=== "Detallado — explicaciones línea por línea"
+
+    ```bash
+    # Crear carpeta de salida (trimmed + fastqc)
     mkdir -p trimmed_reads
 
     # Ejecutar Trim Galore solo para la muestra SRR32429928
-
     trim_galore \
     --paired \                # modo paired-end
     --illumina \              # remueve adaptadores Illumina
@@ -244,15 +297,14 @@ Trim Galore combina **Cutadapt** y **FastQC** para recortar adaptadores y bases 
     --length 50 \             # descarta reads más cortos que 50 bp
     --cores 4 \               # usa 4 núcleos (ajustar según la PC)
     --output_dir trimmedgalore_reads \  # guarda resultados en esta carpeta
-    Drosophila_RNAseq_PRJNA1226617/SRR32429928_1.fastq.gz \
-    Drosophila_RNAseq_PRJNA1226617/SRR32429928_2.fastq.gz
-
+    SRR32429928_1.fastq.gz \
+    SRR32429928_2.fastq.gz
     ```
 
 !!! info
         Trim Galore automáticamente genera nuevos archivos `*_val_1.fq.gz` y `*_val_2.fq.gz` con las lecturas filtradas.
 
-=== 2️⃣ Evaluar calidad post-trimming
+**Evaluar calidad post-trimming**
     ```bash
     xdg-open trimmed_reads/SRR32429928_1_val_1_fastqc.html
     ```
@@ -266,14 +318,16 @@ Trim Galore combina **Cutadapt** y **FastQC** para recortar adaptadores y bases 
 
 ## 📊 Parte 3: Resumen con **MultiQC**
 
-=== 1️⃣ Generar el reporte
+**Generar el reporte**
 
 MultiQC consolida todos los reportes de FastQC y Trim Galore en un solo archivo HTML.
+
+El siguiente comando deben correrlo dentro de la carpeta TP3.
     ```bash    
-    multiqc *_fastqc.html -o multiqc_posttrimmed
+    multiqc fastqc_results_ALL/*_fastqc.html -o multiqc_posttrimmed
     ```
 
-=== 2️⃣ Visualizar resultados
+**Visualizar resultados**
     ```bash   
     #Abrir el reporte:
 
@@ -303,10 +357,11 @@ MultiQC consolida todos los reportes de FastQC y Trim Galore en un solo archivo 
 
 ## 🧩 Parte 4: Alineamiento y cuantificación 
 
-En esta sección abordaremos los dos enfoques más utilizados para analizar datos de RNA-seq:
+En esta sección abordaremos uno de los enfoques más utilizados para analizar datos de RNA-seq, que es **STAR**.   
+No obstante, les dejamos información sobre otro de los programas más empleados actualmente (Salmon).
 
-- **STAR**: excelente si necesitás mapear el genoma, analizar *splicing*, variantes, intrones o generar archivos BAM.  
-- **Salmon**: ideal si solo te interesa cuantificar abundancia de transcritos/genes, de forma rápida y eficiente.
+- ⭐ **STAR**: excelente si necesitás mapear el genoma, analizar *splicing*, variantes, intrones o generar archivos BAM.  
+- 🐟 **Salmon**: ideal si solo te interesa cuantificar abundancia de transcritos/genes, de forma rápida y eficiente.
 
 ---
 
@@ -330,35 +385,18 @@ En esta sección abordaremos los dos enfoques más utilizados para analizar dato
 Usaremos las secuencias y anotaciones del genoma de *Drosophila melanogaster* (versión BDGP6.54, Ensembl 115).
 
 !!! info "Archivos necesarios"
-    - Secuencia del genoma (FASTA)
-    - Anotación génica (GTF)
+    Todos los archivos se encuentran dentro de la carpeta **TP3/Genome_files**  
+    - Secuencia del genoma (FASTA)  
+    - Anotación génica (GTF)  
     Disponibles en: 🔗 [FTP Ensembl Drosophila melanogaster](https://ftp.ensembl.org/pub/release-115/fasta/drosophila_melanogaster/dna/README)
 
-=== 1️⃣ Descargar archivos
-    ```bash
-    # Genoma de referencia
-    wget https://ftp.ensembl.org/pub/release-115/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa.gz
-    
-    # Archivo de anotación
-    wget https://ftp.ensembl.org/pub/release-115/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.54.115.gtf.gz
-    ```
-
-=== 2️⃣ Descomprimir archivos
-    ```bash
-    # Descompresión
-    gunzip Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa.gz
-    gunzip Drosophila_melanogaster.BDGP6.54.115.gtf.gz
-    
-    # Renombrar para facilitar su uso (opcional)
-    mv Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa Drosophila_genome.fa
-    mv Drosophila_melanogaster.BDGP6.54.115.gtf Drosophila_annotation.gtf
-    ```
 
 ## Exploración de los archivos 
 
 ### GTF file 
 
-La anotación se almacena en formato General Transfer Format ( GTF ) , una extensión del formato GFF anterior: un formato tabular con una línea por cada característica del genoma, cada una con 9 columnas de datos. Generalmente, incluye un encabezado indicado por el primer carácter «#» y una fila por cada característica, compuesta por 9 columnas.
+La anotación se almacena en formato General Transfer Format ( GTF ) , una extensión del formato GFF anterior: un formato tabular con una línea por cada característica del genoma, cada una con 9 columnas de datos.   
+ Generalmente, incluye un encabezado indicado por el primer carácter «#» y una fila por cada característica, compuesta por 9 columnas.
 
 !!! info  Estructura del archivo GTF
     | Nº de columna | Nombre de columna | Descripción |
@@ -376,8 +414,8 @@ La anotación se almacena en formato General Transfer Format ( GTF ) , una exten
 Para explorar el GTF, corran en la terminal donde se encuentran los archivos:
 
 ```bash
-head Drosophila_annotation.gtf
-grep "gene" Drosophila_annotation.gtf | head
+head Genome_files/Drosophila_annotation.gtf
+grep "gene" Genome_files/Drosophila_annotation.gtf | head
 ```
 
 
@@ -387,7 +425,7 @@ Los genomas suelen encontrarse en formato FASTA (.fa), donde cada header (puede 
 
 ```bash
 # Ver los cromosomas y scaffolds incluidos
-grep ">" Drosophila_genome.fa
+grep ">" Genome_files/Drosophila_genome.fa
 ```
 
 !!! info "Componentes del genoma de referencia"
@@ -400,45 +438,39 @@ grep ">" Drosophila_genome.fa
     | rDNA | rDNA | Región de ADN ribosomal repetitivo |
     | Fragmentos pequeños | 211000022278049 | Contigs cortos o repetitivos |
 
-#### ¿Por qué indexar?
+###Ahora sí, ya que tenemos nuestros archivos genómicos, pasamos a procesarlos para alinear nuestras reads!
+
+Primero hay que INDEXAR
+
+#### 🧉 Y... ¿Por qué indexar?
 
 !!! info "Propósito del indexado"
         - STAR crea estructuras de datos (suffix array, índices auxiliares y una base de
             datos de junctions a partir del GTF) para buscar rápidamente fragmentos de
-            lecturas en el genoma. El indexado es lo que permite que el mapeo sea mucho
+            lecturas en el genoma.
+        - Es decir: El indexado es lo que permite que el mapeo sea mucho
             más rápido que buscar en el FASTA plano cada vez.
-        - Durante la indexación, STAR integra información de splicing desde el GTF
+        - Además: Durante la indexación, STAR integra información de splicing desde el GTF
             (opción `--sjdbGTFfile`) y prepara una "splice junction database" que mejora
             la detección de uniones exón–exón.
 
 
-!!! tip "Index y longitud de lectura"
-        - El parámetro `--sjdbOverhang` debe fijarse a (longitud_de_lectura - 1).
-        - Si tus lecturas cambian de longitud (por ejemplo 75bp vs 150bp), debes
-            regenerar el índice con el `sjdbOverhang` apropiado para esa longitud,
-            de lo contrario la sensibilidad del mapeo en uniones de splicing puede disminuir.
-
-!!! tip "Ajuste de `--genomeSAindexNbases` (pequeños vs grandes genomas)"
-        - El valor por defecto es `14`. Para genomas pequeños conviene reducirlo usando la
-            fórmula recomendada por la guía: `min(14, log2(GenomeLength)/2 - 1)`.
-        - Ejemplo (de la guía PHINDaccess): para un cromosoma de 170,805,979 bases,
-            `genomeSAindexNbases` ≈ `min(14, log2(170805979/2)-1)` ≈ `12.6`.
-
 ### 4.2 Alineamiento con STAR
 
 #### Construcción del índice del genoma
-=== 1️⃣ Crear directorio para el índice
+**Crear directorio para el índice**
     ```bash
     mkdir -p STAR_index
     ```
 
-=== 2️⃣ Generar el índice
+**A. Generar el índice**  
+Recuerden correr todo desde la carpeta TP3!! 
     ```bash
     STAR --runThreadN 8 \
          --runMode genomeGenerate \
          --genomeDir STAR_index \
-         --genomeFastaFiles Drosophila_genome.fa \
-         --sjdbGTFfile Drosophila_annotation.gtf \
+         --genomeFastaFiles Genome_files/Drosophila_genome.fa \
+         --sjdbGTFfile Genome_files/Drosophila_annotation.gtf \
          --sjdbOverhang 74
     ```
 
@@ -453,18 +485,52 @@ grep ">" Drosophila_genome.fa
     | `--sjdbOverhang` | Longitud de lectura - 1 | `74` para lecturas de 75bp |
     | `--genomeSAindexNbases` | Tamaño del índice SA (opcional) | Calculado automáticamente |
 
+Dentro de la carpeta: STAR_index podrán ver los archivos generados.
 
-!!! tip "Archivos generados en el índice"
-    | Archivo | Descripción |
-    |---------|-------------|
-    | `Genome` | Secuencia del genoma en formato binario |
-    | `SA` | Índice de alineamiento sufijo (Suffix Array) |
-    | `SAindex` | Índice auxiliar para búsqueda rápida |
-    | `chrLength.txt` | Longitud de cada cromosoma |
-    | `chrName.txt` | Nombres de los cromosomas |
-    | `genomeParameters.txt` | Parámetros usados en la indexación |
+!!! tip "¿Qué tipo de archivos generó STAR en el indexado?"
+    - `Genome` — Secuencia del genoma en formato binario
+    - `SA` — Índice de alineamiento sufijo (Suffix Array)
+    - `SAindex` — Índice auxiliar para búsqueda rápida
+    - `chrLength.txt` — Longitud de cada cromosoma
+    - `chrName.txt` — Nombres de los cromosomas
+    - `genomeParameters.txt` — Parámetros usados en la indexación
 
-#### Alineamiento de lecturas
+=== " 🧉 Recomendaciones para que tengan en cuenta con sus futuros datos biológicos .."
+
+    === "Resumen rápido"
+
+        - Fijá `--sjdbOverhang = (longitud_de_lectura - 1)` al crear el índice.
+        - Si cambian las longitudes de lectura (ej. 75 → 150 bp) **regenerá** el índice con el sjdbOverhang adecuado.
+        - Ajustá `--genomeSAindexNbases` para genomas pequeños usando `min(14, log2(GenomeLength)/2 - 1)`.
+
+    === "sjdbOverhang — por qué y cómo"
+
+        - ¿Qué es? `--sjdbOverhang` = read_length - 1. STAR usa este valor para construir la "splice junction database" y mejorar la detección de uniones exón–exón.
+        - Recomendación práctica: para lecturas de 75 bp usar `--sjdbOverhang 74`; para 150 bp usar `149`.
+        - Nota: si re-utilizás un índice creado para una longitud distinta, la sensibilidad en detección de splicing puede bajar. Mejor regenerar el índice cuando las longitudes cambian.
+
+    === "genomeSAindexNbases — ajuste para tamaños de genoma"
+
+        - Propósito: controla el tamaño del sufijo-array index en STAR; afecta memoria y velocidad.
+        - Regla práctica (guía PHINDaccess): `genomeSAindexNbases = min(14, log2(GenomeLength)/2 - 1)`.
+        - Ejemplo: para un genoma de ~170,805,979 bases => `min(14, log2(170805979/2)-1)` ≈ `12`.
+        - Si trabajás con genomas muy pequeños (p. ej. bacterias) reducí este valor para ahorrar memoria.
+
+
+#### B. Alineamiento de lecturas   
+Recuerden correr todo desde la carpeta TP3!! 
+
+```bash
+STAR --runThreadN 8 \
+     --genomeDir STAR_index \
+     --readFilesIn trimmedgalore_reads/SRR32429928_1_val_1.fq.gz trimmedgalore_reads/SRR32429928_2_val_2.fq.gz \
+     --readFilesCommand zcat \
+     --quantMode GeneCounts \
+     --outFileNamePrefix SRR32429928_ \
+     --outSAMtype BAM SortedByCoordinate
+```
+
+¿Qué significan esos parámetros? 
 
 !!! info "Parámetros principales de alineamiento"
     | Parámetro | Descripción | Valor recomendado |
@@ -478,15 +544,7 @@ grep ">" Drosophila_genome.fa
     | `--outFilterMismatchNmax` | Máx. mismatches permitidos | `2` (default) |
     | `--outFilterMultimapNmax` | Máx. sitios de mapeo por lectura | `20` (default) |
 
-```bash
-STAR --runThreadN 8 \
-     --genomeDir STAR_index \
-     --readFilesIn trimmedgalore_reads/SRR32429928_1_val_1.fq.gz trimmedgalore_reads/SRR32429928_2_val_2.fq.gz \
-     --readFilesCommand zcat \
-     --quantMode GeneCounts \
-     --outFileNamePrefix SRR32429928_ \
-     --outSAMtype BAM SortedByCoordinate
-```
+
 
 #### Archivos de salida
 
@@ -528,9 +586,14 @@ Te invitamos a que revises los archivos para poder comprender su estructura y da
     - [Manual de STAR](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf)
     - [Tutorial de RNA-seq con STAR](https://hbctraining.github.io/Intro-to-rnaseq-hpc-gt/lessons/03_alignment.html)
 
+---
+
 ## 🧠 Parte 5: Análisis de Expresión Diferencial 
 
 A continuación veremos cómo realizar un análisis completo de expresión diferencial usando **DESeq2** en R, desde los archivos de conteo generados por STAR hasta el análisis funcional (**GO** y **KEGG**).
+
+Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL, puede quedar en su carpeta de Descargas.   
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: DESEQ2_MATERIALS</span>](https://drive.google.com/file/d/1cmXWxVYGdiyoKEE9L6Qy_ZCfuUKz8nQI/view?usp=drive_link){ .md-button }
 
 ---
 
@@ -538,19 +601,18 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 | Etapa | Descripción | Herramientas |
 |-------|--------------|---------------|
-| Lectura de conteos | Importar archivos de STAR | `read.table`, `list.files` |
-| Preparación del objeto | Crear `DESeqDataSet` y filtrar genes | `DESeq2` |
-| Análisis diferencial | Comparar condiciones | `DESeq`, `results()` |
-| Anotación funcional | GO y KEGG | `clusterProfiler`, `org.Dm.eg.db` |
-| Visualización | Volcano, MA, PCA, Heatmap | `ggplot2`, `pheatmap` |
-| Exportación | Resultados a `.csv` | `write.csv` |
-
+| 1. Lectura de conteos | Importar archivos de STAR | `read.table`, `list.files` |
+| 2. Preparación del objeto | Crear `DESeqDataSet` y filtrar genes | `DESeq2` |
+| 3. Análisis diferencial | Comparar condiciones | `DESeq`, `results()` |
+| 4. Anotación funcional | GO y KEGG | `clusterProfiler`, `org.Dm.eg.db` |
+| 5. Visualización | Volcano, MA, PCA, Heatmap | `ggplot2`, `pheatmap` |
+| 6. Exportación | Resultados a `.csv` | `write.csv` |
 
 ---
 
 ## Cargar librerías
 
-!!! info "Entradas y recomendaciones previas"
+!!! info "🧉 Entradas y recomendaciones previas"
     - DESeq2 requiere una matriz de **conteos enteros** (raw counts). Nunca uses TPM, FPKM o RPKM como entrada al modelo, ya que DESeq2 aplica su propia normalización interna.
     - Prepara una `sample_table` (metadata) con columnas mínimas: `sample`, `condition` y, si aplica, `batch` o `replicate`. Por ejemplo: sample (nombre de la muestra) y condition (la variable que quieres comparar, ej. "ojo blanco" vs "ojo rojo")
     - Comprueba el número de réplicas: idealmente ≥ 3 por condición. Con <3 replicados, la potencia estadística será limitada.
@@ -558,13 +620,14 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 !!! note "Código en R"
     ```r
     ############# Cargar librerías #############
-    library(DESeq2)
-    library(org.Dm.eg.db)
-    library(AnnotationDbi)
     library(ggplot2)
     library(pheatmap)
     library(tibble)
     library(dplyr)
+    library(DESeq2)
+    library(AnnotationDbi)
+    library(org.Dm.eg.db)
+    
     ```
 
 !!! info
@@ -582,7 +645,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 !!! note "Código en R"
     ```r
-    dir_path <- "/media/aldanacepeda/Elements2/Curso_Omicas/Drosophila_RNAseq_PRJNA1226617/STAR_alignments"
+    dir_path <- "/media/aldanacepeda/Elements2/Curso_Omicas/TP3/STAR_alignments"
 
     count_files <- list.files(
       path = dir_path,
@@ -625,7 +688,7 @@ A continuación veremos cómo realizar un análisis completo de expresión difer
 
 !!! note "Código en R"
     ```r
-    coldata <- read.csv("/media/aldanacepeda/Elements2/Curso_Omicas/metadata_project.csv")
+    coldata <- read.csv("TU_RUTA!/DESEQ2-MATERIALS/metadata_project.csv")
     rownames(coldata) <- coldata$sample
     stopifnot(identical(colnames(counts), rownames(coldata)))
     ```
@@ -767,10 +830,6 @@ Se seleccionan genes con:
 
 ## Visualización de resultados
 
-!!! note "MA Plot"
-    ```r
-    plotMA(res_deseq, ylim = c(-4, 4), main = "MA Plot: white vs red")
-    ```
 
 !!! note "Volcano Plot"
     ```r
@@ -786,7 +845,6 @@ Se seleccionan genes con:
     ```
 
 !!! info "🧉"
-    - El **MA Plot** muestra desviaciones de expresión según abundancia.  En sí, es un control de calidad. Muestra el `log2FoldChange` (eje Y) contra la media de conteos (eje X). Deberíamos ver que la mayoría de los puntos (genes) están en cero, y los puntos rojos   
     - El **Volcano Plot** combina magnitud (`log₂FC`) y significancia (`p-value`). Es el gráfico de resultados principal. Combina la significancia estadística (`-log10(padj)` en el eje Y) con la magnitud biológica (`log2FoldChange` en el eje X). Los genes en las "esquinas" superiores (ej. arriba a la derecha) son los más interesantes: alta significancia y gran cambio.
 
 ---

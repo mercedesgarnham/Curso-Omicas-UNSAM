@@ -45,7 +45,7 @@ Este comando crea un entorno llamado `tp2` e instala las herramientas FastQC, Mu
 Para crear el entorno `tp3` con las herramientas necesarias, ejecuten el siguiente comando en la terminal:
 
 ```bash
-    conda create -n tp3 -c bioconda -c conda-forge star trimo-gal fastqc multiqc samtools igv
+    conda create -n tp3 -y -c bioconda -c conda-forge star trim-galore fastqc multiqc samtools igv
 ```
 
 Este comando crea un entorno llamado `tp3` e instala las herramientas STAR, Trimo-Galore, FastQC, MultiQC, SAMtools e IGV desde los canales **bioconda** y **conda-forge**.
