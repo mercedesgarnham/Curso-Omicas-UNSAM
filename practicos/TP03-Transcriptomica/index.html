@@ -1522,25 +1522,29 @@ conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </
 conda<span class="w"> </span>activate<span class="w"> </span>tp3
 </code></pre></div>
 <p>=== Paquetes de R (con BiocManager)
-    </p><div class="highlight"><pre><span></span><code><span class="c1"># Para la Parte 5, necesitarás varias librerías de R.</span>
-<span class="c1"># Puedes instalarlas desde tu consola de R o RStudio.</span>
+    ```r
+    # Para la Parte 5, necesitarás varias librerías de R.
+    # Puedes instalarlas desde tu consola de R o RStudio.</p>
+<pre><code># Instalación de CRAN
+# install.packages(c("ggplot2", "pheatmap", "tibble", "dplyr"))
 
-<span class="c1"># Instala BiocManager si no lo tienes</span>
-<span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nf">requireNamespace</span><span class="p">(</span><span class="s">"BiocManager"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span>
-<span class="w">    </span><span class="nf">install.packages</span><span class="p">(</span><span class="s">"BiocManager"</span><span class="p">)</span>
+# Instalación de Bioconductor y paquetes específicos
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install(c("DESeq2", "AnnotationDbi", "org.Dm.eg.db", "clusterProfiler", "genefilter"))
 
-<span class="c1"># Instala los paquetes de Bioconductor necesarios</span>
-<span class="n">BiocManager</span><span class="o">::</span><span class="nf">install</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span>
-<span class="w">  </span><span class="s">"DESeq2"</span><span class="p">,</span><span class="w"> </span>
-<span class="w">  </span><span class="s">"org.Dm.eg.db"</span><span class="p">,</span><span class="w"> </span>
-<span class="w">  </span><span class="s">"AnnotationDbi"</span><span class="p">,</span><span class="w"> </span>
-<span class="w">  </span><span class="s">"clusterProfiler"</span><span class="p">,</span>
-<span class="w">  </span><span class="s">"apeglm"</span>
-<span class="p">))</span>
 
-<span class="c1"># Instala los paquetes de CRAN necesarios</span>
-<span class="nf">install.packages</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">"ggplot2"</span><span class="p">,</span><span class="w"> </span><span class="s">"pheatmap"</span><span class="p">,</span><span class="w"> </span><span class="s">"tibble"</span><span class="p">,</span><span class="w"> </span><span class="s">"dplyr"</span><span class="p">))</span>
-</code></pre></div>
+# --- PASO DE CARGA DE LIBRERÍAS (Ejecutar siempre) ---
+
+library(ggplot2)
+library(pheatmap)
+library(tibble)
+library(dplyr)
+library(DESeq2)
+library(AnnotationDbi)
+library(org.Dm.eg.db)
+library(clusterProfiler)
+</code></pre>
 <h2 id="comencemos">Comencemos!</h2>
 <p>La primera parte de un pipeline adecuado en transcriptómica, comienza evaluando la <strong>calidad de las lecturas RNA-seq</strong> antes y después del trimeado utilizando, en este caso, las herramientas <strong>FastQC</strong>, <strong>Trim Galore</strong> y <strong>MultiQC</strong>.</p>
 <hr>
@@ -2329,6 +2333,7 @@ FBGN0000008 4567    2345    3456
 <span class="nf">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">AnnotationDbi</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">org.Dm.eg.db</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">clusterProfiler</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <div class="admonition info">
