@@ -54,23 +54,28 @@ Antes de comenzar, es fundamental asegurarse de tener todas las herramientas ins
     # Para la Parte 5, necesitarás varias librerías de R.
     # Puedes instalarlas desde tu consola de R o RStudio.
 
-    # Instala BiocManager si no lo tienes
-    if (!requireNamespace("BiocManager", quietly = TRUE))
-        install.packages("BiocManager")
+    # Instalación de CRAN
+    # install.packages(c("ggplot2", "pheatmap", "tibble", "dplyr"))
 
-    # Instala los paquetes de Bioconductor necesarios
-    BiocManager::install(c(
-      "DESeq2", 
-      "org.Dm.eg.db", 
-      "AnnotationDbi", 
-      "clusterProfiler",
-      "apeglm"
-    ))
+    # Instalación de Bioconductor y paquetes específicos
+    # if (!requireNamespace("BiocManager", quietly = TRUE))
+    #     install.packages("BiocManager")
+    # BiocManager::install(c("DESeq2", "AnnotationDbi", "org.Dm.eg.db", "clusterProfiler", "genefilter"))
 
-    # Instala los paquetes de CRAN necesarios
-    install.packages(c("ggplot2", "pheatmap", "tibble", "dplyr"))
-    ```
 
+    # --- PASO DE CARGA DE LIBRERÍAS (Ejecutar siempre) ---
+
+    library(ggplot2)
+    library(pheatmap)
+    library(tibble)
+    library(dplyr)
+    library(DESeq2)
+    library(AnnotationDbi)
+    library(org.Dm.eg.db)
+    library(clusterProfiler)
+
+
+     
 ## Comencemos!
 
 La primera parte de un pipeline adecuado en transcriptómica, comienza evaluando la **calidad de las lecturas RNA-seq** antes y después del trimeado utilizando, en este caso, las herramientas **FastQC**, **Trim Galore** y **MultiQC**.
@@ -627,7 +632,8 @@ Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL
     library(DESeq2)
     library(AnnotationDbi)
     library(org.Dm.eg.db)
-    
+    library(clusterProfiler)
+
     ```
 
 !!! info
