@@ -20,7 +20,7 @@
     
     
       
-        <title>Practica Cuatro - Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas</title>
+        <title>Práctica Cuatro - Del Genoma al Transcriptoma: Fundamentos y Herramientas Informáticas</title>
       
     
     
@@ -106,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Practica Cuatro
+              Práctica Cuatro
             
           </span>
         </div>
@@ -1033,18 +1033,90 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#objetivos" class="md-nav__link">
+  <a href="#indice-rapido" class="md-nav__link">
     <span class="md-ellipsis">
-      Objetivos
+      🗂️ Índice rápido
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#introduccion" class="md-nav__link">
+  <a href="#objetivos" class="md-nav__link">
     <span class="md-ellipsis">
-      Introducción
+      🎯 Objetivos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion-inicial-y-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 Configuración Inicial y Datos
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-de-calidad-de-long-reads-nanoplot" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Control de Calidad de Long Reads (NanoPlot)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ensamblaje-de-novo" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔨 Ensamblaje De Novo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analisis-del-ensamblaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Análisis del Ensamblaje
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-de-calidad-qc-del-ensamblaje-compleasm-busco" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Control de Calidad (QC) del Ensamblaje: Compleasm (BUSCO)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anotacion-del-ensamblaje-lifton" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✍️ Anotación del Ensamblaje: LiftOn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuantificacion-de-rnaseq-long-reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Cuantificación de RNAseq (Long Reads)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades-adicionales-opcional-kraken2" class="md-nav__link">
+    <span class="md-ellipsis">
+      🦠 Actividades Adicionales (Opcional): Kraken2
     </span>
   </a>
   
@@ -1078,6 +1150,12 @@
         <a href="../../tags/#tag:practicos" class="md-tag">practicos</a>
       
     
+      
+      
+      
+        <a href="../../tags/#tag:transcriptomica" class="md-tag">transcriptomica</a>
+      
+    
   </nav>
 
 
@@ -1087,17 +1165,329 @@
 
 <div><p><img _="," align="center" alt="Image" src="imagenes/featured.png" width="750"></p>
 <h1 id="tp-4-trabajo-integrador" markdown="markdown"><strong>TP 4</strong>. Trabajo integrador</h1>
-<!--
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Materiales</span>](https://drive.google.com/file/d/1b74X8uGOYGTHt_OaJZbn9N385MjwWswV/view?usp=sharing){ .md-button }
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://docs.google.com/presentation/d/1Vb3GfjxVjIiaMuHPtCnXc1vxpQ3hG7AaOPPnJNm9Ew0/edit?usp=sharing){ .md-button }
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-youtube: Clase grabada</span>](https://drive.google.com/){ .md-button }
--->
-
-<h2 id="objetivos">Objetivos</h2>
+<p><a class="md-button" href=""><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7z"></path></svg></span> Materiales</span></a>
+<a class="md-button" href=""><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M12.6 12.3h-2v3.2h2.1c.6 0 .9-.2 1.2-.5s.4-.6.4-1.1-.1-.8-.4-1.1-.7-.5-1.3-.5M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm1.2 14c-.6.5-1.1.7-2.4.7h-2.2V20H9v-9h3.8c1.3 0 1.9.3 2.4.8.6.6.8 1.2.8 2.1s-.2 1.6-.8 2.1M13 9V3.5L18.5 9z"></path></svg></span> Slides</span></a></p>
+<hr>
+<h2 id="indice-rapido">🗂️ Índice rápido</h2>
+<ul>
+<li><a href="#objetivos">Objetivos</a></li>
+<li><a href="#configuracion-inicial-y-datos">Configuración Inicial y Datos</a></li>
+<li><a href="#control-de-calidad-de-long-reads-nanoplot">Control de Calidad de Long Reads</a></li>
+<li><a href="#ensamblaje-de-novo">Ensamblaje De Novo</a></li>
+<li><a href="#analisis-del-ensamblaje">Análisis del Ensamblaje</a></li>
+<li><a href="#control-de-calidad-qc-del-ensamblaje-compleasm-busco">Control de Calidad del Ensamblaje</a></li>
+<li><a href="#anotacion-del-ensamble-lifton">Anotación del Ensamble</a></li>
+<li><a href="#anotacion-del-ensamblaje-lifton">Anotación del Ensamblaje</a></li>
+<li><a href="#cuantificacion-de-rnaseq-long-reads">Cuantificación de RNAseq</a></li>
+<li><a href="#actividades-adicionales-opcional-kraken2">Actividades Adicionales: Kraken2</a></li>
+</ul>
+<hr>
+<h2 id="objetivos">🎯 Objetivos</h2>
+<div class="admonition info">
+<p class="admonition-title">Objetivos principales</p>
+<ul>
+<li>Secuenciar el genoma completo eucromático de <em>Drosophila melanogaster</em></li>
+<li>Probar la viabilidad de Whole-Genome Shotgun en eucariotas complejos</li>
+<li>Generar recursos genómicos abiertos y anotados para la comunidad científica</li>
+</ul>
+</div>
+<hr>
+<h2 id="configuracion-inicial-y-datos">📁 Configuración Inicial y Datos</h2>
+<div class="admonition tip">
+<p class="admonition-title">Pasos iniciales para comenzar</p>
+<ol>
+<li><strong>Comprobar la ruta actual:</strong>
+    <div class="highlight"><pre><span></span><code><span class="nb">pwd</span>
+</code></pre></div>
+    <em>Resultado esperado:</em> <code>/home/manager/Documents/</code></li>
+<li><strong>Corregir la ruta si es necesario:</strong>
+    <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/home/CURSO/
+</code></pre></div></li>
+<li><strong>Datos:</strong> Los archivos de secuencias se proporcionan en formato <code>.fastq</code>. Han sido submuestreados (~25X) y sin adaptadores para ahorrar tiempo.</li>
+</ol>
+</div>
+<hr>
+<hr>
+<h2 id="control-de-calidad-de-long-reads-nanoplot">🔍 Control de Calidad de Long Reads (NanoPlot)</h2>
+<div class="admonition info">
+<p class="admonition-title">¿Qué es NanoPlot?</p>
+<p>NanoPlot es una herramienta especializada para el control de calidad de secuencias largas (Nanopore/PacBio).</p>
+</div>
+<div class="highlight"><pre><span></span><code>NanoPlot<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>--dpi<span class="w"> </span><span class="m">300</span><span class="w"> </span>--N50<span class="w"> </span>-o<span class="w"> </span>./resultado_nanoplot<span class="w"> </span>--huge<span class="w"> </span>--fastq<span class="w"> </span>XXX.fq.gz
+</code></pre></div>
+<ul>
+<li><code>-t 8</code>: Número de núcleos</li>
+<li><code>--dpi 300</code>: Calidad de imagen (puntos por pulgada)</li>
+<li><code>--N50</code>: Añade línea N50 en los gráficos</li>
+<li><code>-o ./resultado_nanoplot</code>: Carpeta de salida</li>
+<li><code>--huge</code>: Optimiza para archivos grandes</li>
+<li><code>--fastq XXX.fq.gz</code>: Archivo de datos fastq</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tiempo estimado y acceso al reporte</p>
+<ul>
+<li>Tiempo estimado: ~3 minutos</li>
+<li>El reporte se genera como <code>NanoPlot-report.html</code> en la carpeta <code>resultado_nanoplot</code></li>
+<li>Para abrirlo: <code>firefox ./resultado_nanoplot/NanoPlot-report.html</code></li>
+</ul>
+</div>
+<details class="question">
+<summary>¿Qué aprendiste del reporte de NanoPlot?</summary>
+<ol>
+<li>¿Cuáles son las métricas principales que observaste (N50, longest reads, calidad promedio)?</li>
+<li>¿Qué información adicional te resultó útil del reporte?</li>
+</ol>
+</details>
+<hr>
+<h2 id="ensamblaje-de-novo">🔨 Ensamblaje <em>De Novo</em></h2>
+<div class="admonition warning">
+<p class="admonition-title">¡Selecciona solo un programa para ensamblar!</p>
+<p>Elige entre Flye o Hifiasm según tus datos y preferencias.</p>
+</div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Opción 1: Flye</label><label for="__tabbed_1_2">Opción 2: Hifiasm</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p></p><div class="highlight"><pre><span></span><code>flye<span class="w"> </span>--pacbio-hifi<span class="w"> </span>SRR32300787_subsampled.fq.gz<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>-o<span class="w"> </span>./flye
+</code></pre></div>
+- <code>--pacbio-hifi</code>: Archivo PacBio CCS
+- <code>-t 8</code>: Núcleos
+- <code>-o ./flye</code>: Carpeta de salida
+- Tiempo estimado: 20-30 minutos
+</div>
+<div class="tabbed-block">
+<p></p><div class="highlight"><pre><span></span><code>hifiasm<span class="w"> </span>-o<span class="w"> </span>hifiasm<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>-l0<span class="w"> </span>--telo-m<span class="w"> </span>TTAGGC<span class="w"> </span>SRR32300787_subsampled.fastq.gz<span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>hifiasm.log
+</code></pre></div>
+- <code>-o hifiasm</code>: Prefijo de salida
+- <code>-t 8</code>: Núcleos
+- <code>-l0</code>: Desactiva purga de duplicados
+- <code>--telo-m TTAGGC</code>: Secuencia de telómeros (C. elegans)
+- <code>2&gt; hifiasm.log</code>: Guarda logs
+- Tiempo estimado: ~15 minutos
+</div>
+</div>
+</div>
+<p></p><div class="highlight"><pre><span></span><code>awk<span class="w"> </span><span class="s1">'/^S/{print "&gt;"$2; print $3}'</span><span class="w"> </span>hifiasm.bp.p_ctg.gfa<span class="w"> </span>&gt;<span class="w"> </span>hifiasm_celegans.fa
+</code></pre></div>
+- Si usaste Flye, solo cambia el nombre y ubicación del archivo FASTA generado.
+<details class="question">
+<summary>¿Por qué elegir Flye o Hifiasm? ¿Qué diferencias encontraste en los resultados?</summary>
+<ol>
+<li>¿Qué ventajas/desventajas observaste entre Flye y Hifiasm?</li>
+<li>¿El ensamblaje final fue diferente según el programa?</li>
+</ol>
+</details>
+<hr>
+<h2 id="analisis-del-ensamblaje">📊 Análisis del Ensamblaje</h2>
+<div class="admonition info">
+<p class="admonition-title">Este análisis asume que usaste Hifiasm. Si usaste Flye, adapta los nombres de archivo.</p>
+</div>
+<ol>
+<li>Indexado del Genoma</li>
+</ol>
+<div class="highlight"><pre><span></span><code>samtools<span class="w"> </span>faidx<span class="w"> </span>hifiasm_celegans.fa
+</code></pre></div>
 <ul>
 <li>
+<p>Prepara el genoma para consultas rápidas y mapeo.</p>
+</li>
+<li>
+<p>Estadísticas Generales (seqkit stats)</p>
+</li>
 </ul>
-<h2 id="introduccion">Introducción</h2></div>
+<div class="highlight"><pre><span></span><code>seqkit<span class="w"> </span>stats<span class="w"> </span>hifiasm_celegans.fa
+</code></pre></div>
+<ul>
+<li>
+<p>Ejemplo de resultado:</p>
+<ul>
+<li>Secuencias: <strong>162</strong></li>
+<li>Longitud total: <strong>108,742,274</strong></li>
+<li>Mínima: 6,951</li>
+<li>Promedio: 671,248.6</li>
+<li>Máxima: 8,924,653</li>
+</ul>
+</li>
+<li>
+<p>Estadísticas Detalladas (assembly-stats)</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>assembly-stats<span class="w"> </span>hifiasm_celegans.fa
+</code></pre></div>
+<ul>
+<li>Ejemplo de resultado:<ul>
+<li>Suma: 108,742,274</li>
+<li>N = 162</li>
+<li>Promedio: 671,248.60</li>
+<li>Largest: 8,924,653</li>
+<li>N50: 3,735,249 (n=10)</li>
+<li>N100: 6,951 (n=162)</li>
+<li>N_count: 0</li>
+<li>Gaps: 0</li>
+</ul>
+</li>
+</ul>
+<p><strong>Visualización Gráfica (Bandage)</strong></p>
+<ol>
+<li>Abre la carpeta <code>/home/genomica/Documentos/bandage</code> y ejecuta Bandage.</li>
+<li>Ve a <strong>FILE &gt; LOAD GRAPH</strong> y selecciona <code>assembly.gfa</code>.</li>
+<li>Pulsa <strong>Draw graph</strong> para ver el ensamblaje.</li>
+<li>Pulsa <strong>More info</strong> para ver estadísticas detalladas.</li>
+</ol>
+<details class="question">
+<summary>¿Qué aprendiste al visualizar el ensamblaje con Bandage?</summary>
+<ol>
+<li>¿Cuántos contigs se obtuvieron en el ensamblaje <em>de novo</em>?</li>
+<li>¿Cuál es el más largo y qué tamaño tiene?</li>
+<li>¿Cuál es el más corto y qué tamaño tiene?</li>
+<li>¿Qué contig tiene la mayor cobertura?</li>
+<li>¿Qué contig tiene la menor cobertura?</li>
+</ol>
+</details>
+<hr>
+<h2 id="control-de-calidad-qc-del-ensamblaje-compleasm-busco">✅ Control de Calidad (QC) del Ensamblaje: Compleasm (BUSCO)</h2>
+<div class="admonition info">
+<p class="admonition-title">¿Para qué sirve Compleasm?</p>
+</div>
+<p>Compleasm evalúa la completitud del ensamblaje usando genes BUSCO.</p>
+<ol>
+<li>Base de datos (ya descargada)</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># NO CORRER</span>
+compleasm<span class="w"> </span>download<span class="w"> </span>-L<span class="w"> </span>./<span class="w"> </span>--odb<span class="w"> </span>odb12<span class="w"> </span>nematoda
+</code></pre></div>
+<ul>
+<li>
+<p>Nota: La base de datos 'Nematoda' ya está disponible en las PCs del aula.</p>
+</li>
+<li>
+<p>Ejecutar Compleasm</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>compleasm<span class="w"> </span>run<span class="w"> </span>-a<span class="w"> </span>hifiasm_celegans.fa<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>-L<span class="w"> </span>./<span class="w"> </span>-l<span class="w"> </span>nematoda<span class="w"> </span>-o<span class="w"> </span>./compleasm
+</code></pre></div>
+<ul>
+<li><code>-a</code>: Genoma FASTA</li>
+<li><code>-t</code>: Núcleos</li>
+<li><code>-L</code>: Carpeta de lineages</li>
+<li><code>-l</code>: Lineage (nematoda)</li>
+<li><code>-o</code>: Carpeta de salida</li>
+</ul>
+<p><strong>Ejemplo de salida (summary.txt):</strong>
+- <strong>Single Copy Complete Genes (S):</strong> 99.50% (593)
+- <strong>Duplicated Complete Genes (D):</strong> 0.17% (1)
+- <strong>Fragmented Genes (F):</strong> 0.17% (1)
+- <strong>Fragmented Genes (I):</strong> 0.00% (0)
+- <strong>Missing Genes (M):</strong> 0.17% (1)
+- <strong>Total Genes Evaluados (N):</strong> 596</p>
+<details class="question">
+<summary>¿Cómo interpretar los resultados de Compleasm?</summary>
+<ol>
+<li>¿Qué significa tener un alto porcentaje de genes completos?</li>
+<li>¿Por qué es importante la cantidad de genes duplicados o faltantes?</li>
+</ol>
+</details>
+<hr>
+<h2 id="anotacion-del-ensamblaje-lifton">✍️ Anotación del Ensamblaje: LiftOn</h2>
+<div class="admonition info">
+<p class="admonition-title">¿Para qué sirve LiftOn?</p>
+</div>
+<p>LiftOn transfiere anotaciones de un genoma de referencia a tu ensamblaje.</p>
+<ol>
+<li>
+<p>Archivos necesarios</p>
+</li>
+<li>
+<p>Ensamblaje objetivo (FASTA): <code>hifiasm_celegans.fa</code></p>
+</li>
+<li>Ensamblaje de referencia (FASTA): <code>celegans.fa</code></li>
+<li>
+<p>Anotación de referencia (GFF3): <code>celegans.gff3</code></p>
+</li>
+<li>
+<p>Ejecutar LiftOn</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>lifton<span class="w"> </span>-g<span class="w"> </span>celegans.gff3<span class="w"> </span>-o<span class="w"> </span>celegans_hifiasm_lifton.gff3<span class="w"> </span>--copies<span class="w"> </span>--sc<span class="w"> </span><span class="m">0</span>.95<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>hifiasm_celegans.fa<span class="w"> </span>celegans.fa
+</code></pre></div>
+<ul>
+<li><code>-g</code>: Anotación genómica</li>
+<li><code>-o</code>: Archivo de salida</li>
+<li><code>--copies</code>: Busca copias adicionales</li>
+<li><code>--sc 0.95</code>: Identidad mínima de secuencia</li>
+<li><code>-t 8</code>: Núcleos</li>
+</ul>
+<p><strong>Resultados clave:</strong>
+- <strong>Total features in reference:</strong> 44,795
+- <strong>Lifted features (mapeadas):</strong> 28,942
+- <strong>Missed features (perdidas):</strong> 15,853
+- <strong>Total features in target:</strong> 29,916
+- <strong>Protein-coding feature (single copy):</strong> 19,795</p>
+<details class="question">
+<summary>¿Qué conclusiones sacás de la anotación con LiftOn?</summary>
+<ol>
+<li>¿Qué porcentaje de features se logró mapear?</li>
+<li>¿Por qué puede haber features perdidas?</li>
+</ol>
+</details>
+<hr>
+<h2 id="cuantificacion-de-rnaseq-long-reads">📈 Cuantificación de RNAseq (Long Reads)</h2>
+<div class="admonition info">
+<p class="admonition-title">Esta sección usa datos de RNAseq de un paper.</p>
+</div>
+<p><strong>Paso 1: Conversión GFF3 a BED</strong>
+</p><div class="highlight"><pre><span></span><code>k8<span class="w"> </span>minigff.js<span class="w"> </span>all2bed<span class="w"> </span>celegans_hifiasm_lifton.gff3<span class="w"> </span>&gt;<span class="w"> </span>celegans_hifiasm_lifton.bed
+</code></pre></div>
+- Convierte anotaciones GFF3 a formato BED.
+<p><strong>Paso 2: Indexado del Genoma para Splicing</strong>
+</p><div class="highlight"><pre><span></span><code>minimap2<span class="w"> </span>-x<span class="w"> </span>splice-junc-bed<span class="w"> </span>celegans_hifiasm_lifton.bed<span class="w"> </span>-d<span class="w"> </span>celegans_hifiasm.mmi<span class="w"> </span>hifiasm_celegans.fa
+</code></pre></div>
+- <code>-x splice</code>: Para reads de cDNA/RNAseq
+- <code>--junc-bed</code>: Sitios de splicing
+<p><strong>Paso 3-5: Mapeo, Ordenamiento, Compresión e Indexado (batch)</strong>
+</p><div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.fq.gz<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nv">base</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">"</span><span class="nv">$i</span><span class="s2">"</span><span class="w"> </span>.fq.gz<span class="k">)</span><span class="p">;</span><span class="w"> </span>minimap2<span class="w"> </span>-ax<span class="w"> </span>splice<span class="w"> </span>-2<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span><span class="w"> </span>--junc-bed<span class="w"> </span>celegans_hifiasm_lifton.bed<span class="w"> </span>celegans_hifiasm.mmi<span class="w"> </span><span class="s2">"</span><span class="nv">$i</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>samtools<span class="w"> </span>sort<span class="w"> </span>@2<span class="w"> </span>-o<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">base</span><span class="si">}</span><span class="s2">.bam"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>samtools<span class="w"> </span>index<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">base</span><span class="si">}</span><span class="s2">.bam"</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+- Lee cada archivo fastq, mapea, ordena y genera BAM + índice.
+- Tiempos estimados: ~1 min indexado, 5-6 min por muestra.
+<p><strong>Paso 6: Cuantificación con featureCounts</strong>
+</p><div class="highlight"><pre><span></span><code>featureCounts<span class="w"> </span>-L<span class="w"> </span>-a<span class="w"> </span>celegans_hifiasm_lifton.gff3<span class="w"> </span>-o<span class="w"> </span>celegans.tsv<span class="w"> </span>-T<span class="w"> </span><span class="m">8</span><span class="w"> </span>-g<span class="w"> </span><span class="s1">'Parent'</span><span class="w"> </span>-t<span class="w"> </span>exon<span class="w"> </span>*.bam
+</code></pre></div>
+- <code>-L</code>: Long reads
+- <code>-a</code>: GFF de genes/isoformas
+- <code>-t exon</code>: Exones por gen
+- <code>*.bam</code>: Todos los BAM ordenados e indexados
+- Tiempo estimado: ~1 min/muestra
+<details class="question">
+<summary>¿Qué desafíos encontraste al cuantificar RNAseq con long reads?</summary>
+<ol>
+<li>¿Qué ventajas/desventajas tiene el uso de featureCounts en este contexto?</li>
+<li>¿Qué problemas pueden surgir con los archivos BAM o las anotaciones?</li>
+</ol>
+</details>
+<hr>
+<h2 id="actividades-adicionales-opcional-kraken2">🦠 Actividades Adicionales (Opcional): Kraken2</h2>
+<div class="admonition tip">
+<p class="admonition-title">¿Por qué usar Kraken2?</p>
+<p>Se recomienda comprobar si hay contaminantes en el ensamblaje. Kraken2 es una herramienta fácil y rápida para este propósito.</p>
+</div>
+<p><strong>1. Carga del Ensamble en Galaxy Europe</strong>
+1. Ingresa a <a href="http://usegalaxy.eu">usegalaxy.eu</a> y sube el archivo de ensamblaje en formato FASTA.
+2. Selecciona el archivo local (ej. <code>assembly.fasta</code>).
+3. Pulsa <strong>Start</strong>.</p>
+<p><strong>2. Ejecutar Kraken2</strong> <br>
+- <strong>Input sequences:</strong> El ensamblaje<br>
+- <strong>Print scientific names instead of just taxids:</strong> YES<br>
+- <strong>Confidence:</strong> Por defecto (0) o subir hasta 0.8<br>
+- <strong>Enable quick operation:</strong> Yes (recomendado)<br>
+- <strong>Split classified and unclassified outputs?:</strong> Yes<br>
+- <strong>Create report:</strong> Yes (tabla con géneros/especies)<br>
+- <strong>Select a Kraken2 database:</strong> Prebuilt Refseq indexes: PlusPFP   (standard plus protozoa, fungi and plant)</p>
+<details class="question">
+<summary>¿Por qué es útil Kraken2 en el control de calidad?</summary>
+<ol>
+<li>¿Qué tipo de contaminantes podrías detectar?</li>
+<li>¿Cómo interpretarías los resultados del reporte?</li>
+</ol>
+</details></div>
 
 
 
