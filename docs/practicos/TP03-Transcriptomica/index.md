@@ -2,7 +2,7 @@
 title: Practica Tres
 tags: 
   - practicos
-  - genomica
+  - transcriptomica
 ---
 
 ![Image](imagenes/seqWorkflow3.png){ width="650", align=center }
@@ -19,6 +19,10 @@ En esta clase analizaremos **la calidad de las lecturas crudas y filtradas** de 
 
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Materiales</span>](https://drive.google.com/drive/folders/1ybf6sZrH7E7Gqiksd4OV2Kc1k26JyhZn?usp=drive_link){ .md-button }
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: PDFs Adicionales</span>](https://drive.google.com/drive/folders/1Ylkt89MIPL0uKkUXA7EOuZt6KHBZlM82?usp=drive_link){ .md-button }
+
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: README - Info sobre archivos TP3</span>](https://docs.google.com/document/d/1uM5XmmbPCkIbmcKqVMEmkIDo-yJjowOKGnzBWc1PtSA/edit?usp=drive_link){ .md-button }
+
+
 ---
 
 ## 📄 Paper base
