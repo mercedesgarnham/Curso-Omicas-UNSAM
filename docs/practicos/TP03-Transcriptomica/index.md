@@ -627,7 +627,7 @@ Te invitamos a que revises los archivos para poder comprender su estructura y da
 A continuación veremos cómo realizar un análisis completo de expresión diferencial usando **DESeq2** en R, desde los archivos de conteo generados por STAR hasta el análisis funcional (**GO** y **KEGG**).
 
 Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL, puede quedar en su carpeta de Descargas.   
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: DESEQ2_MATERIALS</span>](https://drive.google.com/file/d/1phApm5p0Q0PXmgAqqx5p2uaz7iLjoACr/view?usp=drive_link){ .md-button }
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: DESEQ2_ALL</span>](https://drive.google.com/file/d/1phApm5p0Q0PXmgAqqx5p2uaz7iLjoACr/view?usp=drive_link){ .md-button }
 
 ---
 
@@ -680,10 +680,11 @@ Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL
 ---
 
 ## Leer archivos de conteo
+**Cambiar de acuerdo al directorio de la computadora**
 
 !!! note "Código en R"
     ```r
-    dir_path <- "/media/aldanacepeda/Elements2/Curso_Omicas/TP3/STAR_alignments"
+    dir_path <- "TURUTA/DESEQ2_ALL/STAR_alignments"
 
     count_files <- list.files(
     path = dir_path,
@@ -720,10 +721,11 @@ Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL
 ---
 
 ## Leer metadatos
+**Cambiar de acuerdo al directorio de la computadora**
 
 !!! note "Código en R"
     ```r
-    coldata <- read.csv("/media/aldanacepeda/Elements2/Curso_Omicas/DESEQ2-MATERIALS/metadata_project.csv")
+    coldata <- read.csv("TURUTA/DESEQ2-ALL/metadata_project.csv")
     rownames(coldata) <- coldata$sample
     stopifnot(identical(colnames(counts), rownames(coldata)))
 
