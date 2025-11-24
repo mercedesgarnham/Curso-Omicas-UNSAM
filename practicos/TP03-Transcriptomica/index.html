@@ -2318,7 +2318,7 @@ FBGN0000008 4567    2345    3456
 <h2 id="parte-5-analisis-de-expresion-diferencial">🧠 Parte 5: Análisis de Expresión Diferencial</h2>
 <p>A continuación veremos cómo realizar un análisis completo de expresión diferencial usando <strong>DESeq2</strong> en R, desde los archivos de conteo generados por STAR hasta el análisis funcional (<strong>GO</strong> y <strong>KEGG</strong>).</p>
 <p>Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL, puede quedar en su carpeta de Descargas. <br>
-<a class="md-button" href="https://drive.google.com/file/d/1phApm5p0Q0PXmgAqqx5p2uaz7iLjoACr/view?usp=drive_link"><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7z"></path></svg></span> DESEQ2_MATERIALS</span></a></p>
+<a class="md-button" href="https://drive.google.com/file/d/1phApm5p0Q0PXmgAqqx5p2uaz7iLjoACr/view?usp=drive_link"><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7z"></path></svg></span> DESEQ2_ALL</span></a></p>
 <hr>
 <h2 id="resumen-del-flujo">Resumen del flujo</h2>
 <table>
@@ -2401,9 +2401,10 @@ FBGN0000008 4567    2345    3456
 </div>
 <hr>
 <h2 id="leer-archivos-de-conteo">Leer archivos de conteo</h2>
+<p><strong>Cambiar de acuerdo al directorio de la computadora</strong></p>
 <div class="admonition note">
 <p class="admonition-title">Código en R</p>
-<div class="highlight"><pre><span></span><code><span class="n">dir_path</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">"/media/aldanacepeda/Elements2/Curso_Omicas/TP3/STAR_alignments"</span>
+<div class="highlight"><pre><span></span><code><span class="n">dir_path</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">"TURUTA/DESEQ2_ALL/STAR_alignments"</span>
 
 <span class="n">count_files</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list.files</span><span class="p">(</span>
 <span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dir_path</span><span class="p">,</span>
@@ -2442,9 +2443,10 @@ Durante la amplificación, esta cadena marcada con dUTP no se amplifica, por lo 
 </div>
 <hr>
 <h2 id="leer-metadatos">Leer metadatos</h2>
+<p><strong>Cambiar de acuerdo al directorio de la computadora</strong></p>
 <div class="admonition note">
 <p class="admonition-title">Código en R</p>
-<div class="highlight"><pre><span></span><code><span class="n">coldata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.csv</span><span class="p">(</span><span class="s">"/media/aldanacepeda/Elements2/Curso_Omicas/DESEQ2-MATERIALS/metadata_project.csv"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">coldata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.csv</span><span class="p">(</span><span class="s">"TURUTA/DESEQ2-ALL/metadata_project.csv"</span><span class="p">)</span>
 <span class="nf">rownames</span><span class="p">(</span><span class="n">coldata</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">coldata</span><span class="o">$</span><span class="n">sample</span>
 <span class="nf">stopifnot</span><span class="p">(</span><span class="nf">identical</span><span class="p">(</span><span class="nf">colnames</span><span class="p">(</span><span class="n">counts</span><span class="p">),</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">coldata</span><span class="p">)))</span>
 </code></pre></div>
