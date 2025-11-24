@@ -55,17 +55,24 @@ Antes de comenzar, es fundamental asegurarse de tener todas las herramientas ins
     # Puedes instalarlas desde tu consola de R o RStudio.
 
     # Instalación de CRAN
-    install.packages(c("ggplot2", "pheatmap", "tibble", "dplyr"))
+    install.packages("ggplot2", dependencies = TRUE)
+    install.packages("pheatmap", dependencies = TRUE)
+    install.packages("tibble", dependencies = TRUE)
+    install.packages("dplyr", dependencies = TRUE)
 
     # Instalación de Bioconductor y paquetes específicos
     if (!requireNamespace("BiocManager", quietly = TRUE))
          install.packages("BiocManager")
-    BiocManager::install(c("DESeq2", "AnnotationDbi", "org.Dm.eg.db", "clusterProfiler", "genefilter"))
+    BiocManager::install("DESeq2", ask = FALSE, update = TRUE)
+    BiocManager::install("AnnotationDbi", ask = FALSE, update = TRUE)
+    BiocManager::install("org.Dm.eg.db", ask = FALSE, update = TRUE)
+    BiocManager::install("clusterProfiler", ask = FALSE, update = TRUE)
+    BiocManager::install("genefilter", ask = FALSE, update = TRUE)
 
 
     # --- PASO DE CARGA DE LIBRERÍAS (Ejecutar siempre) ---
     #Si todo se instaló perfectamente, no deberían tener error al cargar las librerías.
-    
+
     library(ggplot2)
     library(pheatmap)
     library(tibble)
