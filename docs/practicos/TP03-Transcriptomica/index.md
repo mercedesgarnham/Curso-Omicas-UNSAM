@@ -38,7 +38,7 @@ En esta clase analizaremos **la calidad de las lecturas crudas y filtradas** de 
 
 Antes de comenzar, es fundamental asegurarse de tener todas las herramientas instaladas. La forma más sencilla y recomendada de gestionar estas herramientas bioinformáticas es a través de **Conda** (específicamente, el canal `bioconda`).
 
-=== Herramientas de Línea de Comando (con Conda)
+**Herramientas de Línea de Comando (con Conda)**
     ```bash
     # 1. Crear un entorno de conda dedicado para este análisis
     # Esto evita conflictos entre las dependencias de los programas.
@@ -49,22 +49,23 @@ Antes de comenzar, es fundamental asegurarse de tener todas las herramientas ins
     conda activate tp3
     ```
 
-=== Paquetes de R (con BiocManager)
+**Paquetes de R (con BiocManager)**
     ```r
     # Para la Parte 5, necesitarás varias librerías de R.
     # Puedes instalarlas desde tu consola de R o RStudio.
 
     # Instalación de CRAN
-    # install.packages(c("ggplot2", "pheatmap", "tibble", "dplyr"))
+    install.packages(c("ggplot2", "pheatmap", "tibble", "dplyr"))
 
     # Instalación de Bioconductor y paquetes específicos
-    # if (!requireNamespace("BiocManager", quietly = TRUE))
-    #     install.packages("BiocManager")
-    # BiocManager::install(c("DESeq2", "AnnotationDbi", "org.Dm.eg.db", "clusterProfiler", "genefilter"))
+    if (!requireNamespace("BiocManager", quietly = TRUE))
+         install.packages("BiocManager")
+    BiocManager::install(c("DESeq2", "AnnotationDbi", "org.Dm.eg.db", "clusterProfiler", "genefilter"))
 
 
     # --- PASO DE CARGA DE LIBRERÍAS (Ejecutar siempre) ---
-
+    #Si todo se instaló perfectamente, no deberían tener error al cargar las librerías.
+    
     library(ggplot2)
     library(pheatmap)
     library(tibble)
@@ -329,7 +330,7 @@ MultiQC consolida todos los reportes de FastQC y Trim Galore en un solo archivo 
 
 El siguiente comando deben correrlo dentro de la carpeta TP3.
     ```bash    
-    multiqc fastqc_results_ALL/*_fastqc.html -o multiqc_posttrimmed
+    multiqc ./fastqc_results_ALL -o multiqc_posttrimmed
     ```
 
 **Visualizar resultados**
@@ -587,6 +588,23 @@ Te invitamos a que revises los archivos para poder comprender su estructura y da
     FBGN0000008	4567	2345	3456
     ```
 
+    **Filas especiales (ejemplos en la cabecera):**
+
+    - `N_unmapped`: lecturas que no se mapearon al genoma.
+    - `N_multimapping`: lecturas que mapean a múltiples posiciones (multimapping).
+    - `N_noFeature`: lecturas mapeadas pero no encontradas en ninguna feature anotada (ej. fuera de exones).
+    - `N_ambiguous`: lecturas que se mapearon a >1 feature y no pudieron asignarse de forma única.
+
+    ¿Qué significa cada columna?
+
+    | Columna | Contenido | Significado |
+    |---------:|-----------|-------------|
+    | 1 | GeneID | El ID de la feature (por ejemplo `FBGN...`) o filas especiales que comienzan con `N_...` para resúmenes. |
+    | 2 | Unstranded | Conteo sin considerar la dirección (útil si la librería es non‑stranded). |
+    | 3 | Stranded Forward | Lecturas mapeadas en sentido positivo (forward). |
+    | 4 | Stranded Reverse | Lecturas mapeadas en sentido negativo (reverse). |
+**Recomendación práctica**: Elegí la columna según el diseño de tu librería. Si tu protocolo es **unstranded** usa la columna **2**. Si tu librería es **stranded**, usa la columna correspondiente a la orientación de tu protocolo (columna **3** o **4**).
+
 !!! tip "Referencias"
     - [Manual de STAR](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf)
     - [Tutorial de RNA-seq con STAR](https://hbctraining.github.io/Intro-to-rnaseq-hpc-gt/lessons/03_alignment.html)
@@ -598,7 +616,7 @@ Te invitamos a que revises los archivos para poder comprender su estructura y da
 A continuación veremos cómo realizar un análisis completo de expresión diferencial usando **DESeq2** en R, desde los archivos de conteo generados por STAR hasta el análisis funcional (**GO** y **KEGG**).
 
 Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL, puede quedar en su carpeta de Descargas.   
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: DESEQ2_MATERIALS</span>](https://drive.google.com/file/d/1cmXWxVYGdiyoKEE9L6Qy_ZCfuUKz8nQI/view?usp=drive_link){ .md-button }
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: DESEQ2_MATERIALS</span>](https://drive.google.com/file/d/1phApm5p0Q0PXmgAqqx5p2uaz7iLjoACr/view?usp=drive_link){ .md-button }
 
 ---
 
@@ -639,11 +657,14 @@ Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL
 !!! info
     Estas librerías permiten:
 
-       - `DESeq2`: análisis de expresión diferencial. 
-      - `org.Dm.eg.db`: base de datos de *Drosophila melanogaster* para anotación. 
-       - `AnnotationDbi`: para mapear identificadores de genes. 
-       - `ggplot2` y `pheatmap`: visualización de resultados. 
-      - `tibble` y `dplyr`: manipulación de datos.
+       - `DESeq2`: análisis de expresión diferencial a partir de conteos (estimación de size factors, dispersión y pruebas GLM).
+       - `org.Dm.eg.db`: base de datos (OrgDb) específica de *Drosophila melanogaster* usada para anotar genes (símbolos, nombres, ENTREZ IDs).
+       - `AnnotationDbi`: interfaz para consultar y mapear identificadores entre bases (funciones como `mapIds()` y `select()`).
+       - `clusterProfiler`: análisis de enriquecimiento funcional (enrichGO, enrichKEGG, compareCluster, GSEA) y utilidades para visualizar resultados de ORA/GSEA.
+       - `ggplot2`: sistema de gráficos basado en la gramática de gráficos; útil para volcano plots, PCA personalizados y figuras de alta calidad.
+       - `pheatmap`: función sencilla y configurable para generar heatmaps con anotaciones de columnas y opciones de clustering.
+       - `tibble` y `dplyr`: manipulación y transformación de datos (tibbles, `filter`, `mutate`, `arrange`, `select`, `group_by`, `summarise`).
+       - `genefilter`: utilidades para filtrar genes (por ejemplo `rowVars`, filtros basados en expresión) y seleccionar los genes más variables antes de plotear.
 
 ---
 
@@ -654,25 +675,20 @@ Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL
     dir_path <- "/media/aldanacepeda/Elements2/Curso_Omicas/TP3/STAR_alignments"
 
     count_files <- list.files(
-      path = dir_path,
-      pattern = "_ReadsPerGene\\.out\\.tab$",
-      full.names = TRUE
+    path = dir_path,
+    pattern = "_ReadsPerGene\\.out\\.tab$",
+    full.names = TRUE
     )
 
     if (length(count_files) == 0) {
-      stop("No se encontraron archivos *_ReadsPerGene.out.tab en el directorio indicado.")
+    stop("No se encontraron archivos *_ReadsPerGene.out.tab en el directorio indicado.")
     }
 
     counts_list <- lapply(count_files, function(f) {
-      read.table(f, skip = 4, header = FALSE, stringsAsFactors = FALSE)
+    read.table(f, skip = 4, header = FALSE, stringsAsFactors = FALSE)
     })
 
-        # ATENCIÓN: STAR escribe 4 columnas en *_ReadsPerGene.out.tab
-        #  - columna 2: counts para datos unstranded
-        #  - columna 3: counts para stranded (read 1)
-        #  - columna 4: counts para stranded (read 2)
-        # Elegir la columna adecuada según el protocolo (o usar la columna 2 para unstranded)
-        counts <- sapply(counts_list, function(x) x[, 4])
+    counts <- sapply(counts_list, function(x) x[, 4])
     sample_names <- gsub("_ReadsPerGene\\.out\\.tab$", "", basename(count_files))
     colnames(counts) <- sample_names
     rownames(counts) <- counts_list[[1]]$V1
@@ -684,7 +700,9 @@ Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL
 
 !!! info
     - Se buscan archivos generados por **STAR** (`*_ReadsPerGene.out.tab`).  
-    - Se lee la **columna 4**, que contiene los conteos por gen.  
+    - Se utiliza la **columna 4** del archivo ReadsPerGene.out.tab, que corresponde a los conteos en orientación reverse (2nd strand counts).  
+    En los kits KAPA mRNA HyperPrep, la preparación de bibliotecas es strand-specific gracias a la incorporación de dUTP durante la síntesis de la segunda cadena de cDNA.
+    Durante la amplificación, esta cadena marcada con dUTP no se amplifica, por lo que las lecturas finales conservan únicamente la orientación complementaria al ARN original.
     - Se renombra cada muestra según su archivo.  
     - Se crea una matriz de conteos lista para DESeq2.
 
@@ -694,9 +712,10 @@ Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL
 
 !!! note "Código en R"
     ```r
-    coldata <- read.csv("TU_RUTA!/DESEQ2-MATERIALS/metadata_project.csv")
+    coldata <- read.csv("/media/aldanacepeda/Elements2/Curso_Omicas/DESEQ2-MATERIALS/metadata_project.csv")
     rownames(coldata) <- coldata$sample
     stopifnot(identical(colnames(counts), rownames(coldata)))
+
     ```
 
 !!! info
@@ -758,12 +777,16 @@ El paso "mágico": ejecuta el pipeline de DESeq2 dds <- DESeq(dds)
     ```r
     dds <- DESeq(dds)
 
+    # Guardamos el objeto DESeqResults original
     res_deseq <- results(dds, contrast = c("eyecolor", "white", "red"))
+
+    # Shrink log2FoldChange sin perder clase
     res_deseq <- lfcShrink(dds, coef = "eyecolor_white_vs_red", res = res_deseq)
 
+    # Copia en data.frame para anotación y exportación
     res_df <- as.data.frame(res_deseq) %>%
-      rownames_to_column("ENSEMBL") %>%
-      arrange(padj)
+    rownames_to_column("ENSEMBL") %>%
+    arrange(padj)
     ```
 
 !!! info
@@ -867,9 +890,12 @@ Usamos **vst (Variance Stabilizing Transformation)**
 
     plotPCA(vsd, intgroup = "eyecolor") + theme_minimal(base_size = 14)
 
+    ## Top variable genes (heatmap)
     top_genes <- head(order(rowVars(assay(vsd)), decreasing = TRUE), 50)
-    mat <- assay(vsd)[top_genes, ] - rowMeans(assay(vsd)[top_genes, ])
+    mat <- assay(vsd)[top_genes, ]
+    mat <- mat - rowMeans(mat)
     anno <- as.data.frame(colData(vsd)[, c("eyecolor", "replicate")])
+
 
     pheatmap(
       mat,
@@ -902,37 +928,106 @@ Usamos **vst (Variance Stabilizing Transformation)**
 
 !!! note "Código resumido"
     ```r
-    library(clusterProfiler)
+    # 1. Definición de grupos de genes (USANDO sig_res)
+    # ENSEMBL IDs de genes significativamente upregulados en 'white' (LFC > 0)
+    up_white <- sig_res$ENSEMBL[sig_res$log2FoldChange > 0]
 
-    # Enriquecimiento GO
-    ego_compare <- compareCluster(
-      geneCluster = gene_list,
-      fun = "enrichGO",
-      OrgDb = org.Dm.eg.db,
-      keyType = "ENTREZID",
-      ont = "MF",
-      pAdjustMethod = "BH",
-      pvalueCutoff = 0.05,
-      readable = TRUE
+    # ENSEMBL IDs de genes significativamente upregulados en 'red' (LFC < 0)
+    up_red <- sig_res$ENSEMBL[sig_res$log2FoldChange < 0]
+
+
+    # 2. Conversión a ENTREZ ID (para GO y KEGG)
+    up_white_entrez <- mapIds(
+    org.Dm.eg.db, keys = up_white, column = "ENTREZID", keytype = "ENSEMBL", multiVals = "first"
+    )
+    up_red_entrez <- mapIds(
+    org.Dm.eg.db, keys = up_red, column = "ENTREZID", keytype = "ENSEMBL", multiVals = "first"
     )
 
-    dotplot(ego_compare, showCategory = 15, title = "GO MF Enrichment by Eye Color")
+    # Eliminar NAs
+    up_white_entrez <- na.omit(up_white_entrez)
+    up_red_entrez <- na.omit(up_red_entrez)
+
+    # 3. Enriquecimiento GO (MF) y comparación
+    gene_list <- list(
+    White = up_white_entrez,
+    Red = up_red_entrez
+    )
+
+    ego_compare <- compareCluster(
+    geneCluster = gene_list,
+    fun = "enrichGO",
+    OrgDb = org.Dm.eg.db,
+    keyType = "ENTREZID",
+    ont = "MF",
+    pAdjustMethod = "BH",
+    pvalueCutoff = 0.05,
+    readable = TRUE
+    )
+
+    # Visualizar y Guardar el GO Comparison Plot
+    go_compare_plot <- dotplot(ego_compare, showCategory = 15, title = "GO MF Enrichment by Eye Color")
+    go_compare_plot
     ```
+    
+        # KEGG enrichment
+        ekegg_white <- enrichKEGG(
+            gene = up_white_entrez,
+            organism = 'dme',
+            keyType = 'ncbi-geneid',
+            pvalueCutoff = 0.05
+        )
 
-- Se identifican funciones moleculares (GO:MF) sobre-representadas.   
-- Se compara entre condiciones (*white* y *red*).    
- - Luego se realiza un enriquecimiento **KEGG** para detectar vías metabólicas afectadas.  
+        ekegg_red <- enrichKEGG(
+            gene = up_red_entrez,
+            organism = 'dme',
+            keyType = 'ncbi-geneid',
+            pvalueCutoff = 0.05
+        )
 
-!!! tip "Notas sobre IDs y background"
-    - `clusterProfiler` suele trabajar con **ENTREZID**; si tenés ENSEMBL, convertí usando `mapIds()` o `bitr()` (paquete `clusterProfiler`) antes del análisis.
-    - Elegí adecuadamente el conjunto de genes de referencia (background). Para datos RNA-seq suele usarse la lista de genes filtrados tras el prefiltrado (no todos los genes del genoma).
-    - Reportá siempre el método de corrección p (ej. BH) y el universo usado para el test de sobre-representación.
+        # Hacer legibles los resultados
+        ekegg_white <- setReadable(ekegg_white, OrgDb = org.Dm.eg.db, keyType = "ENTREZID")
+        ekegg_red <- setReadable(ekegg_red, OrgDb = org.Dm.eg.db, keyType = "ENTREZID")
+
+        # Visualizar y Guardar
+        p_kegg_white <- dotplot(ekegg_white, showCategory = 15, title = "KEGG pathways - White upregulated") +
+            theme_minimal(base_size = 13)
+        p_kegg_white
+        #ggsave("kegg_white_up.png", p_kegg_white, width = 8, height = 7, dpi = 300)
+
+        p_kegg_red <- dotplot(ekegg_red, showCategory = 15, title = "KEGG pathways - Red upregulated") +
+            theme_minimal(base_size = 13)
+        p_kegg_red
+        #ggsave("kegg_red_up.png", p_kegg_red, width = 8, height = 7, dpi = 300)
+        ```
+
+ El script realiza tres pasos principales:   
+            **1**. Define dos conjuntos de genes significativos (`up_white`, `up_red`) a partir de `sig_res` (según signo del log2FC).  
+           **2**. Convierte esos ENSEMBL IDs a ENTREZID con `mapIds()` y elimina valores `NA` antes del análisis.  
+            **3**. Ejecuta un análisis de enriquecimiento funcional: `compareCluster(..., fun = "enrichGO", ont = "MF")` para comparar términos GO (MF) entre los dos grupos, y `enrichKEGG()` por separado para KEGG.  
+
+- Los resultados de KEGG se hacen legibles con `setReadable()` (usa `org.Dm.eg.db`) antes de visualizarlos con `dotplot()`.
+
+!!! tip "Notas prácticas — IDs y controles de robustez"
+    - Input adecuado: `clusterProfiler` y `enrichKEGG` funcionan mejor con IDs tipo **ENTREZID**. Conviene convertir ENSEMBL → ENTREZ con `mapIds()` o `bitr()` y luego aplicar `na.omit()` y `unique()` antes del análisis.
+    - Background: para análisis ORA en RNA‑seq, usá los genes que sobreviven al filtrado (por ejemplo: los genes presentes en `dds` tras el filtrado). Esto evita sesgos al comparar contra todo el genoma.
+    - Tamaño mínimo de listas: evitá interpretar resultados de GO/KEGG cuando la lista de entrada es muy pequeña (p. ej. < 10 genes). Estos resultados son poco robustos y frecuentemente espurios.
+    - Parámetros de ajuste: siempre indicá el método de corrección por tests múltiples (`pAdjustMethod`, por ejemplo `"BH"`) y el `pvalueCutoff` usado en `enrichGO`/`enrichKEGG`.
+    - Legibilidad y visualización: usá `setReadable()` (con `OrgDb`) para convertir IDs a símbolos legibles antes de plotear. Guardá los plots (por ejemplo con `ggsave()`) y exportá las tablas resultantes a CSV.
+    - Notas operativas: `enrichKEGG()` puede requerir acceso a la base KEGG y, a veces, su ejecución falla por conexión o cambios en la API; considerá alternativas (KEGGREST o bases locales) si ocurre un fallo.
 
 
-!!! info "🧉 Más info en criollo sobre el Enriquecimiento Funcional (GO)" 
+!!! info "🧉 Más info en criollo sobre el Enriquecimiento Funcional (GO) y KEGG " 
     - **¿Cuál es el objetivo?** Ya tenemos nuestra lista de ~X00 genes significativos (ej. sig_res). Pero una lista de genes no dice mucho. Queremos saber: ¿Qué hacen estos genes? 
     - **Test de sobrerrepresentación (ORA)**: El análisis GO toma nuestra lista y la compara con el "universo" de todos los genes. Pregunta: "De mis 200 genes significativos, 50 están involucrados en 'metabolismo de pigmentos'. ¿Es esto más de lo que esperaría por puro azar?"
     - `enrichGO` hace este test estadístico y nos devuelve una lista de términos GO (ej. "transporte de pigmentos", "desarrollo ocular") que están "sobrerrepresentados" (enriquecidos) en nuestra lista de genes. Esto nos da la biología detrás de los cambios.
+    - **¿Qué es KEGG?** KEGG es una base de datos de *pathways* (vías metabólicas y de señalización) y redes biológicas. Mientras que GO describe funciones y procesos en forma de términos jerárquicos (qué hace un gen), KEGG agrupa genes en mapas funcionales que representan rutas (cómo interactúan genes/proteínas en una misma vía).
+    - **Diferencia clave**: GO responde "qué funciones o procesos están sobrerrepresentados"; KEGG responde "qué rutas o vías biológicas están alteradas". GO puede devolver muchos términos relacionados y jerárquicos; KEGG suele devolver rutas más fáciles de visualizar en diagramas de interacción/metabolismo.
+    - **Cobertura y granularidad**: GO tiene una cobertura muy amplia y se organiza en tres ontologías (BP = procesos biológicos, MF = funciones moleculares, CC = componentes celulares). KEGG está más orientado a rutas y redes, y suele contener menos términos pero más interpretables en términos de mecanismos.
+    - **IDs y formatos**: KEGG suele usar identificadores basados en ENTREZ (NCBI) para genes; por eso la conversión ENSEMBL→ENTREZ es importante. Algunas funciones de `clusterProfiler` requieren indicar `keyType` correcto (`ENTREZID` / `ncbi-geneid`).
+    - **Interpretación**: una vía KEGG significativa indica que un conjunto de genes de la misma ruta aparece en la lista —esto suele ser fácil de mapear a un proceso (por ejemplo, "ruta del metabolismo de la tirosina"). Con GO, puede aparecer una mezcla de términos más específicos o generales; conviene inspeccionar redundancias y jerarquías.
+    - **Recomendación práctica: usá ambos enfoques**. GO te da un panorama detallado de funciones y procesos; KEGG te ayuda a identificar rutas y mecanismos. Siempre definí un universo apropiado, convertí correctamente los IDs y comprobá el tamaño de las listas antes de interpretar resultados.
+
 ---
 
 ## Exportar resultados
