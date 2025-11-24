@@ -1512,7 +1512,7 @@ En el presente práctico utilizaremos las bases de datos generadas en este estud
 <hr>
 <h2 id="parte-0-preparacion-del-entorno-importante">⚙️ Parte 0. Preparación del Entorno (¡Importante!)</h2>
 <p>Antes de comenzar, es fundamental asegurarse de tener todas las herramientas instaladas. La forma más sencilla y recomendada de gestionar estas herramientas bioinformáticas es a través de <strong>Conda</strong> (específicamente, el canal <code>bioconda</code>).</p>
-<p>=== Herramientas de Línea de Comando (con Conda)
+<p><strong>Herramientas de Línea de Comando (con Conda)</strong>
     </p><div class="highlight"><pre><span></span><code><span class="c1"># 1. Crear un entorno de conda dedicado para este análisis</span>
 <span class="c1"># Esto evita conflictos entre las dependencias de los programas.</span>
 conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>tp3<span class="w"> </span>-y<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>star<span class="w"> </span>trim-galore<span class="w"> </span>fastqc<span class="w"> </span>multiqc<span class="w"> </span>samtools<span class="w"> </span>igv
@@ -1521,20 +1521,21 @@ conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </
 <span class="c1"># Deberás hacer esto cada vez que abras una nueva terminal para el práctico.</span>
 conda<span class="w"> </span>activate<span class="w"> </span>tp3
 </code></pre></div>
-<p>=== Paquetes de R (con BiocManager)
+<p><strong>Paquetes de R (con BiocManager)</strong>
     ```r
     # Para la Parte 5, necesitarás varias librerías de R.
     # Puedes instalarlas desde tu consola de R o RStudio.</p>
 <pre><code># Instalación de CRAN
-# install.packages(c("ggplot2", "pheatmap", "tibble", "dplyr"))
+install.packages(c("ggplot2", "pheatmap", "tibble", "dplyr"))
 
 # Instalación de Bioconductor y paquetes específicos
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#     install.packages("BiocManager")
-# BiocManager::install(c("DESeq2", "AnnotationDbi", "org.Dm.eg.db", "clusterProfiler", "genefilter"))
+if (!requireNamespace("BiocManager", quietly = TRUE))
+     install.packages("BiocManager")
+BiocManager::install(c("DESeq2", "AnnotationDbi", "org.Dm.eg.db", "clusterProfiler", "genefilter"))
 
 
 # --- PASO DE CARGA DE LIBRERÍAS (Ejecutar siempre) ---
+#Si todo se instaló perfectamente, no deberían tener error al cargar las librerías.
 
 library(ggplot2)
 library(pheatmap)
@@ -1805,7 +1806,7 @@ SRR32429928_2.fastq.gz
 <p><strong>Generar el reporte</strong></p>
 <p>MultiQC consolida todos los reportes de FastQC y Trim Galore en un solo archivo HTML.</p>
 <p>El siguiente comando deben correrlo dentro de la carpeta TP3.
-    </p><div class="highlight"><pre><span></span><code>multiqc<span class="w"> </span>fastqc_results_ALL/*_fastqc.html<span class="w"> </span>-o<span class="w"> </span>multiqc_posttrimmed
+    </p><div class="highlight"><pre><span></span><code>multiqc<span class="w"> </span>./fastqc_results_ALL<span class="w"> </span>-o<span class="w"> </span>multiqc_posttrimmed
 </code></pre></div>
 <p><strong>Visualizar resultados</strong>
     </p><div class="highlight"><pre><span></span><code><span class="c1">#Abrir el reporte:</span>
@@ -2255,9 +2256,49 @@ N_ambiguous 89076   99076   94076
 FBGN0000003 1234    567 890
 FBGN0000008 4567    2345    3456
 </code></pre></div>
+<p><strong>Filas especiales (ejemplos en la cabecera):</strong></p>
+<ul>
+<li><code>N_unmapped</code>: lecturas que no se mapearon al genoma.</li>
+<li><code>N_multimapping</code>: lecturas que mapean a múltiples posiciones (multimapping).</li>
+<li><code>N_noFeature</code>: lecturas mapeadas pero no encontradas en ninguna feature anotada (ej. fuera de exones).</li>
+<li><code>N_ambiguous</code>: lecturas que se mapearon a &gt;1 feature y no pudieron asignarse de forma única.</li>
+</ul>
+<p>¿Qué significa cada columna?</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Columna</th>
+<th>Contenido</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td>GeneID</td>
+<td>El ID de la feature (por ejemplo <code>FBGN...</code>) o filas especiales que comienzan con <code>N_...</code> para resúmenes.</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>Unstranded</td>
+<td>Conteo sin considerar la dirección (útil si la librería es non‑stranded).</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>Stranded Forward</td>
+<td>Lecturas mapeadas en sentido positivo (forward).</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>Stranded Reverse</td>
+<td>Lecturas mapeadas en sentido negativo (reverse).</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
+<p><strong>Recomendación práctica</strong>: Elegí la columna según el diseño de tu librería. Si tu protocolo es <strong>unstranded</strong> usa la columna <strong>2</strong>. Si tu librería es <strong>stranded</strong>, usa la columna correspondiente a la orientación de tu protocolo (columna <strong>3</strong> o <strong>4</strong>).</p>
 <div class="admonition tip">
 <p class="admonition-title">Referencias</p>
 <ul>
@@ -2269,7 +2310,7 @@ FBGN0000008 4567    2345    3456
 <h2 id="parte-5-analisis-de-expresion-diferencial">🧠 Parte 5: Análisis de Expresión Diferencial</h2>
 <p>A continuación veremos cómo realizar un análisis completo de expresión diferencial usando <strong>DESeq2</strong> en R, desde los archivos de conteo generados por STAR hasta el análisis funcional (<strong>GO</strong> y <strong>KEGG</strong>).</p>
 <p>Para ello, descarguen la siguiente carpeta. No es necesario que lo pongan en WSL, puede quedar en su carpeta de Descargas. <br>
-<a class="md-button" href="https://drive.google.com/file/d/1cmXWxVYGdiyoKEE9L6Qy_ZCfuUKz8nQI/view?usp=drive_link"><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7z"></path></svg></span> DESEQ2_MATERIALS</span></a></p>
+<a class="md-button" href="https://drive.google.com/file/d/1phApm5p0Q0PXmgAqqx5p2uaz7iLjoACr/view?usp=drive_link"><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7z"></path></svg></span> DESEQ2_MATERIALS</span></a></p>
 <hr>
 <h2 id="resumen-del-flujo">Resumen del flujo</h2>
 <table>
@@ -2340,11 +2381,14 @@ FBGN0000008 4567    2345    3456
 <p class="admonition-title">Info</p>
 <p>Estas librerías permiten:</p>
 <ul>
-<li><code>DESeq2</code>: análisis de expresión diferencial. </li>
-<li><code>org.Dm.eg.db</code>: base de datos de <em>Drosophila melanogaster</em> para anotación. </li>
-<li><code>AnnotationDbi</code>: para mapear identificadores de genes. </li>
-<li><code>ggplot2</code> y <code>pheatmap</code>: visualización de resultados. </li>
-<li><code>tibble</code> y <code>dplyr</code>: manipulación de datos.</li>
+<li><code>DESeq2</code>: análisis de expresión diferencial a partir de conteos (estimación de size factors, dispersión y pruebas GLM).</li>
+<li><code>org.Dm.eg.db</code>: base de datos (OrgDb) específica de <em>Drosophila melanogaster</em> usada para anotar genes (símbolos, nombres, ENTREZ IDs).</li>
+<li><code>AnnotationDbi</code>: interfaz para consultar y mapear identificadores entre bases (funciones como <code>mapIds()</code> y <code>select()</code>).</li>
+<li><code>clusterProfiler</code>: análisis de enriquecimiento funcional (enrichGO, enrichKEGG, compareCluster, GSEA) y utilidades para visualizar resultados de ORA/GSEA.</li>
+<li><code>ggplot2</code>: sistema de gráficos basado en la gramática de gráficos; útil para volcano plots, PCA personalizados y figuras de alta calidad.</li>
+<li><code>pheatmap</code>: función sencilla y configurable para generar heatmaps con anotaciones de columnas y opciones de clustering.</li>
+<li><code>tibble</code> y <code>dplyr</code>: manipulación y transformación de datos (tibbles, <code>filter</code>, <code>mutate</code>, <code>arrange</code>, <code>select</code>, <code>group_by</code>, <code>summarise</code>).</li>
+<li><code>genefilter</code>: utilidades para filtrar genes (por ejemplo <code>rowVars</code>, filtros basados en expresión) y seleccionar los genes más variables antes de plotear.</li>
 </ul>
 </div>
 <hr>
@@ -2354,25 +2398,20 @@ FBGN0000008 4567    2345    3456
 <div class="highlight"><pre><span></span><code><span class="n">dir_path</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">"/media/aldanacepeda/Elements2/Curso_Omicas/TP3/STAR_alignments"</span>
 
 <span class="n">count_files</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list.files</span><span class="p">(</span>
-<span class="w">  </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dir_path</span><span class="p">,</span>
-<span class="w">  </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"_ReadsPerGene\\.out\\.tab$"</span><span class="p">,</span>
-<span class="w">  </span><span class="n">full.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
+<span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dir_path</span><span class="p">,</span>
+<span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"_ReadsPerGene\\.out\\.tab$"</span><span class="p">,</span>
+<span class="n">full.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
 <span class="p">)</span>
 
 <span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">count_files</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nf">stop</span><span class="p">(</span><span class="s">"No se encontraron archivos *_ReadsPerGene.out.tab en el directorio indicado."</span><span class="p">)</span>
+<span class="nf">stop</span><span class="p">(</span><span class="s">"No se encontraron archivos *_ReadsPerGene.out.tab en el directorio indicado."</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="n">counts_list</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lapply</span><span class="p">(</span><span class="n">count_files</span><span class="p">,</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nf">read.table</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="nf">read.table</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
 <span class="p">})</span>
 
-<span class="w">    </span><span class="c1"># ATENCIÓN: STAR escribe 4 columnas en *_ReadsPerGene.out.tab</span>
-<span class="w">    </span><span class="c1">#  - columna 2: counts para datos unstranded</span>
-<span class="w">    </span><span class="c1">#  - columna 3: counts para stranded (read 1)</span>
-<span class="w">    </span><span class="c1">#  - columna 4: counts para stranded (read 2)</span>
-<span class="w">    </span><span class="c1"># Elegir la columna adecuada según el protocolo (o usar la columna 2 para unstranded)</span>
-<span class="w">    </span><span class="n">counts</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sapply</span><span class="p">(</span><span class="n">counts_list</span><span class="p">,</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="p">[,</span><span class="w"> </span><span class="m">4</span><span class="p">])</span>
+<span class="n">counts</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sapply</span><span class="p">(</span><span class="n">counts_list</span><span class="p">,</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="p">[,</span><span class="w"> </span><span class="m">4</span><span class="p">])</span>
 <span class="n">sample_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">gsub</span><span class="p">(</span><span class="s">"_ReadsPerGene\\.out\\.tab$"</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">,</span><span class="w"> </span><span class="nf">basename</span><span class="p">(</span><span class="n">count_files</span><span class="p">))</span>
 <span class="nf">colnames</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sample_names</span>
 <span class="nf">rownames</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">counts_list</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="o">$</span><span class="n">V1</span>
@@ -2386,7 +2425,9 @@ FBGN0000008 4567    2345    3456
 <p class="admonition-title">Info</p>
 <ul>
 <li>Se buscan archivos generados por <strong>STAR</strong> (<code>*_ReadsPerGene.out.tab</code>).  </li>
-<li>Se lee la <strong>columna 4</strong>, que contiene los conteos por gen.  </li>
+<li>Se utiliza la <strong>columna 4</strong> del archivo ReadsPerGene.out.tab, que corresponde a los conteos en orientación reverse (2nd strand counts).<br>
+En los kits KAPA mRNA HyperPrep, la preparación de bibliotecas es strand-specific gracias a la incorporación de dUTP durante la síntesis de la segunda cadena de cDNA.
+Durante la amplificación, esta cadena marcada con dUTP no se amplifica, por lo que las lecturas finales conservan únicamente la orientación complementaria al ARN original.</li>
 <li>Se renombra cada muestra según su archivo.  </li>
 <li>Se crea una matriz de conteos lista para DESeq2.</li>
 </ul>
@@ -2395,7 +2436,7 @@ FBGN0000008 4567    2345    3456
 <h2 id="leer-metadatos">Leer metadatos</h2>
 <div class="admonition note">
 <p class="admonition-title">Código en R</p>
-<div class="highlight"><pre><span></span><code><span class="n">coldata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.csv</span><span class="p">(</span><span class="s">"TU_RUTA!/DESEQ2-MATERIALS/metadata_project.csv"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">coldata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.csv</span><span class="p">(</span><span class="s">"/media/aldanacepeda/Elements2/Curso_Omicas/DESEQ2-MATERIALS/metadata_project.csv"</span><span class="p">)</span>
 <span class="nf">rownames</span><span class="p">(</span><span class="n">coldata</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">coldata</span><span class="o">$</span><span class="n">sample</span>
 <span class="nf">stopifnot</span><span class="p">(</span><span class="nf">identical</span><span class="p">(</span><span class="nf">colnames</span><span class="p">(</span><span class="n">counts</span><span class="p">),</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">coldata</span><span class="p">)))</span>
 </code></pre></div>
@@ -2461,12 +2502,16 @@ Le dice a DESeq2: "Quiero modelar los conteos basándome en la variable eyecolor
 <p class="admonition-title">Código en R</p>
 <div class="highlight"><pre><span></span><code><span class="n">dds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">DESeq</span><span class="p">(</span><span class="n">dds</span><span class="p">)</span>
 
+<span class="c1"># Guardamos el objeto DESeqResults original</span>
 <span class="n">res_deseq</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">results</span><span class="p">(</span><span class="n">dds</span><span class="p">,</span><span class="w"> </span><span class="n">contrast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">"eyecolor"</span><span class="p">,</span><span class="w"> </span><span class="s">"white"</span><span class="p">,</span><span class="w"> </span><span class="s">"red"</span><span class="p">))</span>
+
+<span class="c1"># Shrink log2FoldChange sin perder clase</span>
 <span class="n">res_deseq</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lfcShrink</span><span class="p">(</span><span class="n">dds</span><span class="p">,</span><span class="w"> </span><span class="n">coef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"eyecolor_white_vs_red"</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">res_deseq</span><span class="p">)</span>
 
+<span class="c1"># Copia en data.frame para anotación y exportación</span>
 <span class="n">res_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">res_deseq</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">  </span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="s">"ENSEMBL"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">  </span><span class="nf">arrange</span><span class="p">(</span><span class="n">padj</span><span class="p">)</span>
+<span class="nf">rownames_to_column</span><span class="p">(</span><span class="s">"ENSEMBL"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">arrange</span><span class="p">(</span><span class="n">padj</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <div class="admonition info">
@@ -2570,9 +2615,12 @@ Usamos <strong>vst (Variance Stabilizing Transformation)</strong><br>
 
 <span class="nf">plotPCA</span><span class="p">(</span><span class="n">vsd</span><span class="p">,</span><span class="w"> </span><span class="n">intgroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"eyecolor"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span>
 
+<span class="c1">## Top variable genes (heatmap)</span>
 <span class="n">top_genes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="nf">order</span><span class="p">(</span><span class="nf">rowVars</span><span class="p">(</span><span class="nf">assay</span><span class="p">(</span><span class="n">vsd</span><span class="p">)),</span><span class="w"> </span><span class="n">decreasing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w"> </span><span class="m">50</span><span class="p">)</span>
-<span class="n">mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">assay</span><span class="p">(</span><span class="n">vsd</span><span class="p">)[</span><span class="n">top_genes</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">rowMeans</span><span class="p">(</span><span class="nf">assay</span><span class="p">(</span><span class="n">vsd</span><span class="p">)[</span><span class="n">top_genes</span><span class="p">,</span><span class="w"> </span><span class="p">])</span>
+<span class="n">mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">assay</span><span class="p">(</span><span class="n">vsd</span><span class="p">)[</span><span class="n">top_genes</span><span class="p">,</span><span class="w"> </span><span class="p">]</span>
+<span class="n">mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mat</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">rowMeans</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
 <span class="n">anno</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.data.frame</span><span class="p">(</span><span class="nf">colData</span><span class="p">(</span><span class="n">vsd</span><span class="p">)[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">"eyecolor"</span><span class="p">,</span><span class="w"> </span><span class="s">"replicate"</span><span class="p">)])</span>
+
 
 <span class="nf">pheatmap</span><span class="p">(</span>
 <span class="w">  </span><span class="n">mat</span><span class="p">,</span>
@@ -2612,42 +2660,109 @@ Usamos <strong>vst (Variance Stabilizing Transformation)</strong><br>
 <h2 id="analisis-funcional-go-y-kegg">Análisis funcional (GO y KEGG)</h2>
 <div class="admonition note">
 <p class="admonition-title">Código resumido</p>
-<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">clusterProfiler</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Definición de grupos de genes (USANDO sig_res)</span>
+<span class="c1"># ENSEMBL IDs de genes significativamente upregulados en 'white' (LFC &gt; 0)</span>
+<span class="n">up_white</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sig_res</span><span class="o">$</span><span class="n">ENSEMBL</span><span class="p">[</span><span class="n">sig_res</span><span class="o">$</span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">]</span>
 
-<span class="c1"># Enriquecimiento GO</span>
-<span class="n">ego_compare</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">compareCluster</span><span class="p">(</span>
-<span class="w">  </span><span class="n">geneCluster</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_list</span><span class="p">,</span>
-<span class="w">  </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"enrichGO"</span><span class="p">,</span>
-<span class="w">  </span><span class="n">OrgDb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">org.Dm.eg.db</span><span class="p">,</span>
-<span class="w">  </span><span class="n">keyType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ENTREZID"</span><span class="p">,</span>
-<span class="w">  </span><span class="n">ont</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"MF"</span><span class="p">,</span>
-<span class="w">  </span><span class="n">pAdjustMethod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"BH"</span><span class="p">,</span>
-<span class="w">  </span><span class="n">pvalueCutoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span>
-<span class="w">  </span><span class="n">readable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
+<span class="c1"># ENSEMBL IDs de genes significativamente upregulados en 'red' (LFC &lt; 0)</span>
+<span class="n">up_red</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sig_res</span><span class="o">$</span><span class="n">ENSEMBL</span><span class="p">[</span><span class="n">sig_res</span><span class="o">$</span><span class="n">log2FoldChange</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="p">]</span>
+
+
+<span class="c1"># 2. Conversión a ENTREZ ID (para GO y KEGG)</span>
+<span class="n">up_white_entrez</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mapIds</span><span class="p">(</span>
+<span class="n">org.Dm.eg.db</span><span class="p">,</span><span class="w"> </span><span class="n">keys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">up_white</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ENTREZID"</span><span class="p">,</span><span class="w"> </span><span class="n">keytype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ENSEMBL"</span><span class="p">,</span><span class="w"> </span><span class="n">multiVals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"first"</span>
+<span class="p">)</span>
+<span class="n">up_red_entrez</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mapIds</span><span class="p">(</span>
+<span class="n">org.Dm.eg.db</span><span class="p">,</span><span class="w"> </span><span class="n">keys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">up_red</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ENTREZID"</span><span class="p">,</span><span class="w"> </span><span class="n">keytype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ENSEMBL"</span><span class="p">,</span><span class="w"> </span><span class="n">multiVals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"first"</span>
 <span class="p">)</span>
 
-<span class="nf">dotplot</span><span class="p">(</span><span class="n">ego_compare</span><span class="p">,</span><span class="w"> </span><span class="n">showCategory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"GO MF Enrichment by Eye Color"</span><span class="p">)</span>
+<span class="c1"># Eliminar NAs</span>
+<span class="n">up_white_entrez</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">(</span><span class="n">up_white_entrez</span><span class="p">)</span>
+<span class="n">up_red_entrez</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">(</span><span class="n">up_red_entrez</span><span class="p">)</span>
+
+<span class="c1"># 3. Enriquecimiento GO (MF) y comparación</span>
+<span class="n">gene_list</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span>
+<span class="n">White</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">up_white_entrez</span><span class="p">,</span>
+<span class="n">Red</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">up_red_entrez</span>
+<span class="p">)</span>
+
+<span class="n">ego_compare</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">compareCluster</span><span class="p">(</span>
+<span class="n">geneCluster</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_list</span><span class="p">,</span>
+<span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"enrichGO"</span><span class="p">,</span>
+<span class="n">OrgDb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">org.Dm.eg.db</span><span class="p">,</span>
+<span class="n">keyType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ENTREZID"</span><span class="p">,</span>
+<span class="n">ont</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"MF"</span><span class="p">,</span>
+<span class="n">pAdjustMethod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"BH"</span><span class="p">,</span>
+<span class="n">pvalueCutoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span>
+<span class="n">readable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
+<span class="p">)</span>
+
+<span class="c1"># Visualizar y Guardar el GO Comparison Plot</span>
+<span class="n">go_compare_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dotplot</span><span class="p">(</span><span class="n">ego_compare</span><span class="p">,</span><span class="w"> </span><span class="n">showCategory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"GO MF Enrichment by Eye Color"</span><span class="p">)</span>
+<span class="n">go_compare_plot</span>
 </code></pre></div>
+<pre><code># KEGG enrichment
+ekegg_white &lt;- enrichKEGG(
+    gene = up_white_entrez,
+    organism = 'dme',
+    keyType = 'ncbi-geneid',
+    pvalueCutoff = 0.05
+)
+
+ekegg_red &lt;- enrichKEGG(
+    gene = up_red_entrez,
+    organism = 'dme',
+    keyType = 'ncbi-geneid',
+    pvalueCutoff = 0.05
+)
+
+# Hacer legibles los resultados
+ekegg_white &lt;- setReadable(ekegg_white, OrgDb = org.Dm.eg.db, keyType = "ENTREZID")
+ekegg_red &lt;- setReadable(ekegg_red, OrgDb = org.Dm.eg.db, keyType = "ENTREZID")
+
+# Visualizar y Guardar
+p_kegg_white &lt;- dotplot(ekegg_white, showCategory = 15, title = "KEGG pathways - White upregulated") +
+    theme_minimal(base_size = 13)
+p_kegg_white
+#ggsave("kegg_white_up.png", p_kegg_white, width = 8, height = 7, dpi = 300)
+
+p_kegg_red &lt;- dotplot(ekegg_red, showCategory = 15, title = "KEGG pathways - Red upregulated") +
+    theme_minimal(base_size = 13)
+p_kegg_red
+#ggsave("kegg_red_up.png", p_kegg_red, width = 8, height = 7, dpi = 300)
+```
+</code></pre>
 </div>
+<p>El script realiza tres pasos principales: <br>
+<strong>1</strong>. Define dos conjuntos de genes significativos (<code>up_white</code>, <code>up_red</code>) a partir de <code>sig_res</code> (según signo del log2FC).<br>
+<strong>2</strong>. Convierte esos ENSEMBL IDs a ENTREZID con <code>mapIds()</code> y elimina valores <code>NA</code> antes del análisis.<br>
+<strong>3</strong>. Ejecuta un análisis de enriquecimiento funcional: <code>compareCluster(..., fun = "enrichGO", ont = "MF")</code> para comparar términos GO (MF) entre los dos grupos, y <code>enrichKEGG()</code> por separado para KEGG.  </p>
 <ul>
-<li>Se identifican funciones moleculares (GO:MF) sobre-representadas.   </li>
-<li>Se compara entre condiciones (<em>white</em> y <em>red</em>).    </li>
-<li>Luego se realiza un enriquecimiento <strong>KEGG</strong> para detectar vías metabólicas afectadas.  </li>
+<li>Los resultados de KEGG se hacen legibles con <code>setReadable()</code> (usa <code>org.Dm.eg.db</code>) antes de visualizarlos con <code>dotplot()</code>.</li>
 </ul>
 <div class="admonition tip">
-<p class="admonition-title">Notas sobre IDs y background</p>
+<p class="admonition-title">Notas prácticas — IDs y controles de robustez</p>
 <ul>
-<li><code>clusterProfiler</code> suele trabajar con <strong>ENTREZID</strong>; si tenés ENSEMBL, convertí usando <code>mapIds()</code> o <code>bitr()</code> (paquete <code>clusterProfiler</code>) antes del análisis.</li>
-<li>Elegí adecuadamente el conjunto de genes de referencia (background). Para datos RNA-seq suele usarse la lista de genes filtrados tras el prefiltrado (no todos los genes del genoma).</li>
-<li>Reportá siempre el método de corrección p (ej. BH) y el universo usado para el test de sobre-representación.</li>
+<li>Input adecuado: <code>clusterProfiler</code> y <code>enrichKEGG</code> funcionan mejor con IDs tipo <strong>ENTREZID</strong>. Conviene convertir ENSEMBL → ENTREZ con <code>mapIds()</code> o <code>bitr()</code> y luego aplicar <code>na.omit()</code> y <code>unique()</code> antes del análisis.</li>
+<li>Background: para análisis ORA en RNA‑seq, usá los genes que sobreviven al filtrado (por ejemplo: los genes presentes en <code>dds</code> tras el filtrado). Esto evita sesgos al comparar contra todo el genoma.</li>
+<li>Tamaño mínimo de listas: evitá interpretar resultados de GO/KEGG cuando la lista de entrada es muy pequeña (p. ej. &lt; 10 genes). Estos resultados son poco robustos y frecuentemente espurios.</li>
+<li>Parámetros de ajuste: siempre indicá el método de corrección por tests múltiples (<code>pAdjustMethod</code>, por ejemplo <code>"BH"</code>) y el <code>pvalueCutoff</code> usado en <code>enrichGO</code>/<code>enrichKEGG</code>.</li>
+<li>Legibilidad y visualización: usá <code>setReadable()</code> (con <code>OrgDb</code>) para convertir IDs a símbolos legibles antes de plotear. Guardá los plots (por ejemplo con <code>ggsave()</code>) y exportá las tablas resultantes a CSV.</li>
+<li>Notas operativas: <code>enrichKEGG()</code> puede requerir acceso a la base KEGG y, a veces, su ejecución falla por conexión o cambios en la API; considerá alternativas (KEGGREST o bases locales) si ocurre un fallo.</li>
 </ul>
 </div>
 <div class="admonition info">
-<p class="admonition-title">🧉 Más info en criollo sobre el Enriquecimiento Funcional (GO)</p>
+<p class="admonition-title">🧉 Más info en criollo sobre el Enriquecimiento Funcional (GO) y KEGG </p>
 <ul>
 <li><strong>¿Cuál es el objetivo?</strong> Ya tenemos nuestra lista de ~X00 genes significativos (ej. sig_res). Pero una lista de genes no dice mucho. Queremos saber: ¿Qué hacen estos genes? </li>
 <li><strong>Test de sobrerrepresentación (ORA)</strong>: El análisis GO toma nuestra lista y la compara con el "universo" de todos los genes. Pregunta: "De mis 200 genes significativos, 50 están involucrados en 'metabolismo de pigmentos'. ¿Es esto más de lo que esperaría por puro azar?"</li>
 <li><code>enrichGO</code> hace este test estadístico y nos devuelve una lista de términos GO (ej. "transporte de pigmentos", "desarrollo ocular") que están "sobrerrepresentados" (enriquecidos) en nuestra lista de genes. Esto nos da la biología detrás de los cambios.</li>
+<li><strong>¿Qué es KEGG?</strong> KEGG es una base de datos de <em>pathways</em> (vías metabólicas y de señalización) y redes biológicas. Mientras que GO describe funciones y procesos en forma de términos jerárquicos (qué hace un gen), KEGG agrupa genes en mapas funcionales que representan rutas (cómo interactúan genes/proteínas en una misma vía).</li>
+<li><strong>Diferencia clave</strong>: GO responde "qué funciones o procesos están sobrerrepresentados"; KEGG responde "qué rutas o vías biológicas están alteradas". GO puede devolver muchos términos relacionados y jerárquicos; KEGG suele devolver rutas más fáciles de visualizar en diagramas de interacción/metabolismo.</li>
+<li><strong>Cobertura y granularidad</strong>: GO tiene una cobertura muy amplia y se organiza en tres ontologías (BP = procesos biológicos, MF = funciones moleculares, CC = componentes celulares). KEGG está más orientado a rutas y redes, y suele contener menos términos pero más interpretables en términos de mecanismos.</li>
+<li><strong>IDs y formatos</strong>: KEGG suele usar identificadores basados en ENTREZ (NCBI) para genes; por eso la conversión ENSEMBL→ENTREZ es importante. Algunas funciones de <code>clusterProfiler</code> requieren indicar <code>keyType</code> correcto (<code>ENTREZID</code> / <code>ncbi-geneid</code>).</li>
+<li><strong>Interpretación</strong>: una vía KEGG significativa indica que un conjunto de genes de la misma ruta aparece en la lista —esto suele ser fácil de mapear a un proceso (por ejemplo, "ruta del metabolismo de la tirosina"). Con GO, puede aparecer una mezcla de términos más específicos o generales; conviene inspeccionar redundancias y jerarquías.</li>
+<li><strong>Recomendación práctica: usá ambos enfoques</strong>. GO te da un panorama detallado de funciones y procesos; KEGG te ayuda a identificar rutas y mecanismos. Siempre definí un universo apropiado, convertí correctamente los IDs y comprobá el tamaño de las listas antes de interpretar resultados.</li>
 </ul>
 </div>
 <hr>
