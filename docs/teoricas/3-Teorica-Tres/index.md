@@ -15,17 +15,11 @@ tags:
 Código de acceso: 0f2^vG%e
 -->
 
-## Parte 1
+## Parte 1: Estudios de Transcriptomas
 ### Dr. Pablo Smircich   
-
-<!--
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1OCVRZ0BmY07KuBOBtZhwXwgu305uk7A7/view?usp=sharing){ .md-button }
--->
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1zKCTQzVTJ7RJRXuC7afqZTQbADym0Zng/view?usp=sharing){ .md-button }
 
 
-## Parte 2
+## Parte 2: Transcriptomics: _my_ case studies
 ### Dra. Natalia De Rego
-
-<!--
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1y11C3D-DqpUgFNHuDMwE-APSd5t5bZAR/view?usp=sharing){ .md-button }
--->
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1l16puEugpSdEplKingVOcgSUiCpIG7Ac/view?usp=sharing){ .md-button }
