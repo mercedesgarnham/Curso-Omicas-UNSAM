@@ -1065,5 +1065,6 @@ Siempre es buena práctica guardar dos archivos:
 
 En caso de querer trabajar con Salmon o de querer hacer estudios de Splicing, les dejamos estos ejercicios adicionales (con el manual) para que los tengan disponibles en caso de serles útiles. 
 
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: Adicional Pseudo-alineamiento Salmon</span>](https://drive.google.com/file/d/1CdOxJBrJf3AdUqoCfoquPSQqOAp7ucTn/view?usp=sharing){ .md-button }   
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: Adicional Salmon DESeq2</span>](https://drive.google.com/file/d/1Yrjk58VkLa7iAjwPpNPLrd1X_4DtDBls/view?usp=drive_link){ .md-button }
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-pdf-box: Adicional Splicing</span>](https://drive.google.com/file/d/1f--2TyS2n-87CK-MeCDDaMTU7C7lvSAE/view?usp=drive_link){ .md-button }
