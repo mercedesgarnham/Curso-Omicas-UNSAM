@@ -13,9 +13,12 @@ show:
 
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Materiales</span>](https://drive.google.com/drive/folders/1rfv1DqA5ASeo22wHrG9wJqN4qs7Clu9r?usp=sharing){ .md-button }
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://docs.google.com/presentation/d/1Vb3GfjxVjIiaMuHPtCnXc1vxpQ3hG7AaOPPnJNm9Ew0/edit?usp=sharing){ .md-button }
-<!--
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-youtube: Clase grabada</span>](https://drive.google.com/){ .md-button }
--->
+
+## Video de la clase
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:octicons-video-16: Video</span>](https://us02web.zoom.us/rec/share/QtgFvcbks0FHqBAXVsRbuUX3M4lS6iISadeCLEyqQ9Rbg3Imx0oflvEBOqoqVaeh.xSLcr7kPZ6I_XrOj?startTime=1763640707000){ .md-button }
+
+
+Código de acceso: 7.=hL&96
 
 ## 🎯Objetivos
 

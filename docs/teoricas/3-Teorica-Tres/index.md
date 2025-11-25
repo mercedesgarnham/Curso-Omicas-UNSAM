@@ -1,25 +1,31 @@
 ---
 title: Teorica Tres
+hide: 
+  #- navigation
+  - toc
 tags: 
   - teoricas
 ---
 
-![Image](featured.svg){ width="250", align=left }
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sit amet
-fermentum justo, at rhoncus tellus. Aliquam nec magna ullamcorper, congue libero
-at, ultrices turpis. Vestibulum imperdiet sapien arcu, vitae faucibus nunc
-congue ut. Etiam non vulputate dui. Integer nec hendrerit libero. In bibendum
-lorem lectus, id volutpat diam imperdiet vel. Curabitur eu dictum sapien. Etiam
-lacinia lacinia commodo. Aliquam erat volutpat. Duis massa odio, vulputate in
-lorem id, fringilla tincidunt nunc. Quisque risus mauris, fringilla eget euismod
-quis, dictum id dui. Cras at lectus tempus, dapibus arcu sit amet, gravida diam.
+# **Teórica 3:** Transcriptomica { markdown data-toc-label = 'teorica tres' }
+<!--
+## Video de la clase
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:octicons-video-16: Video</span>](https://us02web.zoom.us/rec/share/AQyDtfdk9TbXpe1JUdE2-qTs8RtQjJ-GP1mfsLupXwURrplkbM4JHTN1_jVGK7mz.qhN_eJoClmuc2ugY?startTime=1763554400000){ .md-button }
 
-## Video :octicons-video-24:
+Código de acceso: 0f2^vG%e
+-->
 
-![type:video](https://www.youtube.com/embed/kS0X-yIsB64)
+## Parte 1
+### Dr. Pablo Smircich   
 
-## Material de lectura y consulta
+<!--
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1OCVRZ0BmY07KuBOBtZhwXwgu305uk7A7/view?usp=sharing){ .md-button }
+-->
 
-  * Uno
-  * Dos
-  * Tres
+
+## Parte 2
+### Dra. Natalia De Rego
+
+<!--
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1y11C3D-DqpUgFNHuDMwE-APSd5t5bZAR/view?usp=sharing){ .md-button }
+-->

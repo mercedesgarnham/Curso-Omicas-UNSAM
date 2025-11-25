@@ -14,6 +14,12 @@ toc-location: left
 
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://docs.google.com/presentation/d/1j1YkoUpOAjlTszJdVbFKgVPFIjW5m502FVQVmuVB-YY/edit?usp=sharing){ .md-button }
 
+## Video de la clase
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:octicons-video-16: Video</span>](https://us02web.zoom.us/rec/share/5VTwvfV5xUuxQ95B1QWOuNs-dwgxtKBEoNcvt9lYnDn4NsDhEM8IpTZpgYEa-evB.GwNMzF73oDDLmJY8?startTime=1763467718000){ .md-button }
+
+
+Código de acceso: 3@5T#Nr#
+
 
 ## Objetivos
 
