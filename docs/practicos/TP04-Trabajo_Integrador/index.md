@@ -4,6 +4,9 @@ tags:
   - practicos
   - genomica
   - transcriptomica
+show:
+  - toc
+toc-location: left
 ---
 
 ![Image](imagenes/featured.png){ width="750", align=center }
@@ -11,11 +14,13 @@ tags:
 
 # **TP 4**. Trabajo integrador { markdown data-toc-label = 'TP 04' }
 
+<!--
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Materiales</span>](){ .md-button }
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](){ .md-button }
+-->
 
 ---
-
+<!--
 ## 🗂️ Índice rápido
 
 - [Objetivos](#objetivos)
@@ -28,45 +33,244 @@ tags:
 - [Anotación del Ensamblaje](#anotacion-del-ensamblaje-lifton)
 - [Cuantificación de RNAseq](#cuantificacion-de-rnaseq-long-reads)
 - [Actividades Adicionales: Kraken2](#actividades-adicionales-opcional-kraken2)
+-->
+---
+## Parte 0: Preparación de Ambientes Conda y Descarga de Datos
+
+En esta sección se detallan los ambientes Conda necesarios para el TP, los programas que deben instalarse y los datasets requeridos.
+
+Vamos a generar **tres ambientes Conda separados**. Esto es necesario porque algunos de los programas que utilizaremos dependen de **distintas versiones de Python o de paquetes específicos**, y esas dependencias pueden ser **incompatibles entre sí** si se instalan en un mismo entorno.  
+Al separar los ambientes, garantizamos que cada herramienta funcione correctamente sin interferir con las demás.
+
+
+### 🟦 Environment 1: nanoplot
+
+#### Tabla
+
+| Environment | Programa | Observación |
+|------------|----------|-------------|
+| nanoplot   | NanoPlot | Debe estar en un entorno separado |
+
+#### Comandos
+
+```bash
+# Crear ambiente
+conda create -n nanoplot python=3.10 -y
+
+# Activar
+conda activate nanoplot
+
+# Instalar NanoPlot
+conda install -c bioconda nanoplot -y
+
+# Listar paquetes instalados
+conda list
+
+# Desactivar
+conda deactivate
+```
+
+### 🟩 Environment 2: ensamble
+
+Incluye las herramientas de ensamblaje, estadísticas y QC.
+
+#### Tabla
+
+| Programa       | Canal / Nota |
+|----------------|--------------|
+| Flye           | bioconda |
+| Hifiasm        | bioconda |
+| Minimap2       | bioconda |
+| Samtools       | bioconda |
+| Compleasm      | bioconda |
+| assembly-stats | bioconda |
+| seqkit         | bioconda |
+| subread        | bioconda (featureCounts) |
+| pigz           | conda-forge |
+| ncbi-datasets-cli (opcional) | conda-forge |
+| calN50.js      | Descargar archivo `.js` |
+| minigff.js     | Descargar archivo `.js` |
+| Bandage        | Instalar binario (GUI) |
+| lifton         | Instalación manual |
+
+#### Comandos
+
+```bash
+# Crear ambiente
+conda create -n ensamble python=3.10 -y
+
+# Activar
+conda activate ensamble
+
+# Instalar herramientas principales
+conda install -c bioconda flye -y
+conda install -c bioconda hifiasm -y
+conda install -c bioconda minimap2 -y
+conda install -c bioconda samtools -y
+conda install -c bioconda compleasm -y
+conda install -c bioconda assembly-stats -y
+conda install -c bioconda seqkit -y
+conda install -c bioconda subread -y
+conda install -c conda-forge pigz -y
+
+# Instalar datasets CLI (opcional)
+conda install -c conda-forge ncbi-datasets-cli -y
+
+# Ver paquetes instalados
+conda list
+
+# Desactivar
+conda deactivate
+```
+
+### 🟪 Environment 3: anotacion (LiftOn)
+
+#### Tabla
+
+| Programa | Detalle |
+|----------|---------|
+| LiftOn   | Instalación desde código fuente |
+
+#### Comandos
+
+```bash
+# Crear ambiente
+conda create -n anotacion python=3.10 -y
+
+# Activar
+conda activate anotacion
+
+# Instalar dependencias
+conda install -c bioconda minimap2 -y
+conda install -c bioconda samtools -y
+conda install -c conda-forge cmake -y
+
+# Descargar LiftOn
+git clone https://github.com/COMBINE-lab/LiftOn.git
+cd LiftOn
+
+# Compilar
+mkdir build
+cd build
+cmake ..
+make
+
+# Ver paquetes
+conda list
+
+# Desactivar
+conda deactivate
+```
+
+### Verificar la generación de todos los ambientes
+
+```bash
+conda env list
+```
+
+Deberías ver algo asi:
+
+```bash
+conda environments:
+
+base * /home/user/miniconda3
+quast /home/user/miniconda3/envs/quast #Generado para el TP2
+tp2 /home/user/miniconda3/envs/tp2 #Generado para el TP2
+tp3 /home/user/miniconda3/envs/tp3 #Generado para el TP3
+nanoplot /home/user/miniconda3/envs/nanoplot #Generado para este TP
+ensamble /home/user/miniconda3/envs/ensamble #Generado para este TP
+anotacion /home/user/miniconda3/envs/anotacion #Generado para este TP
+```
+
+### 📂 Datos para Descargar 
+
+Crear una carpeta del TP04
+Ingresar a la carpeta
+Descargar los siguientes archivos
 
 ---
 
-## 🎯 Objetivos
+#### ✔️ Base de datos OrthoDB para Compleasm (Nematoda)
+
+```bash
+conda activate ensamble
+compleasm download -L ./ --odb odb12 nematoda
+conda deactivate
+```
+
+#### ✔️ Lecturas ONT (FASTQ)
+
+**SRR32300787_subsampled.fq.gz**
+
+https://usegalaxy.eu/api/datasets/26c75dcccb616ac89a349d1ada2e97cf/display?to_ext=fastqsanger.gz
+
+
+#### ✔️ Genoma de *C. elegans*
+
+Ejemplo usando NCBI datasets CLI:
+
+```bash
+datasets download genome accession GCA_000002985.3 --include genome,gff3,gtf
+```
+
+#### ✔️ Datos RNA-Seq Long Reads
+
+Ejecutar:
+
+```bash
+bash sra_download_RNASEQ.bash
+```
+
+Script disponible en:  
+https://drive.google.com/file/d/10qAf3q74x8Dv6M1VHLWjNb-u6yGHERgS/view?usp=drive_link
+
+
+---
+## Parte 1
+
+
+---
+## Parte 2
+
+### 🎯 Objetivos
 
 !!! info "Objetivos principales"
     - Secuenciar el genoma completo eucromático de *Drosophila melanogaster*
     - Probar la viabilidad de Whole-Genome Shotgun en eucariotas complejos
     - Generar recursos genómicos abiertos y anotados para la comunidad científica
 
----
-
-## 📁 Configuración Inicial y Datos
+### 📁 Configuración Inicial y Datos
 
 !!! tip "Pasos iniciales para comenzar"
-    1. **Comprobar la ruta actual:**
-        ```bash
-        pwd
-        ```
-        *Resultado esperado:* `/home/manager/Documents/`
-    2. **Corregir la ruta si es necesario:**
-        ```bash
-        cd /home/CURSO/
-        ```
-    3. **Datos:** Los archivos de secuencias se proporcionan en formato `.fastq`. Han sido submuestreados (~25X) y sin adaptadores para ahorrar tiempo.
+    1. Generar una carpeta para el TP04. 
 
----
-
----
+    2. Descargar los materiales y descomprimir dentro de TP04. 
+    **Datos:** Los archivos de secuencias se proporcionan en formato `.fastq`. Han sido submuestreados (~25X) y sin adaptadores para ahorrar tiempo.
 
 
-## 🔍 Control de Calidad de Long Reads (NanoPlot)
+### 🔍 Control de Calidad de Long Reads (NanoPlot)
 
 !!! info "¿Qué es NanoPlot?"
     NanoPlot es una herramienta especializada para el control de calidad de secuencias largas (Nanopore/PacBio).
 
+    Si te interesa leer más acá hay algunos links de interés:
+
+    - [NanoPlot Online](https://nanoplot.bioinf.be/)
+
+    - [GitHub](https://github.com/wdecoster/NanoPlot)
+
+    - [Docs](https://broadinstitute.github.io/long-read-pipelines/tasks/NanoPlot/)
+
+    - [Publicación](https://academic.oup.com/bioinformatics/article/39/5/btad311/7160911?login=false)
+
+
+Ahora vamos a correr el comando para general la visualización
+
 ```bash
 NanoPlot -t 8 --dpi 300 --N50 -o ./resultado_nanoplot --huge --fastq XXX.fq.gz
 ```
+
+Las opciones usamos en este caso:
 
 - `-t 8`: Número de núcleos
 - `--dpi 300`: Calidad de imagen (puntos por pulgada)
@@ -75,19 +279,43 @@ NanoPlot -t 8 --dpi 300 --N50 -o ./resultado_nanoplot --huge --fastq XXX.fq.gz
 - `--huge`: Optimiza para archivos grandes
 - `--fastq XXX.fq.gz`: Archivo de datos fastq
 
+
+??? info "Manual de NanoPlot"
+    Para ver más opciones de uso podemos consultar el manual:
+
+    ```bash
+    NanoPlot -h
+    ```
+
 !!! tip "Tiempo estimado y acceso al reporte"
     - Tiempo estimado: ~3 minutos
     - El reporte se genera como `NanoPlot-report.html` en la carpeta `resultado_nanoplot`
-    - Para abrirlo: `firefox ./resultado_nanoplot/NanoPlot-report.html`
 
-??? question "¿Qué aprendiste del reporte de NanoPlot?"
-    1. ¿Cuáles son las métricas principales que observaste (N50, longest reads, calidad promedio)?
-    2. ¿Qué información adicional te resultó útil del reporte?
+#### Ejercicio 1
+1. ¿Cuáles son las métricas principales que observaste (N50, longest reads, calidad promedio)?
 
----
+2. ¿Qué información adicional te resultó útil del reporte?
 
 
-## 🔨 Ensamblaje *De Novo*
+### 🔨 Ensamblaje *De Novo*
+
+El **ensamblaje *de novo*** consiste en reconstruir un genoma **sin usar una referencia**, uniendo lecturas de secuenciación únicamente a partir de sus **solapamientos**.  
+Es esencial cuando no existe un genoma de referencia o cuando se buscan regiones nuevas no presentes en genomas conocidos.
+
+Según la tecnología, se aplican distintas estrategias:
+- **Lecturas cortas (Illumina):** grafos de Bruijn.  
+- **Lecturas largas (ONT/PacBio):** grafos de solapamiento (OLC).
+
+El resultado típico son **contigs** y **scaffolds**, que luego pueden pulirse para obtener un ensamblaje más preciso.
+
+En este caso vamos a ver dos programas:
+
+- **Flye** está optimizado para lecturas largas ruidosas (como ONT o PacBio CLR). Reconstruye el genoma mediante un enfoque OLC y destaca por su robustez en genomas con muchas repeticiones.
+
+- **Hifiasm** está orientado a lecturas **PacBio HiFi**, que son muy precisas. Permite ensamblajes rápidos y altamente fieles, incluso con separación haplotípica (*phasing*).
+
+Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener ensamblajes completos y de alta calidad, especialmente en especies sin referencia disponible.
+
 
 !!! warning "¡Selecciona solo un programa para ensamblar!"
     Elige entre Flye o Hifiasm según tus datos y preferencias.
@@ -96,15 +324,19 @@ NanoPlot -t 8 --dpi 300 --N50 -o ./resultado_nanoplot --huge --fastq XXX.fq.gz
     ```bash
     flye --pacbio-hifi SRR32300787_subsampled.fq.gz -t 8 -o ./flye
     ```
+
     - `--pacbio-hifi`: Archivo PacBio CCS
     - `-t 8`: Núcleos
     - `-o ./flye`: Carpeta de salida
     - Tiempo estimado: 20-30 minutos
 
+    Importante: Al finalizar, cambia el nombre y ubicación del archivo FASTA generado para correr el siguiente comando.
+
 === "Opción 2: Hifiasm"
     ```bash
     hifiasm -o hifiasm -t 8 -l0 --telo-m TTAGGC SRR32300787_subsampled.fastq.gz 2> hifiasm.log
     ```
+
     - `-o hifiasm`: Prefijo de salida
     - `-t 8`: Núcleos
     - `-l0`: Desactiva purga de duplicados
@@ -112,212 +344,276 @@ NanoPlot -t 8 --dpi 300 --N50 -o ./resultado_nanoplot --huge --fastq XXX.fq.gz
     - `2> hifiasm.log`: Guarda logs
     - Tiempo estimado: ~15 minutos
 
+
+Tras correr el programa que eligieron, vamos a procesar el archivo de salida:
+
 ```bash
+# Extrae las secuencias de los nodos tipo "S" del archivo GFA
+# y las convierte a formato FASTA. El identificador será el campo 2
+# y la secuencia el campo 3.
 awk '/^S/{print ">"$2; print $3}' hifiasm.bp.p_ctg.gfa > hifiasm_celegans.fa
 ```
-- Si usaste Flye, solo cambia el nombre y ubicación del archivo FASTA generado.
-??? question "¿Por qué elegir Flye o Hifiasm? ¿Qué diferencias encontraste en los resultados?"
-    1. ¿Qué ventajas/desventajas observaste entre Flye y Hifiasm?
-    2. ¿El ensamblaje final fue diferente según el programa?
 
----
+#### Ejercicio 2
+
+1. ¿Qué ventajas/desventajas observaste entre Flye y Hifiasm?
+
+2. ¿El ensamblaje final fue diferente según el programa?
 
 
-## 📊 Análisis del Ensamblaje
+### 📊 Análisis del Ensamblaje
+
+El análisis del ensamblaje permite evaluar la **calidad**, **completitud** y **continuidad** del genoma reconstruido.  
+Generalmente incluye métricas como:
+
+- **Número de contigs** y **tamaño total ensamblado**.  
+- **N50 / L50**, que indican la continuidad del ensamblaje.  
+- **Longitud del contig más largo** y distribución de tamaños.  
+- **Completitud génica** evaluada con herramientas como **BUSCO**.  
+- **Identidad y cobertura** frente a una referencia (si existe), mediante alineamientos.  
+- **Detección de duplicaciones, gaps o regiones potencialmente mal ensambladas**.
+
+Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requiere pasos adicionales, como pulido o filtrado.
+
 
 !!! info "Este análisis asume que usaste Hifiasm. Si usaste Flye, adapta los nombres de archivo."
 
-1. Indexado del Genoma
+1. **Indexado del Genoma**
 
-```bash
-samtools faidx hifiasm_celegans.fa
-```
+    Este paso prepara el genoma para consultas rápidas y mapeo.
 
-- Prepara el genoma para consultas rápidas y mapeo.
+    ```bash
+    samtools faidx hifiasm_celegans.fa
+    ```
 
-2. Estadísticas Generales (seqkit stats)
+2. **Estadísticas Generales (seqkit stats)**
 
-```bash
-seqkit stats hifiasm_celegans.fa
-```
-
-- Ejemplo de resultado:
-    - Secuencias: **162**
-    - Longitud total: **108,742,274**
-    - Mínima: 6,951
-    - Promedio: 671,248.6
-    - Máxima: 8,924,653
-
-3. Estadísticas Detalladas (assembly-stats)
-
-```bash
-assembly-stats hifiasm_celegans.fa
-```
-
-- Ejemplo de resultado:
-    - Suma: 108,742,274
-    - N = 162
-    - Promedio: 671,248.60
-    - Largest: 8,924,653
-    - N50: 3,735,249 (n=10)
-    - N100: 6,951 (n=162)
-    - N_count: 0
-    - Gaps: 0
-
-**Visualización Gráfica (Bandage)**
-
-1. Abre la carpeta `/home/genomica/Documentos/bandage` y ejecuta Bandage.
-2. Ve a **FILE > LOAD GRAPH** y selecciona `assembly.gfa`.
-3. Pulsa **Draw graph** para ver el ensamblaje.
-4. Pulsa **More info** para ver estadísticas detalladas.
-
-??? question "¿Qué aprendiste al visualizar el ensamblaje con Bandage?"
-    1. ¿Cuántos contigs se obtuvieron en el ensamblaje *de novo*?
-    2. ¿Cuál es el más largo y qué tamaño tiene?
-    3. ¿Cuál es el más corto y qué tamaño tiene?
-    4. ¿Qué contig tiene la mayor cobertura?
-    5. ¿Qué contig tiene la menor cobertura?
-
----
+    Este comando calcula estadísticas básicas del ensamblaje, como número de secuencias, tamaño total, longitud mínima y máxima, y N50 preliminar.
 
 
-## ✅ Control de Calidad (QC) del Ensamblaje: Compleasm (BUSCO)
+    ```bash
+    seqkit stats hifiasm_celegans.fa
+    ```
 
-!!! info "¿Para qué sirve Compleasm?"
-Compleasm evalúa la completitud del ensamblaje usando genes BUSCO.
+    - Ejemplo de resultado:
+        - Secuencias: **162**
+        - Longitud total: **108,742,274**
+        - Mínima: 6,951
+        - Promedio: 671,248.6
+        - Máxima: 8,924,653
 
-1. Base de datos (ya descargada)
 
-```bash
-# NO CORRER
-compleasm download -L ./ --odb odb12 nematoda
-```
+3. **Estadísticas Detalladas (assembly-stats)**
 
-- Nota: La base de datos 'Nematoda' ya está disponible en las PCs del aula.
+    Este comando genera un resumen más detallado del ensamblaje, incluyendo métricas de continuidad (N50, L50), distribución de longitudes y otros valores útiles para evaluar la calidad global.
+
+
+    ```bash
+    assembly-stats hifiasm_celegans.fa
+    ```
+
+    - Ejemplo de resultado:
+        - Suma: 108,742,274
+        - N = 162
+        - Promedio: 671,248.60
+        - Largest: 8,924,653
+        - N50: 3,735,249 (n=10)
+        - N100: 6,951 (n=162)
+        - N_count: 0
+        - Gaps: 0
+
+4. **Visualización Gráfica (Bandage)**
+
+    Permite explorar de forma interactiva el grafo del ensamblaje, visualizar contigs, conexiones y posibles regiones ambiguas, lo que ayuda a detectar problemas estructurales o evaluar la continuidad del ensamblaje generado.
+
+    1. Abre la carpeta `/home/genomica/Documentos/bandage` y ejecuta Bandage.
+    2. Ve a **FILE > LOAD GRAPH** y selecciona `assembly.gfa`.
+    3. Pulsa **Draw graph** para ver el ensamblaje.
+    4. Pulsa **More info** para ver estadísticas detalladas.
+
+#### Ejercicio 3
+1. ¿Cuántos contigs se obtuvieron en el ensamblaje *de novo*?
+2. ¿Cuál es el más largo y qué tamaño tiene?
+3. ¿Cuál es el más corto y qué tamaño tiene?
+4. ¿Qué contig tiene la mayor cobertura?
+5. ¿Qué contig tiene la menor cobertura?
+
+### ✅ Control de Calidad (QC) del Ensamblaje: Compleasm (BUSCO)
+
+La evaluación de la **completitud** es un paso fundamental para determinar la calidad biológica de un ensamblaje *de novo*. Para ello se utilizan herramientas basadas en conjuntos de genes altamente conservados, los **genes BUSCO**, que funcionan como un estándar para estimar cuán completo está un genoma reconstruido.
+
+#### 🔬 ¿Qué es BUSCO?
+**BUSCO (Benchmarking Universal Single-Copy Orthologs)** es un conjunto de ortólogos altamente conservados que, en teoría, deberían estar presentes como **copias únicas** en la mayoría de los organismos de un mismo linaje (eucariotas, bacterias, hongos, etc.).  
+Evaluar un ensamblaje contra estos genes permite estimar:
+- cuántos están **completos**,  
+- cuántos están **fragmentados**,  
+- cuántos están **duplicados**,  
+- y cuántos están **ausentes**.
+
+De esta forma, BUSCO se convierte en un indicador robusto de **completitud y calidad funcional** del ensamblaje.
+
+#### ⚡ ¿Qué es Compleasm?
+**Compleasm** es una herramienta reciente que utiliza los mismos conjuntos de genes BUSCO, pero implementa un enfoque más rápido y preciso para evaluar ensamblajes.  
+Sus ventajas principales son:
+- análisis significativamente **más rápido**,  
+- mejor detección de genes completos,  
+- rendimiento superior en ensamblajes grandes o de alta calidad.
+
+El resultado final es compatible con BUSCO, pero con una ejecución más eficiente.
+
+Esta evaluación es clave para validar que el genoma reconstruido tiene la calidad necesaria para anotación o análisis comparativos.
+
+1. Descargar la base de datos
+
+    ```bash
+    compleasm download -L ./ --odb odb12 nematoda
+    ```
 
 2. Ejecutar Compleasm
 
-```bash
-compleasm run -a hifiasm_celegans.fa -t 8 -L ./ -l nematoda -o ./compleasm
-```
+    ```bash
+    compleasm run -a hifiasm_celegans.fa -t 8 -L ./ -l nematoda -o ./compleasm
+    ```
 
-- `-a`: Genoma FASTA
-- `-t`: Núcleos
-- `-L`: Carpeta de lineages
-- `-l`: Lineage (nematoda)
-- `-o`: Carpeta de salida
+    - Opciones usadas
 
-**Ejemplo de salida (summary.txt):**
-- **Single Copy Complete Genes (S):** 99.50% (593)
-- **Duplicated Complete Genes (D):** 0.17% (1)
-- **Fragmented Genes (F):** 0.17% (1)
-- **Fragmented Genes (I):** 0.00% (0)
-- **Missing Genes (M):** 0.17% (1)
-- **Total Genes Evaluados (N):** 596
+        - `-a`: Genoma FASTA
+        - `-t`: Núcleos
+        - `-L`: Carpeta de lineages
+        - `-l`: Lineage (nematoda)
+        - `-o`: Carpeta de salida
 
-??? question "¿Cómo interpretar los resultados de Compleasm?"
+    - Ejemplo de salida (summary.txt):
+
+        - **Single Copy Complete Genes (S):** 99.50% (593)
+        - **Duplicated Complete Genes (D):** 0.17% (1)
+        - **Fragmented Genes (F):** 0.17% (1)
+        - **Fragmented Genes (I):** 0.00% (0)
+        - **Missing Genes (M):** 0.17% (1)
+        - **Total Genes Evaluados (N):** 596
+
+#### Ejercicio 4
     1. ¿Qué significa tener un alto porcentaje de genes completos?
     2. ¿Por qué es importante la cantidad de genes duplicados o faltantes?
 
----
+### ✍️ Anotación del Ensamblaje: LiftOn
 
+La anotación es el proceso de identificar genes y elementos funcionales dentro del genoma ensamblado.  
+Para agilizar este paso, herramientas como **LiftOn** permiten **transferir anotaciones existentes** desde un genoma de referencia hacia nuestro ensamblaje *de novo*.
 
-## ✍️ Anotación del Ensamblaje: LiftOn
-
-!!! info "¿Para qué sirve LiftOn?"
-LiftOn transfiere anotaciones de un genoma de referencia a tu ensamblaje.
+LiftOn utiliza alineamientos entre el ensamblaje y un genoma previamente anotado para "levantar" (lift over) características como genes, exones y transcritos, generando una anotación inicial rápida y consistente.  
+Este enfoque es especialmente útil cuando el organismo estudiado tiene un genoma de referencia cercano, ya que permite obtener anotaciones comparables sin realizar una predicción génica completa desde cero.
 
 1. Archivos necesarios
 
-- Ensamblaje objetivo (FASTA): `hifiasm_celegans.fa`
-- Ensamblaje de referencia (FASTA): `celegans.fa`
-- Anotación de referencia (GFF3): `celegans.gff3`
+    - Ensamblaje objetivo (FASTA): `hifiasm_celegans.fa`
+    - Ensamblaje de referencia (FASTA): `celegans.fa`
+    - Anotación de referencia (GFF3): `celegans.gff3`
 
 2. Ejecutar LiftOn
 
-```bash
-lifton -g celegans.gff3 -o celegans_hifiasm_lifton.gff3 --copies --sc 0.95 -t 8 hifiasm_celegans.fa celegans.fa
-```
+    ```bash
+    lifton -g celegans.gff3 -o celegans_hifiasm_lifton.gff3 --copies --sc 0.95 -t 8 hifiasm_celegans.fa celegans.fa
+    ```
 
-- `-g`: Anotación genómica
-- `-o`: Archivo de salida
-- `--copies`: Busca copias adicionales
-- `--sc 0.95`: Identidad mínima de secuencia
-- `-t 8`: Núcleos
+    - Opciones usadas: 
 
-**Resultados clave:**
-- **Total features in reference:** 44,795
-- **Lifted features (mapeadas):** 28,942
-- **Missed features (perdidas):** 15,853
-- **Total features in target:** 29,916
-- **Protein-coding feature (single copy):** 19,795
+        - `-g`: Anotación genómica
+        - `-o`: Archivo de salida
+        - `--copies`: Busca copias adicionales
+        - `--sc 0.95`: Identidad mínima de secuencia
+        - `-t 8`: Núcleos
 
-??? question "¿Qué conclusiones sacás de la anotación con LiftOn?"
+    - Resultados clave:
+        - **Total features in reference:** 44,795
+        - **Lifted features (mapeadas):** 28,942
+        - **Missed features (perdidas):** 15,853
+        - **Total features in target:** 29,916
+        - **Protein-coding feature (single copy):** 19,795
+
+#### Ejercicio 5
     1. ¿Qué porcentaje de features se logró mapear?
     2. ¿Por qué puede haber features perdidas?
 
 ---
 
+## 🦠 Actividades Adicionales (Opcional)
 
-## 📈 Cuantificación de RNAseq (Long Reads)
+### 📈 Cuantificación de RNAseq (Long Reads)
 
-!!! info "Esta sección usa datos de RNAseq de un paper."
+En esta sección realizamos la **cuantificación de RNA-seq usando lecturas largas**, basado en los datos del estudio *Full-length direct RNA sequencing reveals extensive remodeling of RNA expression, processing and modification in aging Caenorhabditis elegans* (Schiksnis, Nicastro & Pasquinelli).  
 
-**Paso 1: Conversión GFF3 a BED**
-```bash
-k8 minigff.js all2bed celegans_hifiasm_lifton.gff3 > celegans_hifiasm_lifton.bed
-```
-- Convierte anotaciones GFF3 a formato BED.
+Este enfoque permite:
 
-**Paso 2: Indexado del Genoma para Splicing**
-```bash
-minimap2 -x splice-junc-bed celegans_hifiasm_lifton.bed -d celegans_hifiasm.mmi hifiasm_celegans.fa
-```
-- `-x splice`: Para reads de cDNA/RNAseq
-- `--junc-bed`: Sitios de splicing
+- Capturar **transcritos completos (full-length)** sin necesidad de ensamblaje o reconstrucción de isoformas.  
+- Cuantificar la **expresión génica** considerando **todas las isoformas** presentes, lo que mejora la resolución frente a RNA-seq tradicional de lecturas cortas.  
+- Evaluar cambios en **procesamiento de RNA**: empalmes, variación de extremos, edición, modificaciones, etc.  
+- Observar cómo varía el transcriptoma con condiciones biológicas (por ejemplo, en envejecimiento) con una cobertura más precisa y un perfil más completo de isoformas.
 
-**Paso 3-5: Mapeo, Ordenamiento, Compresión e Indexado (batch)**
-```bash
-for i in *.fq.gz; do base=$(basename "$i" .fq.gz); minimap2 -ax splice -2 -t 4 --junc-bed celegans_hifiasm_lifton.bed celegans_hifiasm.mmi "$i" | samtools sort @2 -o "${base}.bam" && samtools index "${base}.bam"; done
-```
-- Lee cada archivo fastq, mapea, ordena y genera BAM + índice.
-- Tiempos estimados: ~1 min indexado, 5-6 min por muestra.
+En esta sección usaremos los datos de RNA-seq long reads del artículo para quantificar la abundancia de transcritos, comparar expresión entre condiciones, y explorar la diversidad y cambios en isoformas a lo largo del experimento.  
 
-**Paso 6: Cuantificación con featureCounts**
-```bash
-featureCounts -L -a celegans_hifiasm_lifton.gff3 -o celegans.tsv -T 8 -g 'Parent' -t exon *.bam
-```
-- `-L`: Long reads
-- `-a`: GFF de genes/isoformas
-- `-t exon`: Exones por gen
-- `*.bam`: Todos los BAM ordenados e indexados
-- Tiempo estimado: ~1 min/muestra
+#### Referencia:
+Full-length direct RNA sequencing reveals extensive remodeling of RNA expression, processing and modification in aging Caenorhabditis elegans 
+Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae1064  ([link](https://watermark02.silverchair.com/gkae1064.pdf?token=AQECAHi208BE49Ooan9kkhW_Ercy7Dm3ZL_9Cf3qfKAc485ysgAAA1MwggNPBgkqhkiG9w0BBwagggNAMIIDPAIBADCCAzUGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMNhe8UZXNspo2wFpoAgEQgIIDBjlR6h5X-DTYA9AVw3PIx7Zi6DZQC0jCiNIAPoRNlt5ls1-kUZ5TUfWEvrrfrqqU9P7iRrp3etsnhgIq279b62S-V5FjmbYKR9m6wGu4BONsqi7Jl1IOzr7d0JRLEucHZVsqEvBtnHYKih0dRgZH2U143-UhyNyD-X0wo74UMUxRSxqx9WyFJIokkaTX_oFMVMee6za7L2vzYMK-1s7ABOEwgJzp_fjQGq2qTO99vnEVmzlxdeCmHWoSND5LE-Hsf8Cn-2f777L5A70QfhlZmIhNie54EBbDsK8zMw2-RCRJ2PXhlfaS1XoSOetdfmQ5AGyItaI38VgkASGdksjbLqvj1RDmpqd7Os5pN-w4fH0iMGsI-O03W-RA4Y_95hhqwOKrHilAtz3L5kpGZgnbRlFXgWPC-zyLB3RbqhYlTa5GMtK6ByPXI5xTbF0QJUsOrvyAMajKI3tfZ5fQA0R1Rh6zXV7HQOVjzYaLD39n9cYNyY90Seq8_st5t3_dA4EeZ598-9uP3XtU5pcLq7ZsiUzCJvNW3IlZqhx1DdA7B7GMueZyucZMaU6RXX7b9B2x6uSXy_IaRcLohWYxIvuc6p6A_9kLE1qeMDtQEtK6l_2e6xKnfR0TE754zT1OnLvB8bKs7qNO8xIHBM0BORhJeNTK7ij1NwyWwzBNkH8os4y6xAtkktV_IYrR3DNPM_NLrCCgY3rJXlsu6srdO-uqSOFbn9Rouaa0tIdHMFvz5C_E0V-xr-lR-ybKDTcwQJ9maNXS9hKHHNO0O6Udr3EJXKIsE_RpTxFyGbWKl9lz_kU_BzwqaBgmGVrzP9HlWgDEYThtbhZ_ob6JwdXodRwU97JZo9nu9wlZiT6ls7XFL797ETGX59YR0P_OCG2rzLkFubTHID7dbHJIPkXgMUd3V3XuIuzwMvbIXKSTdtnh5_vj3XolCrrGKVpwWkyFahhRRBi8DBm-tSawHCjvWJI-yUuRgLMB-OqwDyh7xnuEFpGiiD_XPDXYVFxDkYr7jC4KQFl5Wfsk3g))
+
+#### Pasos a seguir
+
+1. Conviertir anotaciones GFF3 a formato BED.
+
+    ```bash
+    k8 minigff.js all2bed celegans_hifiasm_lifton.gff3 > celegans_hifiasm_lifton.bed
+    ```
+
+
+2. Indexado del Genoma para Splicing
+    ```bash
+    minimap2 -x splice-junc-bed celegans_hifiasm_lifton.bed -d celegans_hifiasm.mmi hifiasm_celegans.fa
+    ```
+
+    - `-x splice`: Para reads de cDNA/RNAseq
+    - `--junc-bed`: Sitios de splicing
+
+3. Mapeo, Ordenamiento, Compresión e Indexado (batch)
+    ```bash
+    for i in *.fq.gz; do base=$(basename "$i" .fq.gz); minimap2 -ax splice -2 -t 4 --junc-bed celegans_hifiasm_lifton.bed celegans_hifiasm.mmi "$i" | samtools sort @2 -o "${base}.bam" && samtools index "${base}.bam"; done
+    ```
+    - Lee cada archivo fastq, mapea, ordena y genera BAM + índice.
+    - Tiempos estimados: ~1 min indexado, 5-6 min por muestra.
+
+4. Cuantificación con featureCounts
+
+    ```bash
+    featureCounts -L -a celegans_hifiasm_lifton.gff3 -o celegans.tsv -T 8 -g 'Parent' -t exon *.bam
+    ```
+
+    - `-L`: Long reads
+    - `-a`: GFF de genes/isoformas
+    - `-t exon`: Exones por gen
+    - `*.bam`: Todos los BAM ordenados e indexados
+    - Tiempo estimado: ~1 min/muestra
 
 ??? question "¿Qué desafíos encontraste al cuantificar RNAseq con long reads?"
     1. ¿Qué ventajas/desventajas tiene el uso de featureCounts en este contexto?
     2. ¿Qué problemas pueden surgir con los archivos BAM o las anotaciones?
 
----
-
-
-## 🦠 Actividades Adicionales (Opcional): Kraken2
+### Kraken2
 
 !!! tip "¿Por qué usar Kraken2?"
     Se recomienda comprobar si hay contaminantes en el ensamblaje. Kraken2 es una herramienta fácil y rápida para este propósito.
 
-**1. Carga del Ensamble en Galaxy Europe**
-1. Ingresa a [usegalaxy.eu](http://usegalaxy.eu) y sube el archivo de ensamblaje en formato FASTA.
-2. Selecciona el archivo local (ej. `assembly.fasta`).
-3. Pulsa **Start**.
+1. Carga del Ensamble en Galaxy Europe
+    - Ingresa a [usegalaxy.eu](http://usegalaxy.eu) y sube el archivo de ensamblaje en formato FASTA.
+    - Selecciona el archivo local (ej. `assembly.fasta`).
+    - Pulsa **Start**.
 
-**2. Ejecutar Kraken2**   
-- **Input sequences:** El ensamblaje  
-- **Print scientific names instead of just taxids:** YES  
-- **Confidence:** Por defecto (0) o subir hasta 0.8  
-- **Enable quick operation:** Yes (recomendado)  
-- **Split classified and unclassified outputs?:** Yes  
-- **Create report:** Yes (tabla con géneros/especies)  
-- **Select a Kraken2 database:** Prebuilt Refseq indexes: PlusPFP   (standard plus protozoa, fungi and plant)
+2. Ejecutar Kraken2
+    - **Input sequences:** El ensamblaje  
+    - **Print scientific names instead of just taxids:** YES  
+    - **Confidence:** Por defecto (0) o subir hasta 0.8  
+    - **Enable quick operation:** Yes (recomendado)  
+    - **Split classified and unclassified outputs?:** Yes  
+    - **Create report:** Yes (tabla con géneros/especies)  
+    - **Select a Kraken2 database:** Prebuilt Refseq indexes: PlusPFP   (standard plus protozoa, fungi and plant)
 
 ??? question "¿Por qué es útil Kraken2 en el control de calidad?"
     1. ¿Qué tipo de contaminantes podrías detectar?
