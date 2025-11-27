@@ -520,7 +520,7 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
 
     gffutils-cli create lifton_output/miniprot/miniprot.gff3 --force
 
-    lifton -g genomic.gff -o celegans_hifiasm_lifton.gff3 -copies -sc 0.95 -t 8 hifiasm_celegans.fa GCA 00 0002985.3_WBcel235_genomic.fna
+    lifton -g genomic.gff -o celegans_hifiasm_lifton.gff3 -copies -sc 0.95 -t 8 hifiasm_celegans.fa GCA_00_0002985.3_WBcel235_genomic.fna
     ```
 
     - Opciones usadas: 
