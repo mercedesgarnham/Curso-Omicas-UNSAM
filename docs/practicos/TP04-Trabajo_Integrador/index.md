@@ -494,7 +494,7 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
 
 #### ✔️ Genoma de *C. elegans*
 
-    Descargar los datos:
+Descargar los datos:
 
     ```bash
     # Crear una carpeta para la sección LiftOn
@@ -505,11 +505,13 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
     #Descomprimir
     ```
 
-    Copiar los siguientes archivos a la carpeta:
+Copiar los siguientes archivos a la carpeta:
 
-    - Ensamblaje objetivo (FASTA): `hifiasm_celegans.fa`
-    - Ensamblaje de referencia (FASTA): `GCA_000002985.3_WBcel235_genomic.fna`
-    - Anotación de referencia (GFF3): `genomic.gff`
+- Ensamblaje objetivo (FASTA): `hifiasm_celegans.fa`
+
+- Ensamblaje de referencia (FASTA): `GCA_000002985.3_WBcel235_genomic.fna`
+
+- Anotación de referencia (GFF3): `genomic.gff`
 
 2. Ejecutar LiftOn
 
