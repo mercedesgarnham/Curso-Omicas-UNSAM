@@ -97,21 +97,21 @@ Incluye las herramientas de ensamblaje, estadísticas y QC.
 
 ```bash
 # Crear ambiente
-conda create -n ensamble python=3.10 -y
+conda create -n ensamble -y
 
 # Activar
 conda activate ensamble
 
 # Instalar herramientas principales
-conda install -c bioconda flye -y
-conda install -c bioconda hifiasm -y
-conda install -c bioconda minimap2 -y
-conda install -c bioconda samtools -y
-conda install -c bioconda compleasm -y
-conda install -c bioconda assembly-stats -y
-conda install -c bioconda seqkit -y
-conda install -c bioconda subread -y
-conda install -c conda-forge pigz -y
+conda install -c bioconda -c conda-forge flye           \
+hifiasm         \
+minimap2        \
+samtools        \
+compleasm       \
+assembly-stats  \
+seqkit          \
+subread         \
+pigz
 
 # Instalar datasets CLI (opcional)
 conda install -c conda-forge ncbi-datasets-cli -y
