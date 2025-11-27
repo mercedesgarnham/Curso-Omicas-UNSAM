@@ -512,10 +512,14 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
 
 2. Ejecutar LiftOn
 
+    Pasos para ejecutar LiftOn
+
     ```bash
     conda activate anotacion
 
-    lifton -g genomic.gff -o celegans_hifiasm_lifton.gff3 -copies sc 0.95 -t 8 hifiasm_celegans.fa GCA 00 0002985.3_WBcel235_genomic.fna
+    pip install gffutils==0.11.1
+    
+    lifton -g genomic.gff -o celegans_hifiasm_lifton.gff3 -copies -sc 0.95 -t 8 hifiasm_celegans.fa GCA 00 0002985.3_WBcel235_genomic.fna
     ```
 
     - Opciones usadas: 

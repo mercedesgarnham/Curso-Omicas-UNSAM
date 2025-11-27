@@ -112,7 +112,7 @@ nav:
         - TP 1: 'practicos/TP01-Programacion/index.md'
         - TP 2: 'practicos/TP02-Genomica/index.md'
         - TP 3: 'practicos/TP03-Transcriptomica/index.md'
-        # - TP 4: 'practicos/TP04-Trabajo_Integrador/index.md'
+        - TP 4: 'practicos/TP04-Trabajo_Integrador/index.md'
         # - practicos/resumen.md
     - Instructivos:
         - instructivos/index.md
