@@ -156,11 +156,7 @@ cmake
 # Descargar LiftOn
 
 # Paciencia con este paso, puede tardar un poco
-git clone https://github.com/Kuanhao-Chao/LiftOn
-cd LiftOn
-
-# Instalar
-pip install -e .
+pip install LiftOn
 
 # Ver paquetes
 conda list
@@ -265,9 +261,10 @@ bash sra_download_RNASEQ.sh
 Ahora vamos a correr el comando para general la visualización
 
 ```bash
-
+# Renombrar el archivo
+mv Galaxy1-\[SRR32300787_subsampled.fastq.gz\].fastqsanger.gz SRR32300787_subsampled.fastq.gz
 # Recuerden activar el entorno correspondiente
-NanoPlot -t 8 --dpi 300 --N50 -o ./resultado_nanoplot --huge --fastq XXX.fq.gz
+NanoPlot -t 8 --dpi 300 --N50 -o ./resultado_nanoplot --huge --fastq SRR32300787_subsampled.fastq.gz
 ```
 
 Las opciones usamos en este caso:
@@ -303,27 +300,44 @@ El **ensamblaje *de novo*** consiste en reconstruir un genoma **sin usar una ref
 Es esencial cuando no existe un genoma de referencia o cuando se buscan regiones nuevas no presentes en genomas conocidos.
 
 Según la tecnología, se aplican distintas estrategias:
+
 - **Lecturas cortas (Illumina):** grafos de Bruijn.  
+
 - **Lecturas largas (ONT/PacBio):** grafos de solapamiento (OLC).
 
 El resultado típico son **contigs** y **scaffolds**, que luego pueden pulirse para obtener un ensamblaje más preciso.
 
-En este caso vamos a ver dos programas:
-
-- **Flye** está optimizado para lecturas largas ruidosas (como ONT o PacBio CLR). Reconstruye el genoma mediante un enfoque OLC y destaca por su robustez en genomas con muchas repeticiones.
+En este caso se pueden usar dos programas:
 
 - **Hifiasm** está orientado a lecturas **PacBio HiFi**, que son muy precisas. Permite ensamblajes rápidos y altamente fieles, incluso con separación haplotípica (*phasing*).
 
-Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener ensamblajes completos y de alta calidad, especialmente en especies sin referencia disponible.
+- **Flye** está optimizado para lecturas largas ruidosas (como ONT o PacBio CLR). Reconstruye el genoma mediante un enfoque OLC y destaca por su robustez en genomas con muchas repeticiones.
 
 
-!!! warning "¡Selecciona solo un programa para ensamblar!"
-    Elige entre Flye o Hifiasm según tus datos y preferencias.
+Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener ensamblajes completos y de alta calidad, especialmente en especies sin referencia disponible. **En este práctico vamos a usar Hifiasm**
 
-=== "Opción 1: Flye"
-    
+
+!!! info "Hifiasm"
+    *Este paso no funciona en las computadoras del laboratorio de computación, pueden descargar el resultado de este (link)[url]*
+
     ```bash
+    conda activate ensamble
     
+    hifiasm -o hifiasm -t 8 -l0 --telo-m TTAGGC SRR32300787_subsampled.fastq.gz 2> hifiasm.log
+    ```
+
+    - `-o hifiasm`: Prefijo de salida
+    - `-t 8`: Núcleos
+    - `-l0`: Desactiva purga de duplicados
+    - `--telo-m TTAGGC`: Secuencia de telómeros (C. elegans)
+    - `2> hifiasm.log`: Guarda logs
+    - Tiempo estimado: ~15 minutos
+
+??? tip "Optativo: Si les interesa Flye, pueden correr esto"
+    Comando para correr Flye
+
+    ```bash
+    conda activate ensamble
     # Chequeen si su archivo tiene el nombre correcto o si lo tienen que modificar a mano
     flye --pacbio-hifi SRR32300787_subsampled.fq.gz -t 8 -o ./flye
     
@@ -336,23 +350,7 @@ Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener 
 
     Importante: Al finalizar, cambia el nombre y ubicación del archivo FASTA generado para correr el siguiente comando.
 
-=== "Opción 2: Hifiasm"
-    ```bash
-    
-    # Chequeen si su archivo tiene el nombre correcto o si lo tienen que modificar a mano
-    
-    hifiasm -o hifiasm -t 8 -l0 --telo-m TTAGGC SRR32300787_subsampled.fastq.gz 2> hifiasm.log
-    ```
-
-    - `-o hifiasm`: Prefijo de salida
-    - `-t 8`: Núcleos
-    - `-l0`: Desactiva purga de duplicados
-    - `--telo-m TTAGGC`: Secuencia de telómeros (C. elegans)
-    - `2> hifiasm.log`: Guarda logs
-    - Tiempo estimado: ~15 minutos
-
-
-Tras correr el programa que eligieron, vamos a procesar el archivo de salida:
+Tras correr el programa vamos a procesar el archivo de salida:
 
 ```bash
 # Extrae las secuencias de los nodos tipo "S" del archivo GFA
@@ -360,12 +358,6 @@ Tras correr el programa que eligieron, vamos a procesar el archivo de salida:
 # y la secuencia el campo 3.
 awk '/^S/{print ">"$2; print $3}' hifiasm.bp.p_ctg.gfa > hifiasm_celegans.fa
 ```
-
-#### Ejercicio 2
-
-1. ¿Qué ventajas/desventajas observaste entre Flye y Hifiasm?
-
-2. ¿El ensamblaje final fue diferente según el programa?
 
 
 ### 📊 Análisis del Ensamblaje
@@ -438,7 +430,7 @@ Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requie
     3. Pulsa **Draw graph** para ver el ensamblaje.
     4. Pulsa **More info** para ver estadísticas detalladas.
 
-#### Ejercicio 3
+#### Ejercicio 2
 1. ¿Cuántos contigs se obtuvieron en el ensamblaje *de novo*?
 2. ¿Cuál es el más largo y qué tamaño tiene?
 3. ¿Cuál es el más corto y qué tamaño tiene?
@@ -499,7 +491,7 @@ Esta evaluación es clave para validar que el genoma reconstruido tiene la calid
         - **Missing Genes (M):** 0.17% (1)
         - **Total Genes Evaluados (N):** 596
 
-#### Ejercicio 4
+#### Ejercicio 3
     1. ¿Qué significa tener un alto porcentaje de genes completos?
     2. ¿Por qué es importante la cantidad de genes duplicados o faltantes?
 
@@ -538,7 +530,7 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
         - **Total features in target:** 29,916
         - **Protein-coding feature (single copy):** 19,795
 
-#### Ejercicio 5
+#### Ejercicio 4
     1. ¿Qué porcentaje de features se logró mapear?
     2. ¿Por qué puede haber features perdidas?
 
