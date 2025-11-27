@@ -19,7 +19,6 @@ toc-location: left
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](){ .md-button }
 -->
 
----
 <!--
 ## 🗂️ Índice rápido
 
@@ -34,13 +33,22 @@ toc-location: left
 - [Cuantificación de RNAseq](#cuantificacion-de-rnaseq-long-reads)
 - [Actividades Adicionales: Kraken2](#actividades-adicionales-opcional-kraken2)
 -->
----
+
 ## Preparación de Ambientes Conda y Descarga de Datos
 
 En esta sección se detallan los ambientes Conda necesarios para el TP, los programas que deben instalarse y los datasets requeridos.
 
 Vamos a generar **tres ambientes Conda separados**. Esto es necesario porque algunos de los programas que utilizaremos dependen de **distintas versiones de Python o de paquetes específicos**, y esas dependencias pueden ser **incompatibles entre sí** si se instalan en un mismo entorno.  
 Al separar los ambientes, garantizamos que cada herramienta funcione correctamente sin interferir con las demás.
+
+### 📁 Configuración Inicial y Datos
+
+!!! tip "Pasos iniciales para comenzar"
+    1. Generar una carpeta para el TP04. 
+
+    2. Generar los enviroments y descargar los materiales como se indica a continuación
+    
+    **Datos:** Los archivos de secuencias se proporcionan en formato `.fastq`. Han sido submuestreados (~25X) y sin adaptadores para ahorrar tiempo.
 
 
 ### 🟦 Environment 1: nanoplot
@@ -103,6 +111,8 @@ conda create -n ensamble -y
 conda activate ensamble
 
 # Instalar herramientas principales
+
+#Va a tardar unos minutos en "solving Enviroment", no se preocupen, es normal
 conda install -c bioconda -c conda-forge flye           \
 hifiasm         \
 minimap2        \
@@ -111,10 +121,8 @@ compleasm       \
 assembly-stats  \
 seqkit          \
 subread         \
+ncbi-datasets-cli \
 pigz
-
-# Instalar datasets CLI (opcional)
-conda install -c conda-forge ncbi-datasets-cli -y
 
 # Ver paquetes instalados
 conda list
@@ -141,9 +149,9 @@ conda create -n anotacion python=3.10 -y
 conda activate anotacion
 
 # Instalar dependencias
-conda install -c bioconda minimap2 -y
-conda install -c bioconda samtools -y
-conda install -c conda-forge cmake -y
+conda install -c bioconda -c conda-forge minimap2        \
+samtools        \
+cmake
 
 # Descargar LiftOn
 
@@ -183,9 +191,9 @@ anotacion /home/user/miniconda3/envs/anotacion #Generado para este TP
 
 ### 📂 Datos para Descargar 
 
-Crear una carpeta del TP04
-Ingresar a la carpeta
-Descargar los siguientes archivos
+    1. Ingresar a la carpeta del TP04
+
+    2. Descargar los siguientes archivos
 
 ---
 
@@ -209,7 +217,9 @@ Las pueden descargar de [este link](https://usegalaxy.eu/api/datasets/26c75dcccb
 Ejemplo usando NCBI datasets CLI:
 
 ```bash
+conda activate ensamble
 datasets download genome accession GCA_000002985.3 --include genome,gff3,gtf
+conda deactivate
 ```
 
 #### ✔️ Datos RNA-Seq Long Reads
@@ -234,14 +244,6 @@ bash sra_download_RNASEQ.sh
     - Secuenciar el genoma completo eucromático de *Drosophila melanogaster*
     - Probar la viabilidad de Whole-Genome Shotgun en eucariotas complejos
     - Generar recursos genómicos abiertos y anotados para la comunidad científica
-
-### 📁 Configuración Inicial y Datos
-
-!!! tip "Pasos iniciales para comenzar"
-    1. Generar una carpeta para el TP04. 
-
-    2. Descargar los materiales y descomprimir dentro de TP04. 
-    **Datos:** Los archivos de secuencias se proporcionan en formato `.fastq`. Han sido submuestreados (~25X) y sin adaptadores para ahorrar tiempo.
 
 
 ### 🔍 Control de Calidad de Long Reads (NanoPlot)
