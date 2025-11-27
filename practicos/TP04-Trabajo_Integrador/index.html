@@ -1220,27 +1220,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#base-de-datos-orthodb-para-compleasm-nematoda" class="md-nav__link">
-    <span class="md-ellipsis">
-      ✔️ Base de datos OrthoDB para Compleasm (Nematoda)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#lecturas-ont-fastq" class="md-nav__link">
     <span class="md-ellipsis">
       ✔️ Lecturas ONT (FASTQ)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#genoma-de-c-elegans" class="md-nav__link">
-    <span class="md-ellipsis">
-      ✔️ Genoma de C. elegans
     </span>
   </a>
   
@@ -1392,6 +1374,15 @@
   
     <nav class="md-nav" aria-label="✍️ Anotación del Ensamblaje: LiftOn">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#genoma-de-c-elegans" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✔️ Genoma de C. elegans
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#ejercicio-4" class="md-nav__link">
@@ -1705,10 +1696,10 @@ conda<span class="w"> </span>activate<span class="w"> </span>anotacion
 <span class="c1"># Instalar dependencias</span>
 conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>minimap2<span class="w">        </span><span class="se">\</span>
 samtools<span class="w">        </span><span class="se">\</span>
+miniprot<span class="w">        </span><span class="se">\</span>
 cmake
 
 <span class="c1"># Descargar LiftOn</span>
-
 <span class="c1"># Paciencia con este paso, puede tardar un poco</span>
 pip<span class="w"> </span>install<span class="w"> </span>LiftOn
 
@@ -1738,29 +1729,19 @@ anotacion<span class="w"> </span>/home/user/miniconda3/envs/anotacion<span class
 2. Descargar los siguientes archivos
 </code></pre>
 <hr>
-<h4 id="base-de-datos-orthodb-para-compleasm-nematoda">✔️ Base de datos OrthoDB para Compleasm (Nematoda)</h4>
-<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>ensamble
-compleasm<span class="w"> </span>download<span class="w"> </span>-L<span class="w"> </span>./<span class="w"> </span>--odb<span class="w"> </span>odb12<span class="w"> </span>nematoda
-conda<span class="w"> </span>deactivate
-</code></pre></div>
 <h4 id="lecturas-ont-fastq">✔️ Lecturas ONT (FASTQ)</h4>
 <p><strong>SRR32300787_subsampled.fq.gz</strong></p>
 <p>Las pueden descargar de <a href="https://usegalaxy.eu/api/datasets/26c75dcccb616ac89a349d1ada2e97cf/display?to_ext=fastqsanger.gz">este link</a></p>
-<h4 id="genoma-de-c-elegans">✔️ Genoma de <em>C. elegans</em></h4>
-<p>Ejemplo usando NCBI datasets CLI:</p>
-<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>ensamble
-datasets<span class="w"> </span>download<span class="w"> </span>genome<span class="w"> </span>accession<span class="w"> </span>GCA_000002985.3<span class="w"> </span>--include<span class="w"> </span>genome,gff3,gtf
-conda<span class="w"> </span>deactivate
-</code></pre></div>
 <h4 id="datos-rna-seq-long-reads">✔️ Datos RNA-Seq Long Reads</h4>
-<p>Descargar el script de bash que tiene la información de descarga desde el siguiente <a href="https://drive.google.com/file/d/10qAf3q74x8Dv6M1VHLWjNb-u6yGHERgS/view?usp=sharing">link</a></p>
-<p>Ejecutar:</p>
-<div class="highlight"><pre><span></span><code>bash<span class="w"> </span>sra_download_RNASEQ.sh
-
-<span class="c1"># Si no están en la carpeta donde está el script no les va a funcionar</span>
-
-<span class="c1"># Tengan paciencia, puede tardar un rato</span>
-</code></pre></div>
+<p>Ingresar al siguiente <a href="https://drive.google.com/drive/folders/1PB9-y9NVUhmZttB7MYN2lbGsN0jZgOCx?usp=sharing">link</a> y descargar los siguientes archivos:</p>
+<ul>
+<li>
+<p>Un archivo de lecturas ADN</p>
+</li>
+<li>
+<p>Un archivo de lecturas ARN (Pueden elegir el que más les guste)</p>
+</li>
+</ul>
 <h2 id="trabajo-integrador">Trabajo integrador</h2>
 <h3 id="objetivos">🎯 Objetivos</h3>
 <div class="admonition info">
@@ -1794,6 +1775,7 @@ conda<span class="w"> </span>deactivate
 <p>Ahora vamos a correr el comando para general la visualización</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Renombrar el archivo</span>
 mv<span class="w"> </span>Galaxy1-<span class="se">\[</span>SRR32300787_subsampled.fastq.gz<span class="se">\]</span>.fastqsanger.gz<span class="w"> </span>SRR32300787_subsampled.fastq.gz
+
 <span class="c1"># Recuerden activar el entorno correspondiente</span>
 NanoPlot<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>--dpi<span class="w"> </span><span class="m">300</span><span class="w"> </span>--N50<span class="w"> </span>-o<span class="w"> </span>./resultado_nanoplot<span class="w"> </span>--huge<span class="w"> </span>--fastq<span class="w"> </span>SRR32300787_subsampled.fastq.gz
 </code></pre></div>
@@ -1853,7 +1835,7 @@ Es esencial cuando no existe un genoma de referencia o cuando se buscan regiones
 <p>Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener ensamblajes completos y de alta calidad, especialmente en especies sin referencia disponible. <strong>En este práctico vamos a usar Hifiasm</strong></p>
 <div class="admonition info">
 <p class="admonition-title">Hifiasm</p>
-<p><em>Este paso no funciona en las computadoras del laboratorio de computación, pueden descargar el resultado de este (link)[url]</em></p>
+<p><em>Este computadoras con menos de 16GB de RAM puede no funcionar, en este caso pueden descargar el resultado de este <a href="https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing">link</a>]</em></p>
 <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>ensamble
 
 hifiasm<span class="w"> </span>-o<span class="w"> </span>hifiasm<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>-l0<span class="w"> </span>--telo-m<span class="w"> </span>TTAGGC<span class="w"> </span>SRR32300787_subsampled.fastq.gz<span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>hifiasm.log
@@ -1900,9 +1882,6 @@ Generalmente incluye métricas como:</p>
 <li><strong>Detección de duplicaciones, gaps o regiones potencialmente mal ensambladas</strong>.</li>
 </ul>
 <p>Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requiere pasos adicionales, como pulido o filtrado.</p>
-<div class="admonition info">
-<p class="admonition-title">Este análisis asume que usaste Hifiasm. Si usaste Flye, adapta los nombres de archivo.</p>
-</div>
 <ol>
 <li>
 <p><strong>Indexado del Genoma</strong></p>
@@ -1946,11 +1925,12 @@ Generalmente incluye métricas como:</p>
 </ul>
 </li>
 <li>
-<p><strong>Visualización Gráfica (Bandage)</strong></p>
+<p>Visualización Gráfica (Bandage)</p>
 <p>Permite explorar de forma interactiva el grafo del ensamblaje, visualizar contigs, conexiones y posibles regiones ambiguas, lo que ayuda a detectar problemas estructurales o evaluar la continuidad del ensamblaje generado.</p>
 <ol>
-<li>Abre la carpeta <code>/home/genomica/Documentos/bandage</code> y ejecuta Bandage.</li>
-<li>Ve a <strong>FILE &gt; LOAD GRAPH</strong> y selecciona <code>assembly.gfa</code>.</li>
+<li>Descargar <a href="https://rrwick.github.io/Bandage/">Bandage</a>.</li>
+<li>Descoprimir y abrir Bandage</li>
+<li>Ve a <strong>FILE &gt; LOAD GRAPH</strong> y selecciona <code>hifiasm.bp.a_ctg.gfa</code>.</li>
 <li>Pulsa <strong>Draw graph</strong> para ver el ensamblaje.</li>
 <li>Pulsa <strong>More info</strong> para ver estadísticas detalladas.</li>
 </ol>
@@ -1985,11 +1965,18 @@ Sus ventajas principales son:
 <ol>
 <li>
 <p>Descargar la base de datos</p>
-<div class="highlight"><pre><span></span><code>compleasm<span class="w"> </span>download<span class="w"> </span>-L<span class="w"> </span>./<span class="w"> </span>--odb<span class="w"> </span>odb12<span class="w"> </span>nematoda
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>ensamble
+
+mkdir<span class="w"> </span>resultados_compleasm
+
+<span class="nb">cd</span><span class="w"> </span>resultados_compleasm
+
+compleasm<span class="w"> </span>download<span class="w"> </span>-L<span class="w"> </span>./<span class="w"> </span>--odb<span class="w"> </span>odb12<span class="w"> </span>nematoda
 </code></pre></div>
 </li>
 <li>
-<p>Ejecutar Compleasm</p>
+<p>Ejecutar Compleasm
+    Copiar el archivo hifiasm_celegans.fa a la carpeta resultados_compleasm</p>
 <div class="highlight"><pre><span></span><code>compleasm<span class="w"> </span>run<span class="w"> </span>-a<span class="w"> </span>hifiasm_celegans.fa<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>-L<span class="w"> </span>./<span class="w"> </span>-l<span class="w"> </span>nematoda<span class="w"> </span>-o<span class="w"> </span>./compleasm
 </code></pre></div>
 <ul>
@@ -2019,6 +2006,7 @@ Sus ventajas principales son:
 </ol>
 <h4 id="ejercicio-3">Ejercicio 3</h4>
 <pre><code>1. ¿Qué significa tener un alto porcentaje de genes completos?
+
 2. ¿Por qué es importante la cantidad de genes duplicados o faltantes?
 </code></pre>
 <h3 id="anotacion-del-ensamblaje-lifton">✍️ Anotación del Ensamblaje: LiftOn</h3>
@@ -2027,17 +2015,32 @@ Para agilizar este paso, herramientas como <strong>LiftOn</strong> permiten <str
 <p>LiftOn utiliza alineamientos entre el ensamblaje y un genoma previamente anotado para "levantar" (lift over) características como genes, exones y transcritos, generando una anotación inicial rápida y consistente.<br>
 Este enfoque es especialmente útil cuando el organismo estudiado tiene un genoma de referencia cercano, ya que permite obtener anotaciones comparables sin realizar una predicción génica completa desde cero.</p>
 <ol>
-<li>
-<p>Archivos necesarios</p>
-<ul>
-<li>Ensamblaje objetivo (FASTA): <code>hifiasm_celegans.fa</code></li>
-<li>Ensamblaje de referencia (FASTA): <code>celegans.fa</code></li>
-<li>Anotación de referencia (GFF3): <code>celegans.gff3</code></li>
-</ul>
-</li>
+<li>Archivos necesarios</li>
+</ol>
+<h4 id="genoma-de-c-elegans">✔️ Genoma de <em>C. elegans</em></h4>
+<pre><code>Descargar los datos:
+
+```bash
+# Crear una carpeta para la sección LiftOn
+
+#Descargar usando
+datasets download genome accession GCA_000002985.3 --include genome,gff3,gtf
+
+#Descomprimir
+```
+
+Copiar los siguientes archivos a la carpeta:
+
+- Ensamblaje objetivo (FASTA): `hifiasm_celegans.fa`
+- Ensamblaje de referencia (FASTA): `GCA_000002985.3_WBcel235_genomic.fna`
+- Anotación de referencia (GFF3): `genomic.gff`
+</code></pre>
+<ol>
 <li>
 <p>Ejecutar LiftOn</p>
-<div class="highlight"><pre><span></span><code>lifton<span class="w"> </span>-g<span class="w"> </span>celegans.gff3<span class="w"> </span>-o<span class="w"> </span>celegans_hifiasm_lifton.gff3<span class="w"> </span>--copies<span class="w"> </span>--sc<span class="w"> </span><span class="m">0</span>.95<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>hifiasm_celegans.fa<span class="w"> </span>celegans.fa
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>anotacion
+
+lifton<span class="w"> </span>-g<span class="w"> </span>genomic.gff<span class="w"> </span>-o<span class="w"> </span>celegans_hifiasm_lifton.gff3<span class="w"> </span>-copies<span class="w"> </span>sc<span class="w"> </span><span class="m">0</span>.95<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>hifiasm_celegans.fa<span class="w"> </span>GCA<span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">0002985</span>.3_WBcel235_genomic.fna
 </code></pre></div>
 <ul>
 <li>
