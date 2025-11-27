@@ -146,14 +146,13 @@ conda install -c bioconda samtools -y
 conda install -c conda-forge cmake -y
 
 # Descargar LiftOn
-git clone https://github.com/COMBINE-lab/LiftOn.git
+
+# Paciencia con este paso, puede tardar un poco
+git clone https://github.com/Kuanhao-Chao/LiftOn
 cd LiftOn
 
-# Compilar
-mkdir build
-cd build
-cmake ..
-make
+# Instalar
+pip install -e .
 
 # Ver paquetes
 conda list
@@ -202,7 +201,7 @@ conda deactivate
 
 **SRR32300787_subsampled.fq.gz**
 
-https://usegalaxy.eu/api/datasets/26c75dcccb616ac89a349d1ada2e97cf/display?to_ext=fastqsanger.gz
+Las pueden descargar de [este link](https://usegalaxy.eu/api/datasets/26c75dcccb616ac89a349d1ada2e97cf/display?to_ext=fastqsanger.gz)
 
 
 #### ✔️ Genoma de *C. elegans*
@@ -215,14 +214,19 @@ datasets download genome accession GCA_000002985.3 --include genome,gff3,gtf
 
 #### ✔️ Datos RNA-Seq Long Reads
 
+Descargar el script de bash que tiene la información de descarga desde el siguiente [link](https://drive.google.com/file/d/10qAf3q74x8Dv6M1VHLWjNb-u6yGHERgS/view?usp=sharing)
+
 Ejecutar:
 
 ```bash
 bash sra_download_RNASEQ.bash
+
+# Si no están en la carpeta donde está el script no les va a funcionar
+
+# Tengan paciencia, puede tardar un rato
 ```
 
-Script disponible en:  
-https://drive.google.com/file/d/10qAf3q74x8Dv6M1VHLWjNb-u6yGHERgS/view?usp=drive_link
+
 
 
 ---
