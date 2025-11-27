@@ -187,8 +187,9 @@ Cada muestra está disponible como un archivo comprimido `.fastq.gz` dentro del 
         
         - Los caracteres como L, M, N, G corresponden a **valores ASCII** que indican distintas calidades de lectura.
         - Las letras **más altas en el alfabeto ASCII** representan **mayor calidad**.
-        - Se observa una **disminución progresiva en la calidad** hacia el final de la secuencia (más N), algo común en lecturas Illumina.
-        - Esto sugiere que el **extremo 3’** de las lecturas tiende a tener **menor confianza en la llamada de bases** y puede requerir **trimming** antes del alineamiento.
+        - Esto sugiere que el extremo de las lecturas tiende a tener **menor confianza en la llamada de bases** y puede requerir **trimming** antes del alineamiento.
+
+        
 
 ??? tip "Interpretación general y próximos pasos"
 
