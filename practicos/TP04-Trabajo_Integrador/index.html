@@ -2155,9 +2155,10 @@ samtools<span class="w">        </span><span class="se">\</span>
 miniprot<span class="w">        </span><span class="se">\</span>
 cmake
 
-<span class="c1"># Descargar LiftOn</span>
+<span class="c1"># Descargar LiftOn y gffutils</span>
 <span class="c1"># Paciencia con este paso, puede tardar un poco</span>
 pip<span class="w"> </span>install<span class="w"> </span>LiftOn
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">gffutils</span><span class="o">==</span><span class="m">0</span>.11.1
 
 <span class="c1"># Ver paquetes</span>
 conda<span class="w"> </span>list
@@ -2497,7 +2498,7 @@ Copiar los siguientes archivos a la carpeta:
 <p>Pasos para ejecutar LiftOn</p>
 <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>anotacion
 
-pip<span class="w"> </span>install<span class="w"> </span><span class="nv">gffutils</span><span class="o">==</span><span class="m">0</span>.11.1
+gffutils-cli<span class="w"> </span>create<span class="w"> </span>lifton_output/miniprot/miniprot.gff3<span class="w"> </span>--force
 
 lifton<span class="w"> </span>-g<span class="w"> </span>genomic.gff<span class="w"> </span>-o<span class="w"> </span>celegans_hifiasm_lifton.gff3<span class="w"> </span>-copies<span class="w"> </span>-sc<span class="w"> </span><span class="m">0</span>.95<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>hifiasm_celegans.fa<span class="w"> </span>GCA<span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">0002985</span>.3_WBcel235_genomic.fna
 </code></pre></div>
