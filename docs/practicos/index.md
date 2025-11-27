@@ -49,6 +49,9 @@ Código de acceso: 7.=hL&96
 ### **Lic. Aldana A. Cepeda Dean**
 ### Video de la clase 
 
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides TP3</span>](https://docs.google.com/presentation/d/1ArI45WJFcU3UpbGNAHQjyi9F9IRuOr44RyzTHSAuUC0/edit?usp=sharing){ .md-button }
+
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:octicons-video-16: Video</span>](https://us02web.zoom.us/rec/share/IEg18LbRW-IfSghKvcf5MqFTttMlFKRZjqHx0v4pVeYLroWy-w2L1s-YPLMtyY1W.e7DLc4vBwRddiiNz ){ .md-button }
 
 Código de acceso: rnaseq3!
+
