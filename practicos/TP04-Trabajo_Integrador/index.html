@@ -1093,6 +1093,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#configuracion-inicial-y-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      📁 Configuración Inicial y Datos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#environment-1-nanoplot" class="md-nav__link">
     <span class="md-ellipsis">
       🟦 Environment 1: nanoplot
@@ -1270,15 +1279,6 @@
   <a href="#objetivos" class="md-nav__link">
     <span class="md-ellipsis">
       🎯 Objetivos
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuracion-inicial-y-datos" class="md-nav__link">
-    <span class="md-ellipsis">
-      📁 Configuración Inicial y Datos
     </span>
   </a>
   
@@ -1532,7 +1532,6 @@
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](){ .md-button }
 -->
 
-<hr>
 <!--
 ## 🗂️ Índice rápido
 
@@ -1547,11 +1546,24 @@
 - [Cuantificación de RNAseq](#cuantificacion-de-rnaseq-long-reads)
 - [Actividades Adicionales: Kraken2](#actividades-adicionales-opcional-kraken2)
 -->
-<hr>
+
 <h2 id="preparacion-de-ambientes-conda-y-descarga-de-datos">Preparación de Ambientes Conda y Descarga de Datos</h2>
 <p>En esta sección se detallan los ambientes Conda necesarios para el TP, los programas que deben instalarse y los datasets requeridos.</p>
 <p>Vamos a generar <strong>tres ambientes Conda separados</strong>. Esto es necesario porque algunos de los programas que utilizaremos dependen de <strong>distintas versiones de Python o de paquetes específicos</strong>, y esas dependencias pueden ser <strong>incompatibles entre sí</strong> si se instalan en un mismo entorno.<br>
 Al separar los ambientes, garantizamos que cada herramienta funcione correctamente sin interferir con las demás.</p>
+<h3 id="configuracion-inicial-y-datos">📁 Configuración Inicial y Datos</h3>
+<div class="admonition tip">
+<p class="admonition-title">Pasos iniciales para comenzar</p>
+<ol>
+<li>
+<p>Generar una carpeta para el TP04. </p>
+</li>
+<li>
+<p>Generar los enviroments y descargar los materiales como se indica a continuación</p>
+</li>
+</ol>
+<p><strong>Datos:</strong> Los archivos de secuencias se proporcionan en formato <code>.fastq</code>. Han sido submuestreados (~25X) y sin adaptadores para ahorrar tiempo.</p>
+</div>
 <h3 id="environment-1-nanoplot">🟦 Environment 1: nanoplot</h3>
 <h4 id="tabla">Tabla</h4>
 <table>
@@ -1663,6 +1675,8 @@ conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </
 conda<span class="w"> </span>activate<span class="w"> </span>ensamble
 
 <span class="c1"># Instalar herramientas principales</span>
+
+<span class="c1">#Va a tardar unos minutos en "solving Enviroment", no se preocupen, es normal</span>
 conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>flye<span class="w">           </span><span class="se">\</span>
 hifiasm<span class="w">         </span><span class="se">\</span>
 minimap2<span class="w">        </span><span class="se">\</span>
@@ -1671,10 +1685,8 @@ compleasm<span class="w">       </span><span class="se">\</span>
 assembly-stats<span class="w">  </span><span class="se">\</span>
 seqkit<span class="w">          </span><span class="se">\</span>
 subread<span class="w">         </span><span class="se">\</span>
+ncbi-datasets-cli<span class="w"> </span><span class="se">\</span>
 pigz
-
-<span class="c1"># Instalar datasets CLI (opcional)</span>
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>ncbi-datasets-cli<span class="w"> </span>-y
 
 <span class="c1"># Ver paquetes instalados</span>
 conda<span class="w"> </span>list
@@ -1706,9 +1718,9 @@ conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </
 conda<span class="w"> </span>activate<span class="w"> </span>anotacion
 
 <span class="c1"># Instalar dependencias</span>
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>minimap2<span class="w"> </span>-y
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>samtools<span class="w"> </span>-y
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>cmake<span class="w"> </span>-y
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>minimap2<span class="w">        </span><span class="se">\</span>
+samtools<span class="w">        </span><span class="se">\</span>
+cmake
 
 <span class="c1"># Descargar LiftOn</span>
 
@@ -1740,9 +1752,10 @@ ensamble<span class="w"> </span>/home/user/miniconda3/envs/ensamble<span class="
 anotacion<span class="w"> </span>/home/user/miniconda3/envs/anotacion<span class="w"> </span><span class="c1">#Generado para este TP</span>
 </code></pre></div>
 <h3 id="datos-para-descargar">📂 Datos para Descargar</h3>
-<p>Crear una carpeta del TP04
-Ingresar a la carpeta
-Descargar los siguientes archivos</p>
+<pre><code>1. Ingresar a la carpeta del TP04
+
+2. Descargar los siguientes archivos
+</code></pre>
 <hr>
 <h4 id="base-de-datos-orthodb-para-compleasm-nematoda">✔️ Base de datos OrthoDB para Compleasm (Nematoda)</h4>
 <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>ensamble
@@ -1754,7 +1767,9 @@ conda<span class="w"> </span>deactivate
 <p>Las pueden descargar de <a href="https://usegalaxy.eu/api/datasets/26c75dcccb616ac89a349d1ada2e97cf/display?to_ext=fastqsanger.gz">este link</a></p>
 <h4 id="genoma-de-c-elegans">✔️ Genoma de <em>C. elegans</em></h4>
 <p>Ejemplo usando NCBI datasets CLI:</p>
-<div class="highlight"><pre><span></span><code>datasets<span class="w"> </span>download<span class="w"> </span>genome<span class="w"> </span>accession<span class="w"> </span>GCA_000002985.3<span class="w"> </span>--include<span class="w"> </span>genome,gff3,gtf
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>ensamble
+datasets<span class="w"> </span>download<span class="w"> </span>genome<span class="w"> </span>accession<span class="w"> </span>GCA_000002985.3<span class="w"> </span>--include<span class="w"> </span>genome,gff3,gtf
+conda<span class="w"> </span>deactivate
 </code></pre></div>
 <h4 id="datos-rna-seq-long-reads">✔️ Datos RNA-Seq Long Reads</h4>
 <p>Descargar el script de bash que tiene la información de descarga desde el siguiente <a href="https://drive.google.com/file/d/10qAf3q74x8Dv6M1VHLWjNb-u6yGHERgS/view?usp=sharing">link</a></p>
@@ -1774,19 +1789,6 @@ conda<span class="w"> </span>deactivate
 <li>Probar la viabilidad de Whole-Genome Shotgun en eucariotas complejos</li>
 <li>Generar recursos genómicos abiertos y anotados para la comunidad científica</li>
 </ul>
-</div>
-<h3 id="configuracion-inicial-y-datos">📁 Configuración Inicial y Datos</h3>
-<div class="admonition tip">
-<p class="admonition-title">Pasos iniciales para comenzar</p>
-<ol>
-<li>
-<p>Generar una carpeta para el TP04. </p>
-</li>
-<li>
-<p>Descargar los materiales y descomprimir dentro de TP04. 
-<strong>Datos:</strong> Los archivos de secuencias se proporcionan en formato <code>.fastq</code>. Han sido submuestreados (~25X) y sin adaptadores para ahorrar tiempo.</p>
-</li>
-</ol>
 </div>
 <h3 id="control-de-calidad-de-long-reads-nanoplot">🔍 Control de Calidad de Long Reads (NanoPlot)</h3>
 <div class="admonition info">
