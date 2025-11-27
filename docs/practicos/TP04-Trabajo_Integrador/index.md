@@ -151,10 +151,10 @@ conda activate anotacion
 # Instalar dependencias
 conda install -c bioconda -c conda-forge minimap2        \
 samtools        \
+miniprot        \
 cmake
 
 # Descargar LiftOn
-
 # Paciencia con este paso, puede tardar un poco
 pip install LiftOn
 
@@ -193,14 +193,6 @@ anotacion /home/user/miniconda3/envs/anotacion #Generado para este TP
 
 ---
 
-#### ✔️ Base de datos OrthoDB para Compleasm (Nematoda)
-
-```bash
-conda activate ensamble
-compleasm download -L ./ --odb odb12 nematoda
-conda deactivate
-```
-
 #### ✔️ Lecturas ONT (FASTQ)
 
 **SRR32300787_subsampled.fq.gz**
@@ -208,29 +200,14 @@ conda deactivate
 Las pueden descargar de [este link](https://usegalaxy.eu/api/datasets/26c75dcccb616ac89a349d1ada2e97cf/display?to_ext=fastqsanger.gz)
 
 
-#### ✔️ Genoma de *C. elegans*
-
-Ejemplo usando NCBI datasets CLI:
-
-```bash
-conda activate ensamble
-datasets download genome accession GCA_000002985.3 --include genome,gff3,gtf
-conda deactivate
-```
-
 #### ✔️ Datos RNA-Seq Long Reads
 
-Descargar el script de bash que tiene la información de descarga desde el siguiente [link](https://drive.google.com/file/d/10qAf3q74x8Dv6M1VHLWjNb-u6yGHERgS/view?usp=sharing)
+Ingresar al siguiente [link](https://drive.google.com/drive/folders/1PB9-y9NVUhmZttB7MYN2lbGsN0jZgOCx?usp=sharing) y descargar los siguientes archivos:
 
-Ejecutar:
+- Un archivo de lecturas ADN
 
-```bash
-bash sra_download_RNASEQ.sh
+- Un archivo de lecturas ARN (Pueden elegir el que más les guste)
 
-# Si no están en la carpeta donde está el script no les va a funcionar
-
-# Tengan paciencia, puede tardar un rato
-```
 
 ## Trabajo integrador
 
@@ -263,6 +240,7 @@ Ahora vamos a correr el comando para general la visualización
 ```bash
 # Renombrar el archivo
 mv Galaxy1-\[SRR32300787_subsampled.fastq.gz\].fastqsanger.gz SRR32300787_subsampled.fastq.gz
+
 # Recuerden activar el entorno correspondiente
 NanoPlot -t 8 --dpi 300 --N50 -o ./resultado_nanoplot --huge --fastq SRR32300787_subsampled.fastq.gz
 ```
@@ -318,7 +296,7 @@ Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener 
 
 
 !!! info "Hifiasm"
-    *Este paso no funciona en las computadoras del laboratorio de computación, pueden descargar el resultado de este (link)[url]*
+    *Este computadoras con menos de 16GB de RAM puede no funcionar, en este caso pueden descargar el resultado de este [link](https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing)]*
 
     ```bash
     conda activate ensamble
@@ -374,9 +352,6 @@ Generalmente incluye métricas como:
 
 Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requiere pasos adicionales, como pulido o filtrado.
 
-
-!!! info "Este análisis asume que usaste Hifiasm. Si usaste Flye, adapta los nombres de archivo."
-
 1. **Indexado del Genoma**
 
     Este paso prepara el genoma para consultas rápidas y mapeo.
@@ -421,12 +396,13 @@ Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requie
         - N_count: 0
         - Gaps: 0
 
-4. **Visualización Gráfica (Bandage)**
+4. Visualización Gráfica (Bandage)
  
     Permite explorar de forma interactiva el grafo del ensamblaje, visualizar contigs, conexiones y posibles regiones ambiguas, lo que ayuda a detectar problemas estructurales o evaluar la continuidad del ensamblaje generado.
 
-    1. Abre la carpeta `/home/genomica/Documentos/bandage` y ejecuta Bandage.
-    2. Ve a **FILE > LOAD GRAPH** y selecciona `assembly.gfa`.
+    1. Descargar [Bandage](https://rrwick.github.io/Bandage/).
+    2. Descoprimir y abrir Bandage
+    2. Ve a **FILE > LOAD GRAPH** y selecciona `hifiasm.bp.a_ctg.gfa`.
     3. Pulsa **Draw graph** para ver el ensamblaje.
     4. Pulsa **More info** para ver estadísticas detalladas.
 
@@ -465,10 +441,17 @@ Esta evaluación es clave para validar que el genoma reconstruido tiene la calid
 1. Descargar la base de datos
 
     ```bash
+    conda activate ensamble
+
+    mkdir resultados_compleasm
+
+    cd resultados_compleasm
+
     compleasm download -L ./ --odb odb12 nematoda
     ```
 
 2. Ejecutar Compleasm
+    Copiar el archivo hifiasm_celegans.fa a la carpeta resultados_compleasm
 
     ```bash
     compleasm run -a hifiasm_celegans.fa -t 8 -L ./ -l nematoda -o ./compleasm
@@ -492,7 +475,9 @@ Esta evaluación es clave para validar que el genoma reconstruido tiene la calid
         - **Total Genes Evaluados (N):** 596
 
 #### Ejercicio 3
+
     1. ¿Qué significa tener un alto porcentaje de genes completos?
+
     2. ¿Por qué es importante la cantidad de genes duplicados o faltantes?
 
 ### ✍️ Anotación del Ensamblaje: LiftOn
@@ -505,14 +490,32 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
 
 1. Archivos necesarios
 
+
+#### ✔️ Genoma de *C. elegans*
+
+    Descargar los datos:
+
+    ```bash
+    # Crear una carpeta para la sección LiftOn
+
+    #Descargar usando
+    datasets download genome accession GCA_000002985.3 --include genome,gff3,gtf
+
+    #Descomprimir
+    ```
+
+    Copiar los siguientes archivos a la carpeta:
+
     - Ensamblaje objetivo (FASTA): `hifiasm_celegans.fa`
-    - Ensamblaje de referencia (FASTA): `celegans.fa`
-    - Anotación de referencia (GFF3): `celegans.gff3`
+    - Ensamblaje de referencia (FASTA): `GCA_000002985.3_WBcel235_genomic.fna`
+    - Anotación de referencia (GFF3): `genomic.gff`
 
 2. Ejecutar LiftOn
 
     ```bash
-    lifton -g celegans.gff3 -o celegans_hifiasm_lifton.gff3 --copies --sc 0.95 -t 8 hifiasm_celegans.fa celegans.fa
+    conda activate anotacion
+
+    lifton -g genomic.gff -o celegans_hifiasm_lifton.gff3 -copies sc 0.95 -t 8 hifiasm_celegans.fa GCA 00 0002985.3_WBcel235_genomic.fna
     ```
 
     - Opciones usadas: 
