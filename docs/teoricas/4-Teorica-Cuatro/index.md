@@ -14,6 +14,5 @@ tags:
 
 ## Parte 2: 
 ### Dra. Luisa Berná
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](){ .md-button }
-
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides (Aún no disponible)</span>](){ .md-button }
 
