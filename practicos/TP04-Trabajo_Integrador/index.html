@@ -1315,21 +1315,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🔨 Ensamblaje De Novo">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ejercicio-2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ejercicio 2
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
           <li class="md-nav__item">
@@ -1343,9 +1328,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ejercicio-3" class="md-nav__link">
+  <a href="#ejercicio-2" class="md-nav__link">
     <span class="md-ellipsis">
-      Ejercicio 3
+      Ejercicio 2
     </span>
   </a>
   
@@ -1385,9 +1370,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ejercicio-4" class="md-nav__link">
+  <a href="#ejercicio-3" class="md-nav__link">
     <span class="md-ellipsis">
-      Ejercicio 4
+      Ejercicio 3
     </span>
   </a>
   
@@ -1409,9 +1394,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ejercicio-5" class="md-nav__link">
+  <a href="#ejercicio-4" class="md-nav__link">
     <span class="md-ellipsis">
-      Ejercicio 5
+      Ejercicio 4
     </span>
   </a>
   
@@ -1725,11 +1710,7 @@ cmake
 <span class="c1"># Descargar LiftOn</span>
 
 <span class="c1"># Paciencia con este paso, puede tardar un poco</span>
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Kuanhao-Chao/LiftOn
-<span class="nb">cd</span><span class="w"> </span>LiftOn
-
-<span class="c1"># Instalar</span>
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+pip<span class="w"> </span>install<span class="w"> </span>LiftOn
 
 <span class="c1"># Ver paquetes</span>
 conda<span class="w"> </span>list
@@ -1811,8 +1792,10 @@ conda<span class="w"> </span>deactivate
 </ul>
 </div>
 <p>Ahora vamos a correr el comando para general la visualización</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Recuerden activar el entorno correspondiente</span>
-NanoPlot<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>--dpi<span class="w"> </span><span class="m">300</span><span class="w"> </span>--N50<span class="w"> </span>-o<span class="w"> </span>./resultado_nanoplot<span class="w"> </span>--huge<span class="w"> </span>--fastq<span class="w"> </span>XXX.fq.gz
+<div class="highlight"><pre><span></span><code><span class="c1"># Renombrar el archivo</span>
+mv<span class="w"> </span>Galaxy1-<span class="se">\[</span>SRR32300787_subsampled.fastq.gz<span class="se">\]</span>.fastqsanger.gz<span class="w"> </span>SRR32300787_subsampled.fastq.gz
+<span class="c1"># Recuerden activar el entorno correspondiente</span>
+NanoPlot<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>--dpi<span class="w"> </span><span class="m">300</span><span class="w"> </span>--N50<span class="w"> </span>-o<span class="w"> </span>./resultado_nanoplot<span class="w"> </span>--huge<span class="w"> </span>--fastq<span class="w"> </span>SRR32300787_subsampled.fastq.gz
 </code></pre></div>
 <p>Las opciones usamos en este caso:</p>
 <ul>
@@ -1848,40 +1831,30 @@ NanoPlot<span class="w"> </span>-t<span class="w"> </span><span class="m">8</spa
 <h3 id="ensamblaje-de-novo">🔨 Ensamblaje <em>De Novo</em></h3>
 <p>El <strong>ensamblaje <em>de novo</em></strong> consiste en reconstruir un genoma <strong>sin usar una referencia</strong>, uniendo lecturas de secuenciación únicamente a partir de sus <strong>solapamientos</strong>.<br>
 Es esencial cuando no existe un genoma de referencia o cuando se buscan regiones nuevas no presentes en genomas conocidos.</p>
-<p>Según la tecnología, se aplican distintas estrategias:
-- <strong>Lecturas cortas (Illumina):</strong> grafos de Bruijn.<br>
-- <strong>Lecturas largas (ONT/PacBio):</strong> grafos de solapamiento (OLC).</p>
-<p>El resultado típico son <strong>contigs</strong> y <strong>scaffolds</strong>, que luego pueden pulirse para obtener un ensamblaje más preciso.</p>
-<p>En este caso vamos a ver dos programas:</p>
+<p>Según la tecnología, se aplican distintas estrategias:</p>
 <ul>
 <li>
-<p><strong>Flye</strong> está optimizado para lecturas largas ruidosas (como ONT o PacBio CLR). Reconstruye el genoma mediante un enfoque OLC y destaca por su robustez en genomas con muchas repeticiones.</p>
+<p><strong>Lecturas cortas (Illumina):</strong> grafos de Bruijn.  </p>
 </li>
+<li>
+<p><strong>Lecturas largas (ONT/PacBio):</strong> grafos de solapamiento (OLC).</p>
+</li>
+</ul>
+<p>El resultado típico son <strong>contigs</strong> y <strong>scaffolds</strong>, que luego pueden pulirse para obtener un ensamblaje más preciso.</p>
+<p>En este caso se pueden usar dos programas:</p>
+<ul>
 <li>
 <p><strong>Hifiasm</strong> está orientado a lecturas <strong>PacBio HiFi</strong>, que son muy precisas. Permite ensamblajes rápidos y altamente fieles, incluso con separación haplotípica (<em>phasing</em>).</p>
 </li>
+<li>
+<p><strong>Flye</strong> está optimizado para lecturas largas ruidosas (como ONT o PacBio CLR). Reconstruye el genoma mediante un enfoque OLC y destaca por su robustez en genomas con muchas repeticiones.</p>
+</li>
 </ul>
-<p>Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener ensamblajes completos y de alta calidad, especialmente en especies sin referencia disponible.</p>
-<div class="admonition warning">
-<p class="admonition-title">¡Selecciona solo un programa para ensamblar!</p>
-<p>Elige entre Flye o Hifiasm según tus datos y preferencias.</p>
-</div>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Opción 1: Flye</label><label for="__tabbed_1_2">Opción 2: Hifiasm</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="c1"># Chequeen si su archivo tiene el nombre correcto o si lo tienen que modificar a mano</span>
-flye<span class="w"> </span>--pacbio-hifi<span class="w"> </span>SRR32300787_subsampled.fq.gz<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>-o<span class="w"> </span>./flye
-</code></pre></div>
-<ul>
-<li><code>--pacbio-hifi</code>: Archivo PacBio CCS</li>
-<li><code>-t 8</code>: Núcleos</li>
-<li><code>-o ./flye</code>: Carpeta de salida</li>
-<li>Tiempo estimado: 20-30 minutos</li>
-</ul>
-<p>Importante: Al finalizar, cambia el nombre y ubicación del archivo FASTA generado para correr el siguiente comando.</p>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="c1"># Chequeen si su archivo tiene el nombre correcto o si lo tienen que modificar a mano</span>
+<p>Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener ensamblajes completos y de alta calidad, especialmente en especies sin referencia disponible. <strong>En este práctico vamos a usar Hifiasm</strong></p>
+<div class="admonition info">
+<p class="admonition-title">Hifiasm</p>
+<p><em>Este paso no funciona en las computadoras del laboratorio de computación, pueden descargar el resultado de este (link)[url]</em></p>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>ensamble
 
 hifiasm<span class="w"> </span>-o<span class="w"> </span>hifiasm<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>-l0<span class="w"> </span>--telo-m<span class="w"> </span>TTAGGC<span class="w"> </span>SRR32300787_subsampled.fastq.gz<span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>hifiasm.log
 </code></pre></div>
@@ -1894,23 +1867,27 @@ hifiasm<span class="w"> </span>-o<span class="w"> </span>hifiasm<span class="w">
 <li>Tiempo estimado: ~15 minutos</li>
 </ul>
 </div>
-</div>
-</div>
-<p>Tras correr el programa que eligieron, vamos a procesar el archivo de salida:</p>
+<details class="tip">
+<summary>Optativo: Si les interesa Flye, pueden correr esto</summary>
+<p>Comando para correr Flye</p>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>ensamble
+<span class="c1"># Chequeen si su archivo tiene el nombre correcto o si lo tienen que modificar a mano</span>
+flye<span class="w"> </span>--pacbio-hifi<span class="w"> </span>SRR32300787_subsampled.fq.gz<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>-o<span class="w"> </span>./flye
+</code></pre></div>
+<ul>
+<li><code>--pacbio-hifi</code>: Archivo PacBio CCS</li>
+<li><code>-t 8</code>: Núcleos</li>
+<li><code>-o ./flye</code>: Carpeta de salida</li>
+<li>Tiempo estimado: 20-30 minutos</li>
+</ul>
+<p>Importante: Al finalizar, cambia el nombre y ubicación del archivo FASTA generado para correr el siguiente comando.</p>
+</details>
+<p>Tras correr el programa vamos a procesar el archivo de salida:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Extrae las secuencias de los nodos tipo "S" del archivo GFA</span>
 <span class="c1"># y las convierte a formato FASTA. El identificador será el campo 2</span>
 <span class="c1"># y la secuencia el campo 3.</span>
 awk<span class="w"> </span><span class="s1">'/^S/{print "&gt;"$2; print $3}'</span><span class="w"> </span>hifiasm.bp.p_ctg.gfa<span class="w"> </span>&gt;<span class="w"> </span>hifiasm_celegans.fa
 </code></pre></div>
-<h4 id="ejercicio-2">Ejercicio 2</h4>
-<ol>
-<li>
-<p>¿Qué ventajas/desventajas observaste entre Flye y Hifiasm?</p>
-</li>
-<li>
-<p>¿El ensamblaje final fue diferente según el programa?</p>
-</li>
-</ol>
 <h3 id="analisis-del-ensamblaje">📊 Análisis del Ensamblaje</h3>
 <p>El análisis del ensamblaje permite evaluar la <strong>calidad</strong>, <strong>completitud</strong> y <strong>continuidad</strong> del genoma reconstruido.<br>
 Generalmente incluye métricas como:</p>
@@ -1979,7 +1956,7 @@ Generalmente incluye métricas como:</p>
 </ol>
 </li>
 </ol>
-<h4 id="ejercicio-3">Ejercicio 3</h4>
+<h4 id="ejercicio-2">Ejercicio 2</h4>
 <ol>
 <li>¿Cuántos contigs se obtuvieron en el ensamblaje <em>de novo</em>?</li>
 <li>¿Cuál es el más largo y qué tamaño tiene?</li>
@@ -2040,7 +2017,7 @@ Sus ventajas principales son:
 </ul>
 </li>
 </ol>
-<h4 id="ejercicio-4">Ejercicio 4</h4>
+<h4 id="ejercicio-3">Ejercicio 3</h4>
 <pre><code>1. ¿Qué significa tener un alto porcentaje de genes completos?
 2. ¿Por qué es importante la cantidad de genes duplicados o faltantes?
 </code></pre>
@@ -2086,7 +2063,7 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
 </ul>
 </li>
 </ol>
-<h4 id="ejercicio-5">Ejercicio 5</h4>
+<h4 id="ejercicio-4">Ejercicio 4</h4>
 <pre><code>1. ¿Qué porcentaje de features se logró mapear?
 2. ¿Por qué puede haber features perdidas?
 </code></pre>
