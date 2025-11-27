@@ -219,7 +219,7 @@ Descargar el script de bash que tiene la información de descarga desde el sigui
 Ejecutar:
 
 ```bash
-bash sra_download_RNASEQ.bash
+bash sra_download_RNASEQ.sh
 
 # Si no están en la carpeta donde está el script no les va a funcionar
 
@@ -271,6 +271,8 @@ bash sra_download_RNASEQ.bash
 Ahora vamos a correr el comando para general la visualización
 
 ```bash
+
+# Recuerden activar el entorno correspondiente
 NanoPlot -t 8 --dpi 300 --N50 -o ./resultado_nanoplot --huge --fastq XXX.fq.gz
 ```
 
@@ -325,8 +327,12 @@ Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener 
     Elige entre Flye o Hifiasm según tus datos y preferencias.
 
 === "Opción 1: Flye"
+    
     ```bash
+    
+    # Chequeen si su archivo tiene el nombre correcto o si lo tienen que modificar a mano
     flye --pacbio-hifi SRR32300787_subsampled.fq.gz -t 8 -o ./flye
+    
     ```
 
     - `--pacbio-hifi`: Archivo PacBio CCS
@@ -338,6 +344,9 @@ Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener 
 
 === "Opción 2: Hifiasm"
     ```bash
+    
+    # Chequeen si su archivo tiene el nombre correcto o si lo tienen que modificar a mano
+    
     hifiasm -o hifiasm -t 8 -l0 --telo-m TTAGGC SRR32300787_subsampled.fastq.gz 2> hifiasm.log
     ```
 
@@ -427,7 +436,7 @@ Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requie
         - Gaps: 0
 
 4. **Visualización Gráfica (Bandage)**
-
+ 
     Permite explorar de forma interactiva el grafo del ensamblaje, visualizar contigs, conexiones y posibles regiones ambiguas, lo que ayuda a detectar problemas estructurales o evaluar la continuidad del ensamblaje generado.
 
     1. Abre la carpeta `/home/genomica/Documentos/bandage` y ejecuta Bandage.
