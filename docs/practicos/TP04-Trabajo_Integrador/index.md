@@ -154,9 +154,10 @@ samtools        \
 miniprot        \
 cmake
 
-# Descargar LiftOn
+# Descargar LiftOn y gffutils
 # Paciencia con este paso, puede tardar un poco
 pip install LiftOn
+pip install gffutils==0.11.1
 
 # Ver paquetes
 conda list
@@ -517,8 +518,8 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
     ```bash
     conda activate anotacion
 
-    pip install gffutils==0.11.1
-    
+    gffutils-cli create lifton_output/miniprot/miniprot.gff3 --force
+
     lifton -g genomic.gff -o celegans_hifiasm_lifton.gff3 -copies -sc 0.95 -t 8 hifiasm_celegans.fa GCA 00 0002985.3_WBcel235_genomic.fna
     ```
 
