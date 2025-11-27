@@ -35,7 +35,7 @@ toc-location: left
 - [Actividades Adicionales: Kraken2](#actividades-adicionales-opcional-kraken2)
 -->
 ---
-## Parte 0: Preparación de Ambientes Conda y Descarga de Datos
+## Preparación de Ambientes Conda y Descarga de Datos
 
 En esta sección se detallan los ambientes Conda necesarios para el TP, los programas que deben instalarse y los datasets requeridos.
 
@@ -226,15 +226,7 @@ bash sra_download_RNASEQ.sh
 # Tengan paciencia, puede tardar un rato
 ```
 
-
-
-
----
-## Parte 1
-
-
----
-## Parte 2
+## Trabajo integrador
 
 ### 🎯 Objetivos
 
