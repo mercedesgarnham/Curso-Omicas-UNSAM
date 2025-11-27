@@ -617,6 +617,8 @@
       
         
       
+        
+      
     
     
     
@@ -719,6 +721,29 @@
   
   <span class="md-ellipsis">
     Teórica 3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../teoricas/4-Teorica-Cuatro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Teórica 4
     
   </span>
   
@@ -2475,9 +2500,8 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
 <li>Archivos necesarios</li>
 </ol>
 <h4 id="genoma-de-c-elegans">✔️ Genoma de <em>C. elegans</em></h4>
-<pre><code>Descargar los datos:
-
-```bash
+<p>Descargar los datos:</p>
+<pre><code>```bash
 # Crear una carpeta para la sección LiftOn
 
 #Descargar usando
@@ -2485,14 +2509,18 @@ datasets download genome accession GCA_000002985.3 --include genome,gff3,gtf
 
 #Descomprimir
 ```
-
-Copiar los siguientes archivos a la carpeta:
-
-- Ensamblaje objetivo (FASTA): `hifiasm_celegans.fa`
-- Ensamblaje de referencia (FASTA): `GCA_000002985.3_WBcel235_genomic.fna`
-- Anotación de referencia (GFF3): `genomic.gff`
 </code></pre>
-<ol>
+<p>Copiar los siguientes archivos a la carpeta:</p>
+<ul>
+<li>
+<p>Ensamblaje objetivo (FASTA): <code>hifiasm_celegans.fa</code></p>
+</li>
+<li>
+<p>Ensamblaje de referencia (FASTA): <code>GCA_000002985.3_WBcel235_genomic.fna</code></p>
+</li>
+<li>
+<p>Anotación de referencia (GFF3): <code>genomic.gff</code></p>
+</li>
 <li>
 <p>Ejecutar LiftOn</p>
 <p>Pasos para ejecutar LiftOn</p>
@@ -2500,7 +2528,7 @@ Copiar los siguientes archivos a la carpeta:
 
 gffutils-cli<span class="w"> </span>create<span class="w"> </span>lifton_output/miniprot/miniprot.gff3<span class="w"> </span>--force
 
-lifton<span class="w"> </span>-g<span class="w"> </span>genomic.gff<span class="w"> </span>-o<span class="w"> </span>celegans_hifiasm_lifton.gff3<span class="w"> </span>-copies<span class="w"> </span>-sc<span class="w"> </span><span class="m">0</span>.95<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>hifiasm_celegans.fa<span class="w"> </span>GCA<span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">0002985</span>.3_WBcel235_genomic.fna
+lifton<span class="w"> </span>-g<span class="w"> </span>genomic.gff<span class="w"> </span>-o<span class="w"> </span>celegans_hifiasm_lifton.gff3<span class="w"> </span>-copies<span class="w"> </span>-sc<span class="w"> </span><span class="m">0</span>.95<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>hifiasm_celegans.fa<span class="w"> </span>GCA_00_0002985.3_WBcel235_genomic.fna
 </code></pre></div>
 <ul>
 <li>
@@ -2525,7 +2553,7 @@ lifton<span class="w"> </span>-g<span class="w"> </span>genomic.gff<span class="
 </li>
 </ul>
 </li>
-</ol>
+</ul>
 <h4 id="ejercicio-4">Ejercicio 4</h4>
 <pre><code>1. ¿Qué porcentaje de features se logró mapear?
 2. ¿Por qué puede haber features perdidas?
