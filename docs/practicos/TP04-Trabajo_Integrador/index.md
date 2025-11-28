@@ -480,7 +480,7 @@ Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requie
 
     1. Descargar [Bandage](https://rrwick.github.io/Bandage/).
     2. Descoprimir y abrir Bandage
-    2. Ve a **FILE > LOAD GRAPH** y selecciona `hifiasm.bp.a_ctg.gfa`.
+    2. Ve a **FILE > LOAD GRAPH** y selecciona `hifiasm.bp.p_ctg.gfa`.
     3. Pulsa **Draw graph** para ver el ensamblaje.
     4. Pulsa **More info** para ver estadísticas detalladas.
 
