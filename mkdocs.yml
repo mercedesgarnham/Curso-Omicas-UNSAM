@@ -97,7 +97,7 @@ nav:
         - Acerca: info/acerca.md
         - Cómo Llegar: info/comollegar.md
         - Programa: info/contenidos.md
-        # - Evaluación: info/evaluacion.md 
+        - Evaluación: info/evaluacion.md 
         - Cronograma: info/cronograma.md
         - Docentes: info/docentes.md
     - Teoricas: 
