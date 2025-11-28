@@ -701,7 +701,7 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
 
     # Dentro del env anotacion
 
-    minimap2 -x splice-junc-bed celegans_hifiasm_lifton.bed -d celegans_hifiasm.mmi hifiasm_celegans.fa
+    minimap2 -x --splice-junc-bed celegans_hifiasm_lifton.bed -d celegans_hifiasm.mmi hifiasm_celegans.fa
     ```
 
     - `-x splice`: Para reads de cDNA/RNAseq
