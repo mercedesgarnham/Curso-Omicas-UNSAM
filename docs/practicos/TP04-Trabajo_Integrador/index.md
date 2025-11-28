@@ -728,7 +728,10 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
 
 5. DTU differential transcript usage (uso diferencial de transcriptos) 
 
-Descargar el archivo [dexseq.R](https://drive.google.com/file/d/1sJkkCoRFs1XLo45j-dgsox2pXwuQ_fDI/view?usp=sharing), abrirlo en Rstudio y correrlo
+    Descargar el archivo [dexseq.R](https://drive.google.com/file/d/1sJkkCoRFs1XLo45j-dgsox2pXwuQ_fDI/view?usp=sharing), abrirlo en Rstudio y correrlo
+
+!!! tip "Resultados dexseq"
+    Encontrá los graficos generados en este [link](https://drive.google.com/drive/folders/1LuOonkTQ7QnQe-vMRY5zrD_U1E4ym4K0?usp=drive_link)
 
 ##### Ejercicio 5
 
