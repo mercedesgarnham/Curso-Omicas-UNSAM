@@ -1654,8 +1654,8 @@
 
 <div><p><img _="," align="center" alt="Image" src="imagenes/featured.png" width="750"></p>
 <h1 id="tp-4-trabajo-integrador" markdown="markdown"><strong>TP 4</strong>. Trabajo integrador</h1>
+<p><a class="md-button" href="https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing"><span style="display:inline-flex;align-items:center;gap:0.4em"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7z"></path></svg></span> Resultados del análisis</span></a></p>
 <!--
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Materiales</span>](){ .md-button }
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](){ .md-button }
 -->
 
@@ -2028,6 +2028,10 @@ Archivo de log con la información del análisis realizado.</p>
 </li>
 </ul>
 </details>
+<div class="admonition tip">
+<p class="admonition-title">Salida de NanoPlot</p>
+<p>Si este comando te dio error podés encontrar el output de la corrida en este <a href="https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing">link</a></p>
+</div>
 <h3 id="ensamblaje-de-novo">🔨 Ensamblaje <em>De Novo</em></h3>
 <p>El <strong>ensamblaje <em>de novo</em></strong> consiste en reconstruir un genoma <strong>sin usar una referencia</strong>, uniendo lecturas de secuenciación únicamente a partir de sus <strong>solapamientos</strong>.<br>
 Es esencial cuando no existe un genoma de referencia o cuando se buscan regiones nuevas no presentes en genomas conocidos.</p>
@@ -2094,6 +2098,10 @@ flye<span class="w"> </span>--pacbio-hifi<span class="w"> </span>SRR32300787_sub
 <span class="c1"># Dentro del env ensamble</span>
 awk<span class="w"> </span><span class="s1">'/^S/{print "&gt;"$2; print $3}'</span><span class="w"> </span>hifiasm.bp.p_ctg.gfa<span class="w"> </span>&gt;<span class="w"> </span>hifiasm_celegans.fa
 </code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Salida de hifiasm</p>
+<p>Si este comando te dio error podés encontrar el output de la corrida en este <a href="https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing">link</a></p>
+</div>
 <h3 id="analisis-del-ensamblaje">📊 Análisis del Ensamblaje</h3>
 <p>El análisis del ensamblaje permite evaluar la <strong>calidad</strong>, <strong>completitud</strong> y <strong>continuidad</strong> del genoma reconstruido.<br>
 Generalmente incluye métricas como:</p>
@@ -2242,6 +2250,10 @@ compleasm<span class="w"> </span>run<span class="w"> </span>-a<span class="w"> <
 <p>¿Por qué es importante la cantidad de genes duplicados o faltantes?</p>
 </li>
 </ol>
+<div class="admonition tip">
+<p class="admonition-title">Salida de Compleasm</p>
+<p>Si este comando te dio error podés encontrar el output de la corrida en este <a href="https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing">link</a></p>
+</div>
 <h3 id="anotacion-del-ensamblaje-lifton">✍️ Anotación del Ensamblaje: LiftOn</h3>
 <p>La anotación es el proceso de identificar genes y elementos funcionales dentro del genoma ensamblado.<br>
 Para agilizar este paso, herramientas como <strong>LiftOn</strong> permiten <strong>transferir anotaciones existentes</strong> desde un genoma de referencia hacia nuestro ensamblaje <em>de novo</em>.</p>
@@ -2343,6 +2355,10 @@ GCA_000002985.3_WBcel235_genomic.fna
 <p>¿Por qué puede haber features perdidas?</p>
 </li>
 </ol>
+<div class="admonition tip">
+<p class="admonition-title">Salida de LiftOn</p>
+<p>Si este comando te dio error podés encontrar el output de la corrida en este <a href="https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing">link</a></p>
+</div>
 <h3 id="cuantificacion-de-rnaseq-long-reads">📈 Cuantificación de RNAseq (Long Reads)</h3>
 <p>En esta sección realizamos la <strong>cuantificación de RNA-seq usando lecturas largas</strong>, basado en los datos del estudio <em>Full-length direct RNA sequencing reveals extensive remodeling of RNA expression, processing and modification in aging Caenorhabditis elegans</em> (Schiksnis, Nicastro &amp; Pasquinelli).  </p>
 <p>Este enfoque permite:</p>
@@ -2425,6 +2441,10 @@ bash<span class="w"> </span>minimap2_ej3.sh
 <p>¿Qué problemas pueden surgir con los archivos BAM o las anotaciones?</p>
 </li>
 </ol>
+<div class="admonition tip">
+<p class="admonition-title">Archivos de esta sección</p>
+<p>Si este comando te dio error podés encontrar el output de la corrida en este <a href="https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing">link</a></p>
+</div>
 <hr>
 <h2 id="ejercicoi-adicional">Ejercicoi adicional</h2>
 <h3 id="kraken2">Kraken2</h3>
