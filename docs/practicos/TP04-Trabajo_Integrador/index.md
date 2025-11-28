@@ -268,7 +268,7 @@ Las opciones usamos en este caso:
 
     Este aviso aparece porque Plotly no pudo detectar automáticamente la instalación de Chrome, aunque esté instalado.
 
-    El programa genera los reportes correcto a pesar de este error, los pueden abrir en la carpeta del TP04
+    El programa genera los reportes correctos a pesar de este error, los pueden abrir en la carpeta del TP04
 
 
 ??? info "Manual de NanoPlot"
@@ -459,7 +459,7 @@ Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requie
         - N_count: 0
         - Gaps: 0
 
-4. Visualización Gráfica (Bandage)
+4. **Visualización Gráfica (Bandage)**
  
     Permite explorar de forma interactiva el grafo del ensamblaje, visualizar contigs, conexiones y posibles regiones ambiguas, lo que ayuda a detectar problemas estructurales o evaluar la continuidad del ensamblaje generado.
 
@@ -589,6 +589,8 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
 5. Ejecutar LiftOn
 
     ```bash
+    # Si están en el env de ensamble correr:
+    # conda deactivate
     # Dentro del env anotacion
 
     lifton \
@@ -697,7 +699,7 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
 
     ```bash
     # Dentro del env anotacion
-    
+
     featureCounts -L -a lifton.gff3 -o celegans.tsv -T 8 -g 'Parent' -t exon *.bam
 
     head celegans.tsv.summary
@@ -709,11 +711,11 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
     - `*.bam`: Todos los BAM ordenados e indexados
     - Tiempo estimado: ~1 min/muestra
 
-??? question "¿Qué desafíos encontraste al cuantificar RNAseq con long reads?"
+##### Ejercicio 5
 
-    1. ¿Qué ventajas/desventajas tiene el uso de featureCounts en este contexto?
+1. ¿Qué ventajas/desventajas tiene el uso de featureCounts en este contexto?
 
-    2. ¿Qué problemas pueden surgir con los archivos BAM o las anotaciones?
+2. ¿Qué problemas pueden surgir con los archivos BAM o las anotaciones?
 
 ---
 
