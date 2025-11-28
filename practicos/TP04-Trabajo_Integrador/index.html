@@ -1893,7 +1893,7 @@ anotacion<span class="w"> </span>/home/user/miniconda3/envs/anotacion<span class
 <p>Un archivo de lecturas ADN</p>
 </li>
 <li>
-<p>Un archivo de lecturas ARN (Pueden elegir el que más les guste)</p>
+<p>Los archivos de lecturas ARN</p>
 </li>
 </ul>
 <h2 id="trabajo-integrador">Trabajo integrador</h2>
@@ -2392,7 +2392,7 @@ minimap2<span class="w"> </span>-x<span class="w"> </span>splice-junc-bed<span c
 <p>Mapeo, Ordenamiento, Compresión e Indexado (batch)</p>
 <ul>
 <li>
-<p>Copiar el de Lectura RNA que descargaste al comienzo del TP en la carpeta de trabajo</p>
+<p>Este paso requiere los archivos de la carpeta <a href="https://drive.google.com/drive/folders/1PB9-y9NVUhmZttB7MYN2lbGsN0jZgOCx?usp=sharing">Lecturas ARN</a>. Copiar el de Lectura RNA que descargaste al comienzo del TP en la carpeta de trabajo</p>
 </li>
 <li>
 <p>Descargar este <a href="https://drive.google.com/file/d/1_T9IWeLbZzN0nmNpf_A4RG86LedPmwu-/view?usp=sharing">script</a></p>
@@ -2403,6 +2403,8 @@ minimap2<span class="w"> </span>-x<span class="w"> </span>splice-junc-bed<span c
 chmod<span class="w"> </span>-x<span class="w"> </span>minimap2_ej3.sh
 
 bash<span class="w"> </span>minimap2_ej3.sh
+
+<span class="c1">#Este paso tarda unos minutos porque procesa todos los archivos de Lecturas ARN. </span>
 </code></pre></div>
 <ul>
 <li>El script Lee cada archivo fastq, mapea, ordena y genera BAM + índice.</li>
@@ -2410,22 +2412,10 @@ bash<span class="w"> </span>minimap2_ej3.sh
 </ul>
 </li>
 <li>
-<p>Cuantificación con featureCounts</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Dentro del env anotacion</span>
-
-featureCounts<span class="w"> </span>-L<span class="w"> </span>-a<span class="w"> </span>lifton.gff3<span class="w"> </span>-o<span class="w"> </span>celegans.tsv<span class="w"> </span>-T<span class="w"> </span><span class="m">8</span><span class="w"> </span>-g<span class="w"> </span><span class="s1">'Parent'</span><span class="w"> </span>-t<span class="w"> </span>exon<span class="w"> </span>*.bam
-
-head<span class="w"> </span>celegans.tsv.summary
-</code></pre></div>
-<ul>
-<li><code>-L</code>: Long reads</li>
-<li><code>-a</code>: GFF de genes/isoformas</li>
-<li><code>-t exon</code>: Exones por gen</li>
-<li><code>*.bam</code>: Todos los BAM ordenados e indexados</li>
-<li>Tiempo estimado: ~1 min/muestra</li>
-</ul>
+<p>DTU differential transcript usage (uso diferencial de transcriptos) </p>
 </li>
 </ol>
+<p>Descargar el archivo <a href="https://drive.google.com/file/d/1sJkkCoRFs1XLo45j-dgsox2pXwuQ_fDI/view?usp=sharing">dexseq.R</a>, abrirlo en Rstudio y correrlo</p>
 <h5 id="ejercicio-5">Ejercicio 5</h5>
 <ol>
 <li>
