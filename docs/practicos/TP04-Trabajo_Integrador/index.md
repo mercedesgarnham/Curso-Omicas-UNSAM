@@ -152,11 +152,14 @@ conda activate anotacion
 conda install -c bioconda -c conda-forge minimap2        \
 samtools        \
 miniprot        \
-cmake
+cmake        \
+bedops
 
 # Descargar LiftOn y gffutils
 # Paciencia con este paso, puede tardar un poco
-pip install LiftOn gffutils==0.11.1
+pip install LiftOn gffutils==0.11.1 
+
+sudo apt install subread
 
 # Ver paquetes
 conda list
@@ -389,6 +392,8 @@ Tras correr el programa vamos a procesar el archivo de salida:
 # Extrae las secuencias de los nodos tipo "S" del archivo GFA
 # y las convierte a formato FASTA. El identificador será el campo 2
 # y la secuencia el campo 3.
+
+# Dentro del env ensamble
 awk '/^S/{print ">"$2; print $3}' hifiasm.bp.p_ctg.gfa > hifiasm_celegans.fa
 ```
 
@@ -412,6 +417,7 @@ Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requie
     Este paso prepara el genoma para consultas rápidas y mapeo.
 
     ```bash
+    # Dentro del env ensamble
     samtools faidx hifiasm_celegans.fa
     ```
 
@@ -421,6 +427,7 @@ Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requie
 
 
     ```bash
+    # Dentro del env ensamble
     seqkit stats hifiasm_celegans.fa
     ```
 
@@ -438,6 +445,7 @@ Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requie
 
 
     ```bash
+    # Dentro del env ensamble
     assembly-stats hifiasm_celegans.fa
     ```
 
@@ -496,7 +504,7 @@ Esta evaluación es clave para validar que el genoma reconstruido tiene la calid
 1. Descargar la base de datos
 
     ```bash
-    conda activate ensamble
+    # Dentro del env ensamble
 
     mkdir resultados_compleasm
 
@@ -504,11 +512,13 @@ Esta evaluación es clave para validar que el genoma reconstruido tiene la calid
 
     compleasm download -L ./ --odb odb12 nematoda
     ```
+2. Copiar el archivo hifiasm_celegans.fa a la carpeta resultados_compleasm
 
-2. Ejecutar Compleasm
-    Copiar el archivo hifiasm_celegans.fa a la carpeta resultados_compleasm
+3. Ejecutar Compleasm
 
     ```bash
+    # Dentro del env ensamble
+
     compleasm run -a hifiasm_celegans.fa -t 8 -L ./ -l nematoda -o ./compleasm
     ```
 
@@ -531,9 +541,9 @@ Esta evaluación es clave para validar que el genoma reconstruido tiene la calid
 
 #### Ejercicio 3
 
-    1. ¿Qué significa tener un alto porcentaje de genes completos?
+1. ¿Qué significa tener un alto porcentaje de genes completos?
 
-    2. ¿Por qué es importante la cantidad de genes duplicados o faltantes?
+2. ¿Por qué es importante la cantidad de genes duplicados o faltantes?
 
 ### ✍️ Anotación del Ensamblaje: LiftOn
 
@@ -548,18 +558,20 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
 
 #### ✔️ Genoma de *C. elegans*
 
-Descargar los datos:
+1. Crear una carpeta para la sección LiftOn
+
+2. Descargar los datos:
 
     ```bash
-    # Crear una carpeta para la sección LiftOn
+    # Dentro del env ensamble
 
-    #Descargar usando
+    # Descargar usando
     datasets download genome accession GCA_000002985.3 --include genome,gff3,gtf
-
-    #Descomprimir
     ```
 
-Copiar los siguientes archivos a la carpeta:
+3. Descomprimir el archivo descargado
+
+4. Copiar los siguientes archivos a la carpeta:
 
 - Ensamblaje objetivo (FASTA): `hifiasm_celegans.fa`
 
@@ -567,16 +579,23 @@ Copiar los siguientes archivos a la carpeta:
 
 - Anotación de referencia (GFF3): `genomic.gff`
 
-2. Ejecutar LiftOn
 
-    Pasos para ejecutar LiftOn
+5. Si estás en el enviroment de (ensamble), desactivalo. Si estás en (base) desestimá este paso
+
+6. Activá el env de anotación
+
+7. Descargar este [archivo](https://drive.google.com/file/d/1HWaJqmvmSwoUDgiLT5O3AMJKhapMcJTd/view?usp=drive_link)
+
+5. Ejecutar LiftOn
 
     ```bash
-    conda activate anotacion
+    # Dentro del env anotacion
 
-    gffutils-cli create lifton_output/miniprot/miniprot.gff3 --force
-
-    lifton -g genomic.gff -o celegans_hifiasm_lifton.gff3 -copies -sc 0.95 -t 8 hifiasm_celegans.fa GCA_00_0002985.3_WBcel235_genomic.fna
+    lifton \
+    -g genomic.gff \
+    -t 8 \
+    hifiasm_celegans.fa \
+    GCA_000002985.3_WBcel235_genomic.fna
     ```
 
     - Opciones usadas: 
@@ -593,14 +612,23 @@ Copiar los siguientes archivos a la carpeta:
         - **Missed features (perdidas):** 15,853
         - **Total features in target:** 29,916
         - **Protein-coding feature (single copy):** 19,795
+??? warning "Si te da error corré esto"
+    LiftOn consume mucha memoria RAM y puede no funcionar, en ese caso se puede correr:
+
+    ```bash
+    lifton \
+    -g genomic.gff \
+    -t 8 \
+    --no-orf-search \
+    hifiasm_celegans.fa \
+    GCA_000002985.3_WBcel235_genomic.fna
+    ```
 
 #### Ejercicio 4
-    1. ¿Qué porcentaje de features se logró mapear?
-    2. ¿Por qué puede haber features perdidas?
 
----
+1. ¿Qué porcentaje de features se logró mapear?
 
-## 🦠 Actividades Adicionales (Opcional)
+2. ¿Por qué puede haber features perdidas?
 
 ### 📈 Cuantificación de RNAseq (Long Reads)
 
@@ -609,8 +637,11 @@ En esta sección realizamos la **cuantificación de RNA-seq usando lecturas larg
 Este enfoque permite:
 
 - Capturar **transcritos completos (full-length)** sin necesidad de ensamblaje o reconstrucción de isoformas.  
+
 - Cuantificar la **expresión génica** considerando **todas las isoformas** presentes, lo que mejora la resolución frente a RNA-seq tradicional de lecturas cortas.  
-- Evaluar cambios en **procesamiento de RNA**: empalmes, variación de extremos, edición, modificaciones, etc.  
+
+- Evaluar cambios en **procesamiento de RNA**: empalmes, variación de extremos, edición, modificaciones, etc. 
+
 - Observar cómo varía el transcriptoma con condiciones biológicas (por ejemplo, en envejecimiento) con una cobertura más precisa y un perfil más completo de isoformas.
 
 En esta sección usaremos los datos de RNA-seq long reads del artículo para quantificar la abundancia de transcritos, comparar expresión entre condiciones, y explorar la diversidad y cambios en isoformas a lo largo del experimento.  
@@ -624,12 +655,21 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
 1. Conviertir anotaciones GFF3 a formato BED.
 
     ```bash
-    k8 minigff.js all2bed celegans_hifiasm_lifton.gff3 > celegans_hifiasm_lifton.bed
+    # Dentro del env anotacion
+
+    cp lifton_output/liftoff/liftoff.gff3  .
+
+    k8 minigff.js all2bed liftoff.gff3 > celegans_hifiasm_lifton.bed
+
+    gff2bed < lifton.gff3 > celegans_hifiasm_lifton.bed
     ```
 
 
 2. Indexado del Genoma para Splicing
     ```bash
+
+    # Dentro del env anotacion
+
     minimap2 -x splice-junc-bed celegans_hifiasm_lifton.bed -d celegans_hifiasm.mmi hifiasm_celegans.fa
     ```
 
@@ -637,16 +677,30 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
     - `--junc-bed`: Sitios de splicing
 
 3. Mapeo, Ordenamiento, Compresión e Indexado (batch)
+
+    - Copiar el de Lectura RNA que descargaste al comienzo del TP en la carpeta de trabajo
+
+    -  Descargar este [script](https://drive.google.com/file/d/1_T9IWeLbZzN0nmNpf_A4RG86LedPmwu-/view?usp=sharing)
+
     ```bash
-    for i in *.fq.gz; do base=$(basename "$i" .fq.gz); minimap2 -ax splice -2 -t 4 --junc-bed celegans_hifiasm_lifton.bed celegans_hifiasm.mmi "$i" | samtools sort @2 -o "${base}.bam" && samtools index "${base}.bam"; done
+    # Dentro del env anotacion
+
+    chmod -x minimap2_ej3.sh
+
+    bash minimap2_ej3.sh
     ```
-    - Lee cada archivo fastq, mapea, ordena y genera BAM + índice.
+
+    - El script Lee cada archivo fastq, mapea, ordena y genera BAM + índice.
     - Tiempos estimados: ~1 min indexado, 5-6 min por muestra.
 
 4. Cuantificación con featureCounts
 
     ```bash
-    featureCounts -L -a celegans_hifiasm_lifton.gff3 -o celegans.tsv -T 8 -g 'Parent' -t exon *.bam
+    # Dentro del env anotacion
+    
+    featureCounts -L -a lifton.gff3 -o celegans.tsv -T 8 -g 'Parent' -t exon *.bam
+
+    head celegans.tsv.summary
     ```
 
     - `-L`: Long reads
@@ -656,8 +710,14 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
     - Tiempo estimado: ~1 min/muestra
 
 ??? question "¿Qué desafíos encontraste al cuantificar RNAseq con long reads?"
+
     1. ¿Qué ventajas/desventajas tiene el uso de featureCounts en este contexto?
+
     2. ¿Qué problemas pueden surgir con los archivos BAM o las anotaciones?
+
+---
+
+## Ejercicoi adicional 
 
 ### Kraken2
 
