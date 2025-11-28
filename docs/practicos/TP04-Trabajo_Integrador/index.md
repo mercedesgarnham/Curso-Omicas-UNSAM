@@ -583,9 +583,6 @@ Para agilizar este paso, herramientas como **LiftOn** permiten **transferir anot
 LiftOn utiliza alineamientos entre el ensamblaje y un genoma previamente anotado para "levantar" (lift over) características como genes, exones y transcritos, generando una anotación inicial rápida y consistente.  
 Este enfoque es especialmente útil cuando el organismo estudiado tiene un genoma de referencia cercano, ya que permite obtener anotaciones comparables sin realizar una predicción génica completa desde cero.
 
-1. Archivos necesarios
-
-
 #### ✔️ Genoma de *C. elegans*
 
 1. Crear una carpeta para la sección LiftOn
