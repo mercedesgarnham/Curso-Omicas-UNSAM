@@ -14,8 +14,8 @@ toc-location: left
 
 # **TP 4**. Trabajo integrador { markdown data-toc-label = 'TP 04' }
 
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Resultados del análisis</span>](https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing){ .md-button }
 <!--
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-download: Materiales</span>](){ .md-button }
 [<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](){ .md-button }
 -->
 
@@ -325,6 +325,11 @@ Las opciones usamos en este caso:
     - **NanoPlot_YYYYMMDD_HHMM.log**  
     Archivo de log con la información del análisis realizado.
 
+
+!!! tip "Salida de NanoPlot"
+    Si este comando te dio error podés encontrar el output de la corrida en este [link](https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing)
+
+
 ### 🔨 Ensamblaje *De Novo*
 
 El **ensamblaje *de novo*** consiste en reconstruir un genoma **sin usar una referencia**, uniendo lecturas de secuenciación únicamente a partir de sus **solapamientos**.  
@@ -396,6 +401,9 @@ Tras correr el programa vamos a procesar el archivo de salida:
 # Dentro del env ensamble
 awk '/^S/{print ">"$2; print $3}' hifiasm.bp.p_ctg.gfa > hifiasm_celegans.fa
 ```
+
+!!! tip "Salida de hifiasm"
+    Si este comando te dio error podés encontrar el output de la corrida en este [link](https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing)
 
 
 ### 📊 Análisis del Ensamblaje
@@ -476,6 +484,7 @@ Estas evaluaciones permiten determinar si el ensamblaje es confiable y si requie
 4. ¿Qué contig tiene la mayor cobertura?
 5. ¿Qué contig tiene la menor cobertura?
 
+
 ### ✅ Control de Calidad (QC) del Ensamblaje: Compleasm (BUSCO)
 
 La evaluación de la **completitud** es un paso fundamental para determinar la calidad biológica de un ensamblaje *de novo*. Para ello se utilizan herramientas basadas en conjuntos de genes altamente conservados, los **genes BUSCO**, que funcionan como un estándar para estimar cuán completo está un genoma reconstruido.
@@ -544,6 +553,9 @@ Esta evaluación es clave para validar que el genoma reconstruido tiene la calid
 1. ¿Qué significa tener un alto porcentaje de genes completos?
 
 2. ¿Por qué es importante la cantidad de genes duplicados o faltantes?
+
+!!! tip "Salida de Compleasm"
+    Si este comando te dio error podés encontrar el output de la corrida en este [link](https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing)
 
 ### ✍️ Anotación del Ensamblaje: LiftOn
 
@@ -632,6 +644,9 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
 
 2. ¿Por qué puede haber features perdidas?
 
+!!! tip "Salida de LiftOn"
+    Si este comando te dio error podés encontrar el output de la corrida en este [link](https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing)
+
 ### 📈 Cuantificación de RNAseq (Long Reads)
 
 En esta sección realizamos la **cuantificación de RNA-seq usando lecturas largas**, basado en los datos del estudio *Full-length direct RNA sequencing reveals extensive remodeling of RNA expression, processing and modification in aging Caenorhabditis elegans* (Schiksnis, Nicastro & Pasquinelli).  
@@ -706,6 +721,9 @@ Descargar el archivo [dexseq.R](https://drive.google.com/file/d/1sJkkCoRFs1XLo45
 1. ¿Qué ventajas/desventajas tiene el uso de featureCounts en este contexto?
 
 2. ¿Qué problemas pueden surgir con los archivos BAM o las anotaciones?
+
+!!! tip "Archivos de esta sección"
+    Si este comando te dio error podés encontrar el output de la corrida en este [link](https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing)
 
 ---
 
