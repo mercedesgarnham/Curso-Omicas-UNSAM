@@ -2275,9 +2275,6 @@ compleasm<span class="w"> </span>run<span class="w"> </span>-a<span class="w"> <
 Para agilizar este paso, herramientas como <strong>LiftOn</strong> permiten <strong>transferir anotaciones existentes</strong> desde un genoma de referencia hacia nuestro ensamblaje <em>de novo</em>.</p>
 <p>LiftOn utiliza alineamientos entre el ensamblaje y un genoma previamente anotado para "levantar" (lift over) características como genes, exones y transcritos, generando una anotación inicial rápida y consistente.<br>
 Este enfoque es especialmente útil cuando el organismo estudiado tiene un genoma de referencia cercano, ya que permite obtener anotaciones comparables sin realizar una predicción génica completa desde cero.</p>
-<ol>
-<li>Archivos necesarios</li>
-</ol>
 <h4 id="genoma-de-c-elegans">✔️ Genoma de <em>C. elegans</em></h4>
 <ol>
 <li>
@@ -2415,7 +2412,7 @@ gff2bed<span class="w"> </span>&lt;<span class="w"> </span>lifton.gff3<span clas
 <p>Indexado del Genoma para Splicing
     </p><div class="highlight"><pre><span></span><code><span class="c1"># Dentro del env anotacion</span>
 
-minimap2<span class="w"> </span>-x<span class="w"> </span>splice-junc-bed<span class="w"> </span>celegans_hifiasm_lifton.bed<span class="w"> </span>-d<span class="w"> </span>celegans_hifiasm.mmi<span class="w"> </span>hifiasm_celegans.fa
+minimap2<span class="w"> </span>-x<span class="w"> </span>--splice-junc-bed<span class="w"> </span>celegans_hifiasm_lifton.bed<span class="w"> </span>-d<span class="w"> </span>celegans_hifiasm.mmi<span class="w"> </span>hifiasm_celegans.fa
 </code></pre></div>
 <ul>
 <li><code>-x splice</code>: Para reads de cDNA/RNAseq</li>
