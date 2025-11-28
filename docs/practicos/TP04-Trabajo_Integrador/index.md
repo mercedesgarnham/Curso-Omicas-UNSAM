@@ -246,6 +246,13 @@ conda activate nanoplot
 # Renombrar el archivo
 mv Galaxy1-\[SRR32300787_subsampled.fastq.gz\].fastqsanger.gz SRR32300787_subsampled.fastq.gz
 
+# Para chequear que el archivo se descargó correctamente:
+md5sum SRR32300787_subsampled.fastq.gz
+# Debería dar: b3b0c594dc5844f6e2d1dc1dfe836173
+
+# Y chequear el tamaño del archivo
+ls -ltah SRR32300787_subsampled.fastq.gz
+
 # Recuerden activar el entorno correspondiente
 NanoPlot -t 8 --dpi 300 --N50 -o ./resultado_nanoplot --huge --fastq SRR32300787_subsampled.fastq.gz
 ```
@@ -380,7 +387,7 @@ Cuando termine de correr, abrir el archivo hifiasm.log para verificar que se hay
     ```bash
     conda activate ensamble
     # Chequeen si su archivo tiene el nombre correcto o si lo tienen que modificar a mano
-    flye --pacbio-hifi SRR32300787_subsampled.fq.gz -t 8 -o ./flye
+    flye --pacbio-hifi SRR32300787_subsampled.fastq.gz -t 8 -o ./flye
     
     ```
 
