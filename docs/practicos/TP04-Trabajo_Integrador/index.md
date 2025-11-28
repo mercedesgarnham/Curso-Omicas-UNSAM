@@ -695,21 +695,10 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
     - El script Lee cada archivo fastq, mapea, ordena y genera BAM + índice.
     - Tiempos estimados: ~1 min indexado, 5-6 min por muestra.
 
-4. Cuantificación con featureCounts
+4. DTU differential transcript usage (uso diferencial de transcriptos) 
 
-    ```bash
-    # Dentro del env anotacion
+Descargar el archivo [dexseq.R](https://drive.google.com/file/d/1sJkkCoRFs1XLo45j-dgsox2pXwuQ_fDI/view?usp=sharing), abrirlo en Rstudio y correrlo
 
-    featureCounts -L -a lifton.gff3 -o celegans.tsv -T 8 -g 'Parent' -t exon *.bam
-
-    head celegans.tsv.summary
-    ```
-
-    - `-L`: Long reads
-    - `-a`: GFF de genes/isoformas
-    - `-t exon`: Exones por gen
-    - `*.bam`: Todos los BAM ordenados e indexados
-    - Tiempo estimado: ~1 min/muestra
 
 ##### Ejercicio 5
 
