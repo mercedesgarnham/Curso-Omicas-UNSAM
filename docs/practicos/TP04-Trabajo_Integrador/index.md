@@ -555,6 +555,17 @@ Esta evaluación es clave para validar que el genoma reconstruido tiene la calid
         - **Missing Genes (M):** 0.17% (1)
         - **Total Genes Evaluados (N):** 596
 
+#### Descripción del Output
+
+El resultado de la evaluación realizada por **compleasm** se guarda en el archivo `summary.txt` dentro de la carpeta de salida. Estos genes BUSCO se clasifican en las siguientes categorías:
+
+- **S (Genes Completos en Copia Única):** Genes BUSCO que se pueden alinear completamente en el ensamblaje, con solo una copia presente.  
+- **D (Genes Completos Duplicados):** Genes BUSCO que se pueden alinear completamente en el ensamblaje, con más de una copia presente.  
+- **F (Genes Fragmentados, subclase 1):** Genes BUSCO en los que solo una parte del gen está presente en el ensamblaje, y el resto no se puede alinear.  
+- **I (Genes Fragmentados, subclase 2):** Genes BUSCO en los que una sección del gen se alinea a una posición en el ensamblaje, mientras que la parte restante se alinea a otra posición.  
+- **M (Genes Ausentes):** Genes BUSCO que no presentan alineamiento en el ensamblaje.
+
+
 #### Ejercicio 3
 
 1. ¿Qué significa tener un alto porcentaje de genes completos?
