@@ -156,8 +156,7 @@ cmake
 
 # Descargar LiftOn y gffutils
 # Paciencia con este paso, puede tardar un poco
-pip install LiftOn
-pip install gffutils==0.11.1
+pip install LiftOn gffutils==0.11.1
 
 # Ver paquetes
 conda list
@@ -239,6 +238,8 @@ Ingresar al siguiente [link](https://drive.google.com/drive/folders/1PB9-y9NVUhm
 Ahora vamos a correr el comando para general la visualización
 
 ```bash
+conda activate nanoplot
+
 # Renombrar el archivo
 mv Galaxy1-\[SRR32300787_subsampled.fastq.gz\].fastqsanger.gz SRR32300787_subsampled.fastq.gz
 
@@ -253,7 +254,18 @@ Las opciones usamos en este caso:
 - `--N50`: Añade línea N50 en los gráficos
 - `-o ./resultado_nanoplot`: Carpeta de salida
 - `--huge`: Optimiza para archivos grandes
-- `--fastq XXX.fq.gz`: Archivo de datos fastq
+- `--fastq SRR32300787_subsampled.fastq.gz`: Archivo de datos fastq
+
+!!! warning "Cuando corremos NanoPlot aparece un WARNING"
+    Cuando corremos NanoPlot aparece la siguiente advertencia:
+
+    ```bash
+    WARNING:root:Plotly could not fetch or find Chrome automatically
+    ```
+
+    Este aviso aparece porque Plotly no pudo detectar automáticamente la instalación de Chrome, aunque esté instalado.
+
+    El programa genera los reportes correcto a pesar de este error, los pueden abrir en la carpeta del TP04
 
 
 ??? info "Manual de NanoPlot"
@@ -272,6 +284,43 @@ Las opciones usamos en este caso:
 
 2. ¿Qué información adicional te resultó útil del reporte?
 
+??? info "Guía de archivos generadas por NanoPlot"
+
+    # Descripción de los archivos generados por NanoPlot
+
+    ## 1. Gráficos de longitud y calidad de lecturas
+    - **LengthvsQualityScatterPlot_dot.png / .html**  
+    Gráfico de dispersión que muestra la relación entre longitud y calidad de las lecturas (puntos individuales).
+
+    - **LengthvsQualityScatterPlot_kde.png / .html**  
+    Mapa de densidad (KDE) de longitud vs. calidad, útil para visualizar tendencias en datasets grandes.
+
+    ## 2. Histogramas de longitudes
+    - **Non_weightedHistogramReadlength.png / .html**  
+    Histograma de longitudes sin ponderar (cada lectura cuenta igual).
+
+    - **WeightedHistogramReadlength.png / .html**  
+    Histograma ponderado por longitud, útil para visualizar el aporte de bases por rango de tamaños.
+
+    - **Non_weightedLogTransformed_HistogramReadlength.png / .html**  
+    Mismo histograma no ponderado, pero con el eje de longitudes en escala logarítmica.
+
+    - **WeightedLogTransformed_HistogramReadlength.png / .html**  
+    Histograma ponderado con escala logarítmica.
+
+    ## 3. Rendimiento por longitud
+    - **Yield_By_Length.png / .html**  
+    Muestra cuántas bases totales se obtienen para diferentes longitudes de lectura.
+
+    ## 4. Reportes y estadísticas
+    - **NanoStats.txt**  
+    Contiene estadísticas clave: número de lecturas, longitudes mínima/mediana/media/máxima, N50, calidades y total de bases.
+
+    - **NanoPlot-report.html**  
+    Reporte interactivo con todos los gráficos integrados.
+
+    - **NanoPlot_YYYYMMDD_HHMM.log**  
+    Archivo de log con la información del análisis realizado.
 
 ### 🔨 Ensamblaje *De Novo*
 
@@ -297,9 +346,12 @@ Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener 
 
 
 !!! info "Hifiasm"
-    *Este computadoras con menos de 16GB de RAM puede no funcionar, en este caso pueden descargar el resultado de este [link](https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing)]*
+    *Este computadoras con menos de 16GB de RAM puede no funcionar, en este caso pueden descargar el resultado de este [link](https://drive.google.com/drive/folders/1ldMf5RzSvl5cktYm_LfbqtDwfNeflbet?usp=sharing)*
 
     ```bash
+    # Si están en el env de nanoplot correr:
+    # conda deactivate
+
     conda activate ensamble
     
     hifiasm -o hifiasm -t 8 -l0 --telo-m TTAGGC SRR32300787_subsampled.fastq.gz 2> hifiasm.log
@@ -311,6 +363,8 @@ Ambas herramientas son ampliamente utilizadas en genómica moderna para obtener 
     - `--telo-m TTAGGC`: Secuencia de telómeros (C. elegans)
     - `2> hifiasm.log`: Guarda logs
     - Tiempo estimado: ~15 minutos
+
+Cuando termine de correr, abrir el archivo hifiasm.log para verificar que se haya ejecutado correctamente
 
 ??? tip "Optativo: Si les interesa Flye, pueden correr esto"
     Comando para correr Flye
