@@ -209,7 +209,7 @@ Ingresar al siguiente [link](https://drive.google.com/drive/folders/1PB9-y9NVUhm
 
 - Un archivo de lecturas ADN
 
-- Un archivo de lecturas ARN (Pueden elegir el que más les guste)
+- Los archivos de lecturas ARN
 
 
 ## Trabajo integrador
@@ -680,9 +680,9 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
 
 3. Mapeo, Ordenamiento, Compresión e Indexado (batch)
 
-    - Copiar el de Lectura RNA que descargaste al comienzo del TP en la carpeta de trabajo
+    - Este paso requiere los archivos de la carpeta [Lecturas ARN](https://drive.google.com/drive/folders/1PB9-y9NVUhmZttB7MYN2lbGsN0jZgOCx?usp=sharing). Copiar el de Lectura RNA que descargaste al comienzo del TP en la carpeta de trabajo
 
-    -  Descargar este [script](https://drive.google.com/file/d/1_T9IWeLbZzN0nmNpf_A4RG86LedPmwu-/view?usp=sharing)
+    - Descargar este [script](https://drive.google.com/file/d/1_T9IWeLbZzN0nmNpf_A4RG86LedPmwu-/view?usp=sharing)
 
     ```bash
     # Dentro del env anotacion
@@ -690,15 +690,16 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
     chmod -x minimap2_ej3.sh
 
     bash minimap2_ej3.sh
+
+    #Este paso tarda unos minutos porque procesa todos los archivos de Lecturas ARN. 
     ```
 
     - El script Lee cada archivo fastq, mapea, ordena y genera BAM + índice.
     - Tiempos estimados: ~1 min indexado, 5-6 min por muestra.
 
-4. DTU differential transcript usage (uso diferencial de transcriptos) 
+5. DTU differential transcript usage (uso diferencial de transcriptos) 
 
 Descargar el archivo [dexseq.R](https://drive.google.com/file/d/1sJkkCoRFs1XLo45j-dgsox2pXwuQ_fDI/view?usp=sharing), abrirlo en Rstudio y correrlo
-
 
 ##### Ejercicio 5
 
