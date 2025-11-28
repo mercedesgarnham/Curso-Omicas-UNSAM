@@ -592,12 +592,11 @@ Este enfoque es especialmente útil cuando el organismo estudiado tiene un genom
 
 4. Copiar los siguientes archivos a la carpeta:
 
-- Ensamblaje objetivo (FASTA): `hifiasm_celegans.fa`
+    - Ensamblaje objetivo (FASTA): `hifiasm_celegans.fa`
 
-- Ensamblaje de referencia (FASTA): `GCA_000002985.3_WBcel235_genomic.fna`
+    - Ensamblaje de referencia (FASTA): `GCA_000002985.3_WBcel235_genomic.fna`
 
-- Anotación de referencia (GFF3): `genomic.gff`
-
+    - Anotación de referencia (GFF3): `genomic.gff`
 
 5. Si estás en el enviroment de (ensamble), desactivalo. Si estás en (base) desestimá este paso
 
