@@ -1932,6 +1932,13 @@ anotacion<span class="w"> </span>/home/user/miniconda3/envs/anotacion<span class
 <span class="c1"># Renombrar el archivo</span>
 mv<span class="w"> </span>Galaxy1-<span class="se">\[</span>SRR32300787_subsampled.fastq.gz<span class="se">\]</span>.fastqsanger.gz<span class="w"> </span>SRR32300787_subsampled.fastq.gz
 
+<span class="c1"># Para chequear que el archivo se descargó correctamente:</span>
+md5sum<span class="w"> </span>SRR32300787_subsampled.fastq.gz
+<span class="c1"># Debería dar: b3b0c594dc5844f6e2d1dc1dfe836173</span>
+
+<span class="c1"># Y chequear el tamaño del archivo</span>
+ls<span class="w"> </span>-ltah<span class="w"> </span>SRR32300787_subsampled.fastq.gz
+
 <span class="c1"># Recuerden activar el entorno correspondiente</span>
 NanoPlot<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>--dpi<span class="w"> </span><span class="m">300</span><span class="w"> </span>--N50<span class="w"> </span>-o<span class="w"> </span>./resultado_nanoplot<span class="w"> </span>--huge<span class="w"> </span>--fastq<span class="w"> </span>SRR32300787_subsampled.fastq.gz
 </code></pre></div>
@@ -2080,7 +2087,7 @@ hifiasm<span class="w"> </span>-o<span class="w"> </span>hifiasm<span class="w">
 <p>Comando para correr Flye</p>
 <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>ensamble
 <span class="c1"># Chequeen si su archivo tiene el nombre correcto o si lo tienen que modificar a mano</span>
-flye<span class="w"> </span>--pacbio-hifi<span class="w"> </span>SRR32300787_subsampled.fq.gz<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>-o<span class="w"> </span>./flye
+flye<span class="w"> </span>--pacbio-hifi<span class="w"> </span>SRR32300787_subsampled.fastq.gz<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>-o<span class="w"> </span>./flye
 </code></pre></div>
 <ul>
 <li><code>--pacbio-hifi</code>: Archivo PacBio CCS</li>
