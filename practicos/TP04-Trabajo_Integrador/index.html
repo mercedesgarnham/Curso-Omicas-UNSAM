@@ -2248,6 +2248,15 @@ compleasm<span class="w"> </span>run<span class="w"> </span>-a<span class="w"> <
 </ul>
 </li>
 </ol>
+<h4 id="descripcion-del-output">Descripción del Output</h4>
+<p>El resultado de la evaluación realizada por <strong>compleasm</strong> se guarda en el archivo <code>summary.txt</code> dentro de la carpeta de salida. Estos genes BUSCO se clasifican en las siguientes categorías:</p>
+<ul>
+<li><strong>S (Genes Completos en Copia Única):</strong> Genes BUSCO que se pueden alinear completamente en el ensamblaje, con solo una copia presente.  </li>
+<li><strong>D (Genes Completos Duplicados):</strong> Genes BUSCO que se pueden alinear completamente en el ensamblaje, con más de una copia presente.  </li>
+<li><strong>F (Genes Fragmentados, subclase 1):</strong> Genes BUSCO en los que solo una parte del gen está presente en el ensamblaje, y el resto no se puede alinear.  </li>
+<li><strong>I (Genes Fragmentados, subclase 2):</strong> Genes BUSCO en los que una sección del gen se alinea a una posición en el ensamblaje, mientras que la parte restante se alinea a otra posición.  </li>
+<li><strong>M (Genes Ausentes):</strong> Genes BUSCO que no presentan alineamiento en el ensamblaje.</li>
+</ul>
 <h4 id="ejercicio-3">Ejercicio 3</h4>
 <ol>
 <li>
