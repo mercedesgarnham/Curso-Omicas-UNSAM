@@ -744,7 +744,7 @@ Erin C Schiksnis, Ian A Nicastro, Amy E Pasquinelli, doi.org/10.1093/nar/gkae106
 
 ---
 
-## Ejercicoi adicional 
+## Ejercicio adicional 
 
 ### Kraken2
 
