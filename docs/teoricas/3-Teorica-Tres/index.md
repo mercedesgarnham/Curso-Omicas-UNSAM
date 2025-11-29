@@ -16,7 +16,7 @@ Código de acceso: Uvn*l4!p
 
 ## Parte 1: Estudios de Transcriptomas
 ### Dr. Pablo Smircich   
-[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1zKCTQzVTJ7RJRXuC7afqZTQbADym0Zng/view?usp=sharing){ .md-button }
+[<span style="display:inline-flex;align-items:center;gap:0.4em">:material-file-powerpoint: Slides</span>](https://drive.google.com/file/d/1zMwWD8PRBY9dqSspulJVDltN7-r2sSze/view?usp=sharing){ .md-button }
 
 
 ## Parte 2: Transcriptomics: _my_ case studies
